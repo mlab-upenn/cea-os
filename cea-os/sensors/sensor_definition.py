@@ -23,7 +23,7 @@ class Sensor:
     
     def set_noise(self, noise):
         try:
-            self.noise = (float) noise
+            self.noise = (float) abs(noise)
         except ValueError:
             print("INVALID VALUE")
             
