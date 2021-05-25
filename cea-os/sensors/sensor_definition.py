@@ -5,14 +5,14 @@ import random
 
 class Sensor:
     def __init__(self, value = 0, noise = 0) -> None:
-        self.value = value
-        self.noise = noise
+        self.value = value  #sets initial value for sensor data
+        self.noise = noise  #sets level of noise (noise = 0 gives constant value)
     
     def read_value(self):
         """
         This method returns the value of the sensor
         """
-        self.value += random.gauss(0, noise)
+        self.value += random.gauss(0, noise)    #adds/subtracts random val from gauss. dist.
         return self.value
     
     def set_value(self, value):
