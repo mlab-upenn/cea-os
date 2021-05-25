@@ -5,8 +5,16 @@ import random
 
 class Sensor:
     def __init__(self, value = 0, noise = 0) -> None:
-        self.value = value  #sets initial value for sensor data
-        self.noise = noise  #sets level of noise (noise = 0 gives constant value)
+        try:
+            self.value = float(value)   #sets initial value for sensor data
+        except ValueError:
+            self.value = 0
+            print("INVALID VALUE")          
+        try:
+            self.noise = float(noise)   #sets level of noise (noise = 0 gives constant value)
+        except ValueError:
+            self.noise = 0
+            print("INVALID NOISE")
     
     def read_value(self):
         """
@@ -17,13 +25,13 @@ class Sensor:
     
     def set_value(self, value):
         try:
-            self.value = (float) value
+            self.value = float(value)
         except ValueError:
             print("INVALID VALUE")
     
     def set_noise(self, noise):
         try:
-            self.noise = (float) abs(noise)
+            self.noise = abs(float(noise))
         except ValueError:
             print("INVALID VALUE")
             
