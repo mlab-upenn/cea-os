@@ -5,13 +5,13 @@ import random
 
 class Sensor:
     def __init__(self, value, noise) -> None:
-        pass
+        raise NotImplementedError
     
     def read_value(self):
         """
         This method returns the value of the sensor
         """
-        pass
+        raise not ImplementedError
             
     def calibrate(self):
         """
