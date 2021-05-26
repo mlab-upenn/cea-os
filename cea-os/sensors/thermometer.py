@@ -36,8 +36,10 @@ class Thermometer(Sensor):
         except ValueError:
             print("INVALID VALUE")
             
-    def calibrate(self):
+    def calibrate(self, calib_val):
         """
         This method is used to calibrate the sensor. Need not be implemented for sensors that don't require calibration
         """
+        val = self.read_value()
+        print("Calibration value: {}/nSensor value: {}", calib_val, val)
         pass
