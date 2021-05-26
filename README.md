@@ -1,5 +1,5 @@
 # cea-os
-Operating System for Controlled Environment Agricultur
+Operating System for Controlled Environment Agriculture
 
 ## Contributing
 See this [guide](https://rogerdudler.github.io/git-guide/) to learn the basics of git.
