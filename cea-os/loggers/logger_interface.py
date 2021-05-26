@@ -5,7 +5,7 @@ class Logger():
   def configure(self):
       raise NotImplementedError
       
-  def log_data(self):
+  def send_logs(self):
       raise NotImplementedError
       
   def add_sensor(self, Sensor, poll_rate):
