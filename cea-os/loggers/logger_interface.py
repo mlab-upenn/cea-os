@@ -10,4 +10,7 @@ class Logger():
       
   def add_sensor(self, Sensor, poll_rate):
       raise NotImplementedError
+      
+  def change_pollrate(self, Sensor):
+      pass
     
