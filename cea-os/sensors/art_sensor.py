@@ -4,7 +4,7 @@ This file contains the basic interface for sensors in this code base.
 import random
 from sensor_definition import Sensor
 
-class Thermometer(Sensor):
+class Art_Sensor(Sensor):
     def __init__(self, value = 20, noise = 0) -> None:
         try:
             self.value = float(value)   #sets initial value for sensor data
