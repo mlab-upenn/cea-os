@@ -2,14 +2,14 @@
 This file contains the basic interface for sensors in this code base.
 """
 import random
-from Sensors import Sensor
+from sensor_definition import Sensor
 
 class Thermometer(Sensor):
-    def __init__(self, value = 0, noise = 0) -> None:
+    def __init__(self, value = 20, noise = 0) -> None:
         try:
             self.value = float(value)   #sets initial value for sensor data
         except ValueError:
-            self.value = 0
+            self.value = 20
             print("INVALID VALUE")          
         try:
             self.noise = float(noise)   #sets level of noise (noise = 0 gives constant value)
