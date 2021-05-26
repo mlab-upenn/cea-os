@@ -1,6 +1,7 @@
 """
 This file contains the basic interface for sensors in this code base.
 """
+import random
 
 class Sensor:
     def __init__(self) -> None:
@@ -10,8 +11,8 @@ class Sensor:
         """
         This method returns the value of the sensor
         """
-        raise NotImplementedError
-    
+        raise not ImplementedError
+            
     def calibrate(self):
         """
         This method is used to calibrate the sensor. Need not be implemented for sensors that don't require calibration
