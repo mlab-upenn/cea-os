@@ -2,7 +2,7 @@
 This file contains a class for an artificial sensor
 """
 import random
-from sensor_definition import Sensor
+from .sensor_definition import Sensor
 
 class Art_Sensor(Sensor):
     def __init__(self, value = 20, noise = 0) -> None:
