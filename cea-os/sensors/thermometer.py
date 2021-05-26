@@ -16,13 +16,14 @@ class Thermometer(Sensor):
         except ValueError:
             self.noise = 0
             print("INVALID NOISE")
+        self.calib = 0  #sets calibration difference
     
     def read_value(self):
         """
         This method returns the value of the sensor
         """
         self.value += random.gauss(0, noise)    #adds/subtracts random val from gauss. dist.
-        return self.value
+        return self.value + self.calib
     
     def set_value(self, value: float):
         try:
@@ -41,5 +42,6 @@ class Thermometer(Sensor):
         This method is used to calibrate the sensor. Need not be implemented for sensors that don't require calibration
         """
         val = self.read_value()
+        self.calib = calib_val - val
         print("Calibration value: {}/nSensor value: {}", calib_val, val)
         pass
