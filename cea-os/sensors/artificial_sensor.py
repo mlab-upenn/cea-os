@@ -43,5 +43,5 @@ class Artificial_Sensor(Sensor):
         """
         val = self.read_value()
         self.calib = calib_val - val
-        print("Calibration value: {}/nSensor value: {}", calib_val, val)
+        print("Calibration value: {0}/nSensor value: {1}".format(calib_val, val))
         pass
