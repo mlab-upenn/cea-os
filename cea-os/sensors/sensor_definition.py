@@ -4,7 +4,7 @@ This file contains the basic interface for sensors in this code base.
 import random
 
 class Sensor:
-    def __init__(self, value, noise) -> None:
+    def __init__(self) -> None:
         raise NotImplementedError
     
     def read_value(self):
