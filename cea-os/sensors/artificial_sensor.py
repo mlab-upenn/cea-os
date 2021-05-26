@@ -4,7 +4,7 @@ This file contains a class for an artificial sensor
 import random
 from .sensor_definition import Sensor
 
-class Art_Sensor(Sensor):
+class Artificial_Sensor(Sensor):
     def __init__(self, value = 20, noise = 0) -> None:
         try:
             self.value = float(value)   #sets initial value for sensor data
