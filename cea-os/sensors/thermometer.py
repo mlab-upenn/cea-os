@@ -24,13 +24,13 @@ class Thermometer(Sensor):
         self.value += random.gauss(0, noise)    #adds/subtracts random val from gauss. dist.
         return self.value
     
-    def set_value(self, value):
+    def set_value(self, value: float):
         try:
             self.value = float(value)
         except ValueError:
             print("INVALID VALUE")
     
-    def set_noise(self, noise):
+    def set_noise(self, noise: float):
         try:
             self.noise = abs(float(noise))
         except ValueError:
