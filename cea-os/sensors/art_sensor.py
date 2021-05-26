@@ -1,5 +1,5 @@
 """
-This file contains the basic interface for sensors in this code base.
+This file contains a class for an artificial sensor
 """
 import random
 from sensor_definition import Sensor
@@ -39,7 +39,7 @@ class Art_Sensor(Sensor):
             
     def calibrate(self, calib_val):
         """
-        This method is used to calibrate the sensor. Need not be implemented for sensors that don't require calibration
+        This method is used to calibrate the sensor.
         """
         val = self.read_value()
         self.calib = calib_val - val
