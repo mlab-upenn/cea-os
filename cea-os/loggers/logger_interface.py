@@ -8,6 +8,6 @@ class Logger():
   def log_data(self):
       raise NotImplementedError
       
-  def add_sensor(self):
+  def add_sensor(self, Sensor, poll_rate):
       raise NotImplementedError
     
