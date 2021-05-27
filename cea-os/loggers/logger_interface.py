@@ -8,9 +8,9 @@ class Logger():
   def send_logs(self):
       raise NotImplementedError
       
-  def add_sensor(self, Sensor, poll_rate):
+  def set_environment(self, environment):
       raise NotImplementedError
       
-  def change_pollrate(self, Sensor):
+  def set_pollrate(self):
       pass
     
