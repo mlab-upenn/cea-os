@@ -8,7 +8,7 @@ class Logger():
   def send_logs(self):
       raise NotImplementedError
       
-  def set_environment(self, environment):
+  def set_bed(self, bed):
       raise NotImplementedError
       
   def set_pollrate(self):
