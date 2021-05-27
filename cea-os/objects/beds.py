@@ -1,10 +1,9 @@
 """
 This file contains an bed model
 """
-
-#from ..sensors import sensor_definition 
-#Unable to get the sensor import to work
+ 
 from plants import Plant
+from ..sensors.sensor_definition import Sensor
 
 class Bed:
 	def __init__(self, name, environment, area = 0, system = 'NFT', overall_health = 10):
@@ -15,6 +14,8 @@ class Bed:
 		self.num_plants = 0
 		self.num_sensors = 0
 		self.sensors = list() #Sensors will be associated with beds
+		self.actuators = list()
+		self.num_actuators = list()
 		self.environment = environment
 		self.overall_health = overall_health # scale of 1-10?
 
@@ -30,6 +31,11 @@ class Bed:
 		toadd = (name, new_sensor)
 		self.sensors.append(toadd)
 		self.num_sensors += 1
+
+	def add_actuators(self, name, actuator):
+		toadd = (name, actuator)
+		self.actuators.append(toadd)
+		self.num_actuators += 1
 
 	def set_system(self, system):
 		self.system = system
