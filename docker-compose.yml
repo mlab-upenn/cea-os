@@ -1,5 +1,38 @@
 version: "3.9"
-services: #what services should be run with influxdb?
+services: #What services should be run with influxdb?
+    influxdb:
+        image: influxdb
+        ports:
+            - 8086:8086 #influxdb port
+        #### Optional items: ####
+        container_name: influxdb
+        restart: always #if something happpens in container, it can start automatically
+        networks:
+            - grafana_network #make sure the same as grafana container
+        volumes: #do we want persistent volumes?
+            - influxdb_data:/var/lib/influxdb #create Docker volume called "influxdb_data"
+        environment:
+            - INFLUXDB_DB=grafana #creates a database when we create container
+            - INFLUXDB_USER=grafana #creates a user called "grafana"
+            - INFLUXDB_USER_PASSWORD=password
+            - INFLUXDB_ADMIN_ENABLED=true
+            - INFLUXDB_ADMIN_USER=admin
+            - INFLUXDB_ADMIN_PASSWORD=password
+    
+    grafana: #I think Grafana should be the other container/service in this Compose
+        image: grafana/grafana
+        ports:
+            - 3000:3000 #grafana port
+        #### Optional items: ####
+        container_name: grafana
+        restart: always
+        networks: 
+            - grafana_network #use for influxdb, same network
+        volumes: #do we want persistent volumes?
+            - grafana_data:/var/lib/grafana #create Docker volume called "grafana_data"
+        depends_on:
+            - influxdb
+        
     #Not sure if loggers, objects, sensors are part of this Compose
 
     # loggers: #loggers service uses image built from Dockerfile in current dir
@@ -7,8 +40,15 @@ services: #what services should be run with influxdb?
     #     ports: #map to same port where our logger application is listening (connect host to container port)
     #         - 5000:5000
     #     volumes: #not sure if/where to mount data
-
     # repeat above for objects and sensors?
 
-    influxdb:
-        image: influxdb  
+networks:
+    grafana_network:
+volumes:
+    grafana_data:
+    influxdb_data:
+
+#### OTHER NOTES:
+    # Default Grafana u: admin p: admin (then set a new PW)
+    # Next step would be to connect to datasource (InfluxDB)
+    # Tutorial used: https://www.youtube.com/watch?v=rRKDfU4tmJQ
