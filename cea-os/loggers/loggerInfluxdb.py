@@ -14,7 +14,7 @@ class LoggerInfluxDB():
     self.write_api = self.client.write_api()
     
   def send_logs(self):
-    write_api.write("M{measurement},Value=self.sensor.read_value()".format(measurement = self.measurements), protocol = "line")
+    self.write_api.write("M{measurement},Value=self.sensor.read_value()".format(measurement = self.measurements), protocol = "line")
     self.measurements += 1
   
   def set_sensor(self, Sensor):
