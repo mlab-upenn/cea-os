@@ -1,5 +1,5 @@
 from influxdb_client import InfluxDBClient
-from ..sensors import sensors
+from ..sensors.sensor_definition import Sensor
 
 class LoggerInfluxDB():
   def __init__(self) -> None:
@@ -7,13 +7,15 @@ class LoggerInfluxDB():
     self.write_api = None
     self.sensor = None
     self.pollrate = 10  #seconds between data logs
+    self.measurements = 0
     
-  def configure(self, url, token, org):
-    self.client = InfluxDBClient(url = url, token = token, org = org)
+  def configure(self, host, port, dbname):
+    self.client = InfluxDBClient(host = host, port = port, dbname = dbname)
     self.write_api = self.client.write_api()
     
   def send_logs(self):
-    pass
+    write_api.write("M{measurement},Value=self.sensor.read_value()".format(measurement = self.measurements), protocol = "line")
+    self.measurements += 1
   
   def set_sensor(self, Sensor):
     self.sensor = Sensor
