@@ -1,0 +1,14 @@
+version: "3.9"
+services: #what services should be run with influxdb?
+    #Not sure if loggers, objects, sensors are part of this Compose
+
+    # loggers: #loggers service uses image built from Dockerfile in current dir
+    #     build: ./cea-os/loggers
+    #     ports: #map to same port where our logger application is listening (connect host to container port)
+    #         - 5000:5000
+    #     volumes: #not sure if/where to mount data
+
+    # repeat above for objects and sensors?
+
+    influxdb:
+        image: influxdb  
