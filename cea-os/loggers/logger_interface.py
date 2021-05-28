@@ -5,10 +5,10 @@ class Logger():
   def connect(self):  #establish connection to db
       raise NotImplementedError
       
-  def create_table(self):
+  def create_table(self): #create db table
       raise NotImplementedError
       
-  def set_refresh_rate(self):
+  def set_refresh_rate(self): #set refresh rate of data logging
       raise NotImplementedError
       
   def send_logs(self):  #send logs to database
