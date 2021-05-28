@@ -8,9 +8,6 @@ class Logger():
   def create_table(self): #create db table
       raise NotImplementedError
       
-  def get_table_name(self):
-      raise NotImplementedError
-      
   def set_refresh_rate(self): #set refresh rate of data logging
       raise NotImplementedError
       
