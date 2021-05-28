@@ -14,9 +14,9 @@ class Logger():
   def send_logs(self):  #send logs to database
       raise NotImplementedError
       
-  def add_sensor(self, Sensor): #add a sensor that is being logged
+  def set_sensor(self, Sensor): #set a sensor that is being logged
       raise NotImplementedError
       
-  def get_sensors(self):  #returns list of sensors that are being logged
+  def get_sensor(self):  #returns sensor that is being logged
       raise NotImplementedError
     
