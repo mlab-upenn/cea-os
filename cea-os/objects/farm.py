@@ -9,7 +9,6 @@ class Farm:
 		self.name = name
 		self.environments = dict() #keeps track of environments (name is key)
 		self.num_environments = 0
-		self.people = list()
 
 	# allows you to add environments
 	def add_environment(self, environment):
@@ -20,8 +19,6 @@ class Farm:
 	def delete_environment(self, environment):
 		del self.environments[environment.name]
 
+	# if you want to change the farm name
 	def set_name(self, name):
 		self.name = name
-
-	def add_people(self, person):
-		self.people.append(person)

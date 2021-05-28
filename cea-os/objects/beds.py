@@ -6,18 +6,14 @@ from plants import Plant
 from ..sensors.sensor_definition import Sensor
 
 class Bed:
-	def __init__(self, name, environment, area = 0, system = 'NFT', overall_health = 10):
-		self.area = area
-		self.system = system
-		self.name = name
+	def __init__(self):
 		self.plants = dict() #keeps track of plants in bed (name is key)
 		self.num_plants = 0
 		self.num_sensors = 0
 		self.sensors = list() #Sensors will be associated with beds
 		self.actuators = list()
 		self.num_actuators = list()
-		self.environment = environment
-		self.overall_health = overall_health # scale of 1-10?
+		self.properties = dict()
 
 	def add_plant(self, plant):
 		self.plants[plant.name] = plant
@@ -37,12 +33,8 @@ class Bed:
 		self.actuators.append(toadd)
 		self.num_actuators += 1
 
-	def set_system(self, system):
-		self.system = system
+	def add_property(self, key, value):
+		self.properties[key] = value
 
-	def set_name(self, name):
-		self.name = name
-
-	def set_overall_health(self, overall_health):
-		#This will have to be set based on how the entirety of the plants in bed are doing
-		self.overall_health = overall_health
+	def delete_property(self, key):
+		del self.properties[key]
