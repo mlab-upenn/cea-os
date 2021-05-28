@@ -2,7 +2,13 @@ class Logger():
   def __init__(self) -> None:
       raise NotImplementedError
       
-  def configure(self):  #configure connection to database and set up table for data
+  def connect(self):  #establish connection to db
+      raise NotImplementedError
+      
+  def create_table(self):
+      raise NotImplementedError
+      
+  def set_refresh_rate(self):
       raise NotImplementedError
       
   def send_logs(self):  #send logs to database
