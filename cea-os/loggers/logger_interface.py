@@ -16,4 +16,7 @@ class Logger():
       
   def add_sensor(self, Sensor): #add a sensor that is being logged
       raise NotImplementedError
+      
+  def get_sensors(self):  #returns list of sensors that are being logged
+      raise NotImplementedError
     
