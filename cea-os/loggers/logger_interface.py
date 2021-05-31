@@ -1,4 +1,5 @@
 from connection_interface import Connection
+from ..sensors.sensor_definition import Sensor
 
 class Logger():
   def __init__(self) -> None:
