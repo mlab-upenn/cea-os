@@ -1,4 +1,4 @@
-from .Connection import Connection
+from connection_interface import Connection
 
 class Logger():
   def __init__(self) -> None:
