@@ -1,4 +1,4 @@
-from connection_interface import Connection
+from connection_interface import DBConnection
 from ..sensors.sensor_definition import Sensor
 
 class Logger():
@@ -8,7 +8,7 @@ class Logger():
   def set_refresh_rate(self): #set refresh rate of data logging
       raise NotImplementedError
       
-  def send_logs(self, Connection):  #send logs to database using client established by Connection object
+  def send_logs(self, DBConnection):  #send logs to database using client established by Connection object
       raise NotImplementedError
       
   def set_sensor(self, Sensor): #set a sensor that is being logged
