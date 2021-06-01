@@ -15,7 +15,7 @@ class InfluxDBLogger(Logger):
 		try:
 			self.refresh_rate = float(rate)
 		except ValueError:
-			print("Invalid refresh rate")
+			print("Error: Invalid refresh rate")
 
 	def send_logs(self, measurement: str, plant: str, data_type: str, influxConnection: InfluxDBConnection): #sends data from sensor to database
 		if self.sensor == None:
@@ -41,7 +41,7 @@ class InfluxDBLogger(Logger):
 		if type(sensor) is Sensor:
 			self.sensor = sensor
 		else:
-			print("Invalid sensor")
+			print("Error: Invalid sensor")
 
 	def get_sensor(self):	#returns the sensor being logged
 		return self.sensor
