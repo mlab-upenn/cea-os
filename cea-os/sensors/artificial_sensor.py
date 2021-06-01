@@ -22,7 +22,7 @@ class Artificial_Sensor(Sensor):
         """
         This method returns the value of the sensor
         """
-        self.value += random.gauss(0, noise)    #adds/subtracts random val from gauss. dist.
+        self.value += random.gauss(0, self.noise)    #adds/subtracts random val from gauss. dist.
         return self.value + self.calib
     
     def set_value(self, value: float):
