@@ -1,6 +1,3 @@
-from connection_interface import DBConnection
-from ..sensors.sensor_definition import Sensor
-
 class Logger():
   def __init__(self) -> None:
       raise NotImplementedError
