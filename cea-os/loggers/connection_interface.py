@@ -5,6 +5,6 @@ class DBConnection():
   def configure(self):  #establish connection to database
     raise NotImplementedError
     
-  def return_connection(self):  #return the database client created by connection
+  def get_connection(self):  #return the database client created by connection
     raise NotImplementedError
   
