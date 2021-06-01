@@ -8,11 +8,14 @@ from ..sensors.sensor_definition import Sensor
 class InfluxDBLogger(Logger):
 
 	def __init__(self) -> None:
-		self.refresh_rate = 10 #units: min per refresh
+		self.refresh_rate = 10
 		self.sensor = None
 
-	def set_refresh_rate(self, rate: float): #sets refresh_rate of logger
-		self.refresh_rate = rate
+	def set_refresh_rate(self, rate: float):	#sets refresh_rate of logger
+		try:
+			self.refresh_rate = float(rate)
+		except ValueError:
+			print("Invalid refresh rate")
 
 	def send_logs(self, measurement: str, plant: str, data_type: str, influxConnection: InfluxDBConnection): #sends data from sensor to database
 		if self.sensor == None:
@@ -31,14 +34,17 @@ class InfluxDBLogger(Logger):
 			}
 			json_data.append(data)
 			write_success = influxConnection.get_connection.write_points(json_data)
-			if not write_success: #throws error if unable to write to database
+			if not write_success:	#throws error if unable to write to database
 				print("Error: Write to database failed")
 	
-	def set_sensor(self, sensor: Sensor): #sets the sensor being logged
-		self.sensor = sensor
+	def set_sensor(self, sensor: Sensor):	#sets the sensor being logged
+		if type(sensor) is Sensor:
+			self.sensor = sensor
+		else:
+			print("Invalid sensor")
 
-	def get_sensor(self): #returns the sensor being logged
+	def get_sensor(self):	#returns the sensor being logged
 		return self.sensor
 
-	def get_refresh_rate(self): #returns the refresh_rate of the logger
+	def get_refresh_rate(self):	#returns the refresh_rate of the logger
 		return self.refresh_rate
