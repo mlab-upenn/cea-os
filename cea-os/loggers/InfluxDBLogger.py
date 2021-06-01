@@ -8,7 +8,7 @@ from ..sensors.sensor_definition import Sensor
 class InfluxDBLogger(Logger):
 
 	def __init__(self) -> None:
-		self.refresh_rate = 10
+		self.refresh_rate = 10 #units: /min
 		self.sensor = None
 
 	def set_refresh_rate(self, rate: float): #sets refresh_rate of logger
