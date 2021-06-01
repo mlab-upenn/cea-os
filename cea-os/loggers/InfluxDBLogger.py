@@ -11,7 +11,7 @@ class InfluxDBLogger(Logger):
 		self.refresh_rate = 10
 		self.sensor = None
 
-	def set_refresh_rate(self, rate: float):	#sets refresh_rate of logger
+	def set_refresh_rate(self, rate: float): #sets refresh_rate of logger
 		try:
 			self.refresh_rate = float(rate)
 		except ValueError:
