@@ -6,6 +6,7 @@ setup(
     packages=['cea-os'],
     install_requires=[
         'requests',
-        'build'
+        'build',
+        'influxdb'
     ],
 )
