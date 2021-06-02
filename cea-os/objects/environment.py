@@ -16,6 +16,7 @@ class Environment:
 		self.actuators = list()
 		self.num_actuators = list()
 		self.properties = dict()
+		self.name = "env0"
 
 	def add_bed(self, bed):
 		self.beds[bed.name] = bed
@@ -39,7 +40,9 @@ class Environment:
 
 	def delete_property(self, key):
 		del self.properties[key]
-
+	
+	def set_name(name):
+		self.name = name	
 
 
 
