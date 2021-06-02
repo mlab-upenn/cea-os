@@ -25,9 +25,11 @@ class Bed:
 		del self.plants[plant.name]
 
 	def add_sensor(self, name, new_sensor):
-		toadd = (name, new_sensor)
-		self.sensors.append(toadd)
+		self.sensors[name] = new_sensor
 		self.num_sensors += 1
+		
+	def delete_sensor(self, name):
+		del self.sensors[name]
 
 	def add_actuators(self, name, actuator):
 		toadd = (name, actuator)
