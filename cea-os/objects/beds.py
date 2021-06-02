@@ -14,6 +14,7 @@ class Bed:
 		self.actuators = list()
 		self.num_actuators = list()
 		self.properties = dict()
+		self.name = "bed0"
 
 	def add_plant(self, plant):
 		self.plants[plant.name] = plant
@@ -38,3 +39,6 @@ class Bed:
 
 	def delete_property(self, key):
 		del self.properties[key]
+		
+	def set_name(name):
+		self.name = name
