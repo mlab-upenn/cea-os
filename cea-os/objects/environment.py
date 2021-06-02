@@ -44,7 +44,11 @@ class Environment:
 	def set_name(name):
 		self.name = name	
 
+	def get_envs(self):
+		return self.environments
 
+	def get_name(self):
+		return self.name
 
 
 
