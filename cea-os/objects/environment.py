@@ -11,7 +11,7 @@ class Environment:
 		# I use a dictionary because we do not want duplicates names
 		self.beds = dict() #keeps track of beds (name is key)
 		self.num_beds = 0
-		self.sensors = list() # Some sensors will be on an environment level
+		self.sensors = dict() # Some sensors will be on an environment level
 		self.num_sensors = 0
 		self.actuators = list()
 		self.num_actuators = list()
@@ -26,9 +26,8 @@ class Environment:
 		del self.beds[bed.name]
 
 	def add_sensor(self, name, new_sensor):
-		toadd = (name, new_sensor)
-		self.sensors.append(toadd)
-		self.num_sensors += 1 
+		self.sensors[name] = new_sensor
+		self.num_sensors += 1
 
 	def add_actuators(self, name, actuator):
 		toadd = (name, actuator)
