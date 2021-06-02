@@ -14,7 +14,7 @@ class Environment:
 		self.sensors = dict() # Some sensors will be on an environment level
 		self.num_sensors = 0
 		self.actuators = list()
-		self.num_actuators = list()
+		self.num_actuators = 0
 		self.properties = dict()
 		self.name = "env0"
 
