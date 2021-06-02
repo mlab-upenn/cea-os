@@ -6,15 +6,15 @@ from plants import Plant
 from ..sensors.sensor_definition import Sensor
 
 class Bed:
-	def __init__(self):
+	def __init__(self, name = "bed0"):
 		self.plants = dict() #keeps track of plants in bed (name is key)
 		self.num_plants = 0
 		self.num_sensors = 0
-		self.sensors = list() #Sensors will be associated with beds
+		self.sensors = dict() #Sensors will be associated with beds
 		self.actuators = list()
-		self.num_actuators = list()
+		self.num_actuators = 0
 		self.properties = dict()
-		self.name = "bed0"
+		self.name = name
 
 	def add_plant(self, plant):
 		self.plants[plant.name] = plant
@@ -42,3 +42,9 @@ class Bed:
 		
 	def set_name(name):
 		self.name = name
+		
+	def get_sensors(self):
+		return self.sensors
+
+	def get_name(self):
+		return self.name
