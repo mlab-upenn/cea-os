@@ -10,6 +10,7 @@ class InfluxDBLogger(Logger):
 	def __init__(self) -> None:
 		self.refresh_rate = 10
 		self.sensor = None
+		self.bed = None
 
 	def set_refresh_rate(self, rate: float): #sets refresh_rate of logger
 		try:
@@ -48,3 +49,9 @@ class InfluxDBLogger(Logger):
 
 	def get_refresh_rate(self):	#returns the refresh_rate of the logger
 		return self.refresh_rate
+	
+	def set_bed(self, bed):	#sets the bed associated with logger
+		self.bed = bed
+
+	def get_bed(self):	#returns the bed associated with logger
+		return self.bed
