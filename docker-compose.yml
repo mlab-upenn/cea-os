@@ -4,7 +4,7 @@ services:
         build: . #builds image from Dockerfile in current directory
 
     influxdb:
-        image: influxdb
+        image: influxdb:1.8
         ports:
             - 8086:8086 #influxdb port
         #### Optional items: ####
