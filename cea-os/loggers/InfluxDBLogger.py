@@ -34,7 +34,7 @@ class InfluxDBLogger(Logger):
 				}
 			}
 			json_data.append(data)
-			write_success = influxConnection.get_connection.write_points(json_data)
+			write_success = influxConnection.get_connection().write_points(json_data)
 			if not write_success:	#throws error if unable to write to database
 				print("Error: Write to database failed")
 	
