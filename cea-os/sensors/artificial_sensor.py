@@ -47,6 +47,7 @@ class Artificial_Sensor(Sensor):
         print("Calibration value: {0}/nSensor value: {1}".format(calib_val, val))
         pass
     
+    #returns the measurement the sensor is recording (i.e. temperature, pH)
     def get_datatype(self):
         return self.datatype
 
