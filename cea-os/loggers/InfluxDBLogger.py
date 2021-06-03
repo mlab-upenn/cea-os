@@ -39,10 +39,10 @@ class InfluxDBLogger(Logger):
 				print("Error: Write to database failed")
 	
 	def set_sensor(self, sensor: Sensor):	#sets the sensor being logged
-		if type(sensor) is Sensor:
-			self.sensor = sensor
-		else:
-			print("Error: Invalid sensor")
+		#if type(sensor) is Sensor:
+		self.sensor = sensor
+		#else:
+			#print("Error: Invalid sensor")
 
 	def get_sensor(self):	#returns the sensor being logged
 		return self.sensor
