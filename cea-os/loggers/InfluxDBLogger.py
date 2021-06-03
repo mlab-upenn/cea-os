@@ -28,7 +28,7 @@ class InfluxDBLogger(Logger):
 				"tags": {
 					"plant": plant
 				},
-				"time": datetime.now(),
+				"time": datetime.now() + timedelta(hours = 4),
 				"fields": {
 					data_type: self.sensor.read_value()
 				}
