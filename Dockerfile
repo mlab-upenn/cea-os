@@ -1,12 +1,12 @@
 FROM python:3.8-slim
 
-RUN mkdir /cea-os
+RUN mkdir /ceaos
 
-COPY . /cea-os
+COPY . /ceaos
 
 RUN pip install --upgrade pip
 
-WORKDIR /cea-os
+WORKDIR /ceaos
 
 RUN python3 setup.py install
 

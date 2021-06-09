@@ -1,9 +1,9 @@
 from setuptools import setup
 
 setup(
-    name='cea-os',
+    name='ceaos',
     version='0.0.1',
-    packages=['cea-os'],
+    packages=['ceaos'],
     install_requires=[
         'requests',
         'build',
