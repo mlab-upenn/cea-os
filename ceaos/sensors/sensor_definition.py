@@ -9,7 +9,7 @@ class Sensor:
         """
         This method returns the value of the sensor
         """
-        raise not ImplementedError
+        raise NotImplementedError
             
     def calibrate(self):
         """
