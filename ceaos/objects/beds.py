@@ -2,7 +2,7 @@
 This file contains an bed model
 """
  
-from plants import Plant
+from .plants import Plant
 from ..sensors.sensor_definition import Sensor
 
 class Bed:

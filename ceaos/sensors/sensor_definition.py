@@ -1,8 +1,6 @@
 """
 This file contains the basic interface for sensors in this code base.
 """
-import random
-
 class Sensor:
     def __init__(self) -> None:
         raise NotImplementedError

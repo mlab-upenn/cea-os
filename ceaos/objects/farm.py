@@ -2,7 +2,7 @@
 This file contains a farm model
 """
 
-from environment import Environment
+from .environment import Environment
 
 class Farm:
 	def __init__(self, name):
