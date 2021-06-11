@@ -1,52 +1,50 @@
 """
 This file contains an bed model
 """
- 
-from .plants import Plant
-from ..sensors.sensor_definition import Sensor
+
 
 class Bed:
-	def __init__(self, name = "bed0"):
-		self.plants = dict() #keeps track of plants in bed (name is key)
-		self.num_plants = 0
-		self.num_sensors = 0
-		self.sensors = dict() #Sensors will be associated with beds
-		self.actuators = list()
-		self.num_actuators = 0
-		self.properties = dict()
-		self.name = name
+    def __init__(self, name="bed0"):
+        self.plants = dict()  # keeps track of plants in bed (name is key)
+        self.num_plants = 0
+        self.num_sensors = 0
+        self.sensors = dict()  # Sensors will be associated with beds
+        self.actuators = list()
+        self.num_actuators = 0
+        self.properties = dict()
+        self.name = name
 
-	def add_plant(self, plant):
-		self.plants[plant.name] = plant
-		self.num_plants += 1
+    def add_plant(self, plant):
+        self.plants[plant.name] = plant
+        self.num_plants += 1
 
-	def delete_plant(self, plant):
-		# Once you delete plant, maybe add its info somewhere for storage purposes?
-		del self.plants[plant.name]
+    def delete_plant(self, plant):
+        # Once you delete plant, maybe add its info somewhere for storage purposes?
+        del self.plants[plant.name]
 
-	def add_sensor(self, name, new_sensor):
-		self.sensors[name] = new_sensor
-		self.num_sensors += 1
-		
-	def delete_sensor(self, name):
-		del self.sensors[name]
+    def add_sensor(self, name, new_sensor):
+        self.sensors[name] = new_sensor
+        self.num_sensors += 1
 
-	def add_actuators(self, name, actuator):
-		toadd = (name, actuator)
-		self.actuators.append(toadd)
-		self.num_actuators += 1
+    def delete_sensor(self, name):
+        del self.sensors[name]
 
-	def add_property(self, key, value):
-		self.properties[key] = value
+    def add_actuators(self, name, actuator):
+        toadd = (name, actuator)
+        self.actuators.append(toadd)
+        self.num_actuators += 1
 
-	def delete_property(self, key):
-		del self.properties[key]
-		
-	def set_name(name):
-		self.name = name
-		
-	def get_sensors(self):
-		return self.sensors
+    def add_property(self, key, value):
+        self.properties[key] = value
 
-	def get_name(self):
-		return self.name
+    def delete_property(self, key):
+        del self.properties[key]
+
+    def set_name(self, name):
+        self.name = name
+
+    def get_sensors(self):
+        return self.sensors
+
+    def get_name(self):
+        return self.name
