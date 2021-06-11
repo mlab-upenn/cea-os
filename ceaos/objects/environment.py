@@ -2,7 +2,7 @@
 This file contains an environment model
 """
 
-from beds import Bed
+from .beds import Bed
 from ..sensors.sensor_definition import Sensor
 
 class Environment:
