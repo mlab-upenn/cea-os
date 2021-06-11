@@ -22,3 +22,11 @@ class Farm:
 	# if you want to change the farm name
 	def set_name(self, name):
 		self.name = name
+	
+	#return dictionary of environments
+	def get_envs(self):
+		return self.environments
+	
+	#return name of farm
+	def get_name(self):
+		return self.name

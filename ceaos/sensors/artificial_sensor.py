@@ -17,6 +17,7 @@ class Artificial_Sensor(Sensor):
             self.noise = 0
             print("INVALID NOISE")
         self.calib = 0  #sets calibration difference
+        self.datatype = None
     
     def read_value(self):
         """
@@ -45,3 +46,10 @@ class Artificial_Sensor(Sensor):
         self.calib = calib_val - val
         print("Calibration value: {0}/nSensor value: {1}".format(calib_val, val))
         pass
+    
+    #returns the measurement the sensor is recording (i.e. temperature, pH)
+    def get_datatype(self):
+        return self.datatype
+
+    def set_datatype(self, datatype):
+        self.datatype = datatype

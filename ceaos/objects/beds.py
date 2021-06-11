@@ -6,14 +6,15 @@ from plants import Plant
 from ..sensors.sensor_definition import Sensor
 
 class Bed:
-	def __init__(self):
+	def __init__(self, name = "bed0"):
 		self.plants = dict() #keeps track of plants in bed (name is key)
 		self.num_plants = 0
 		self.num_sensors = 0
-		self.sensors = list() #Sensors will be associated with beds
+		self.sensors = dict() #Sensors will be associated with beds
 		self.actuators = list()
-		self.num_actuators = list()
+		self.num_actuators = 0
 		self.properties = dict()
+		self.name = name
 
 	def add_plant(self, plant):
 		self.plants[plant.name] = plant
@@ -24,9 +25,11 @@ class Bed:
 		del self.plants[plant.name]
 
 	def add_sensor(self, name, new_sensor):
-		toadd = (name, new_sensor)
-		self.sensors.append(toadd)
+		self.sensors[name] = new_sensor
 		self.num_sensors += 1
+		
+	def delete_sensor(self, name):
+		del self.sensors[name]
 
 	def add_actuators(self, name, actuator):
 		toadd = (name, actuator)
@@ -38,3 +41,12 @@ class Bed:
 
 	def delete_property(self, key):
 		del self.properties[key]
+		
+	def set_name(name):
+		self.name = name
+		
+	def get_sensors(self):
+		return self.sensors
+
+	def get_name(self):
+		return self.name
