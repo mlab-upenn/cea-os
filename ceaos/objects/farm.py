@@ -6,7 +6,7 @@ This file contains a farm model
 class Farm:
     def __init__(self, name):
         self.name = name
-        self.environments = dict()  # eeps track of environments (name is key)
+        self.environments = dict()  #keeps track of environments (name is key)
         self.num_environments = 0
 
     # allows you to add environments
@@ -22,10 +22,10 @@ class Farm:
     def set_name(self, name):
         self.name = name
 
-    # return dictionary of environments
+    #return dictionary of environments
     def get_envs(self):
         return self.environments
 
-    # return name of farm
+    #return name of farm
     def get_name(self):
         return self.name
