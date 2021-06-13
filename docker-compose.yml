@@ -2,6 +2,7 @@ version: "3.9"
 services: 
     cea-os:
         build: . #builds image from Dockerfile in current directory
+        container_name: cea_os
 
     influxdb:
         image: influxdb:1.8
@@ -13,7 +14,11 @@ services:
         networks:
             - grafana_network #make sure the same as grafana container
         volumes: #do we want persistent volumes?
-            - influxdb_data:/var/lib/influxdb #create Docker volume called "influxdb_data"
+            #- influxdb_data:/var/lib/influxdb #create Docker volume called "influxdb_data"
+            #- $PWD/docker_data/influxdb_data:/var/lib/influxdb
+            - type: bind
+              source: ./docker_data/influxdb_data
+              target: /var/lib/influxdb
         environment:
             - INFLUXDB_DB=grafana #creates a database when we create container
             - INFLUXDB_USER=grafana #creates a user called "grafana"
@@ -24,6 +29,7 @@ services:
     
     grafana: 
         image: grafana/grafana
+        user: root #needed for bind mount
         ports:
             - 3000:3000 #grafana port
         #### Optional items: ####
@@ -32,17 +38,17 @@ services:
         networks: 
             - grafana_network #use for influxdb, same network
         volumes: #do we want persistent volumes?
-            - grafana_data:/var/lib/grafana #create Docker volume called "grafana_data"
+            #- grafana_data:/var/lib/grafana #create Docker volume called "grafana_data"
+            #- $PWD/docker_data/grafana_data:/var/lib/grafana
+            - type: bind
+              source: ./docker_data/grafana_data
+              target: /var/lib/grafana
         depends_on:
             - influxdb
 
 networks:
     grafana_network:
-volumes:
-    grafana_data:
-    influxdb_data:
+# volumes:
+#     grafana_data:
+#     influxdb_data:
 
-#### OTHER NOTES:
-    # Default Grafana u: admin p: admin (then set a new PW)
-    # Next step would be to connect to datasource (InfluxDB)
-    # Tutorial used: https://www.youtube.com/watch?v=rRKDfU4tmJQ
