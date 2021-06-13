@@ -14,7 +14,7 @@ class Logger():
     def __init__(self) -> None:
         raise NotImplementedError
 
-    def set_refresh_rate(self):  #set refresh rate of data logging
+    def set_refresh_rate(self):  # set refresh rate of data logging
         raise NotImplementedError
 
     def send_logs(

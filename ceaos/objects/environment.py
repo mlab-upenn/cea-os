@@ -7,7 +7,7 @@ class Environment:
     # temperature, nutrients, water, lighting, light intensity will be added later
     def __init__(self):
         # I use a dictionary because we do not want duplicates names
-        self.beds = dict()  #keeps track of beds (name is key)
+        self.beds = dict()  # keeps track of beds (name is key)
         self.num_beds = 0
         self.sensors = dict()  # Some sensors will be on an environment level
         self.num_sensors = 0

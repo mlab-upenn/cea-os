@@ -4,13 +4,14 @@
 # Modified by: Sarah Santos
 # Modified on: 6/1/2021
 
-###### Import the stuff we need
+# ##### Import the stuff we need
 # pip install influxdb
+from rich import print
 from influxdb import InfluxDBClient
 from datetime import datetime
 from datetime import timedelta  # idk what i'm doing here, but trying to debug timedelta issues
 
-###### Setup database
+# ##### Setup database
 client = InfluxDBClient(
     host='localhost', port=8086, username='grafana',
     password='password')  # username credentials from docker-compose.yml file
@@ -22,7 +23,7 @@ client.create_database(
 # client.get_list_database() # view all databases
 client.switch_database('testdb')  # work in 'testdb'
 
-###### Setup Payload
+# ##### Setup Payload
 # made a few more datapoints
 json_payload = []
 data = {
@@ -98,12 +99,12 @@ data = {
 }
 json_payload.append(data)
 
-###### Send our payload
+# ##### Send our payload
 client.write_points(json_payload)
 
-###### Select statement
-## It was more helpful for me to query the database from the InfluxDB container CLI
-from rich import print  ## need to install "rich" first..
-#print(data)
+# ##### Select statement
+# # It was more helpful for me to query the database from the InfluxDB container CLI
+# need to install "rich" first..
+# print(data)
 result = client.query('select * from NutrientSolution;')
 print(result)
