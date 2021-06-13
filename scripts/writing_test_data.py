@@ -103,7 +103,7 @@ client.write_points(json_payload)
 
 ###### Select statement
 ## It was more helpful for me to query the database from the InfluxDB container CLI
-from rich import print  ## need to install "rich" first..
+#from rich import print  ## need to install "rich" first..
 #print(data)
 result = client.query('select * from NutrientSolution;')
-print(result)
+#print(result)
