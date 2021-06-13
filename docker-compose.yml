@@ -7,15 +7,12 @@ services:
     influxdb:
         image: influxdb:1.8
         ports:
-            - 8086:8086 #influxdb port
-        #### Optional items: ####
+            - 8086:8086 
         container_name: influxdb
         restart: always #if something happpens in container, it can start automatically
         networks:
             - grafana_network #make sure the same as grafana container
-        volumes: #do we want persistent volumes?
-            #- influxdb_data:/var/lib/influxdb #create Docker volume called "influxdb_data"
-            #- $PWD/docker_data/influxdb_data:/var/lib/influxdb
+        volumes:
             - type: bind
               source: ./docker_data/influxdb_data
               target: /var/lib/influxdb
@@ -29,26 +26,19 @@ services:
     
     grafana: 
         image: grafana/grafana
-        user: root #needed for bind mount
+        user: root #added root privileges for bind mount
         ports:
-            - 3000:3000 #grafana port
-        #### Optional items: ####
+            - 3000:3000 
         container_name: grafana
         restart: always
         networks: 
             - grafana_network #use for influxdb, same network
-        volumes: #do we want persistent volumes?
-            #- grafana_data:/var/lib/grafana #create Docker volume called "grafana_data"
-            #- $PWD/docker_data/grafana_data:/var/lib/grafana
+        volumes: 
             - type: bind
               source: ./docker_data/grafana_data
               target: /var/lib/grafana
         depends_on:
-            - influxdb
+        - influxdb
 
 networks:
     grafana_network:
-# volumes:
-#     grafana_data:
-#     influxdb_data:
-
