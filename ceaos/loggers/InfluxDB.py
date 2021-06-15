@@ -39,7 +39,7 @@ class InfluxDBLogger(Logger):
     def __init__(self, sensor=None) -> None:
         self.refresh_rate = 10
         self.sensor = sensor
-        self.bed = None
+        self.location = None
 
     def set_refresh_rate(self, rate: float):  # sets refresh_rate of logger
         try:
@@ -47,9 +47,9 @@ class InfluxDBLogger(Logger):
         except ValueError:
             print("Error: Invalid refresh rate")
 
-    def send_logs(self, measurement: str, plant: str, data_type: str,
-                  influxConnection: InfluxDBConnection
-                  ):  # sends data from sensor to database
+    def send_logs(self, measurement: str, data_type: str,
+                  location: str, influxConnection: InfluxDBConnection
+                  ):  #sends data from sensor to database
         if self.sensor is None:
             print("Error: No sensor linked to logger")
         else:
@@ -57,7 +57,7 @@ class InfluxDBLogger(Logger):
             data = {
                 "measurement": measurement,
                 "tags": {
-                    "plant": plant
+                    "location": location
                 },
                 "time": datetime.now() + timedelta(hours=4),
                 "fields": {
@@ -79,8 +79,8 @@ class InfluxDBLogger(Logger):
     def get_refresh_rate(self):  # returns the refresh_rate of the logger
         return self.refresh_rate
 
-    def set_bed(self, bed):  # sets the bed associated with logger
-        self.bed = bed
+    def set_location(self, location):  # sets the location associated with logger
+        self.location = location
 
-    def get_bed(self):  # returns the bed associated with logger
-        return self.bed
+    def get_location(self):  # returns the bed associated with logger
+        return self.location
