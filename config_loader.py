@@ -167,14 +167,6 @@ def load_config(config_file):
 
 	print("FARM SETUP COMPLETE")
 
-	'''
-	for env_name, env in farm_object.get_envs().items():
-		for bed_name, bed in env.get_beds().items():
-			print("%s: %s" % (env_name, bed_name))
-			for plant_name, plant in bed.get_plants().items():
-				print("%s: %s" % (bed_name, plant_name))
-	'''
-
 	return farm_object, sensors
 
 if __name__ == "__main__":
