@@ -11,8 +11,9 @@ class Camera(Sensor):
 
     def __init__(self, image_filepath="") -> None:
         self.set_filepath(image_filepath)
+
         if self.image_filepath != "":
-            self.set_value(self.image_filepath)  # encodes image to base64
+            self.set_value()  # encodes image to base64
         else:
             self.value = ""
 
@@ -25,23 +26,20 @@ class Camera(Sensor):
         except ValueError:
             raise ValueError("INVALID VALUE")
 
-    def set_value(self, image_filepath: str):
+    def set_value(self):
         """
         This method sets the camera value by encoding the image stored at image_filepath
         """
         try:
             with open(self.image_filepath, "rb") as imagefile:
                 byteform = base64.b64encode(imagefile.read())
-            self.value = byteform  # value is the bytes literal of encoded image
+            self.value = str(byteform)  # value is the bytes literal of encoded image
         except FileNotFoundError:
             self.value = ""
             raise FileNotFoundError("INVALID FILEPATH")
         except OSError:
             self.value = ""
             raise OSError("ERROR OPENING IMAGE")
-        except ValueError:
-            self.value = ""
-            raise ValueError("INVALID VALUE")
 
     def get_filepath(self):
         return self.image_filepath
