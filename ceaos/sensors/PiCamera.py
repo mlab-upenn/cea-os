@@ -1,5 +1,6 @@
 from .sensor_definition import Sensor
 from time import sleep
+from picamera import PiCamera
 from datetime import datetime
 
 class PiCam(Sensor):

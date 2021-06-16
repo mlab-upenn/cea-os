@@ -2,7 +2,7 @@ import os
 os.chdir('pigpio_dht22') #so that new module is in the right path
 import pigpio
 import DHT22
-from sensor_definition import Sensor
+from .sensor_definition import Sensor
 
 class TempHumiditySensor(Sensor):
 	def __init__(self, gpio=4):
