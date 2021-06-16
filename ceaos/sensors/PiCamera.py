@@ -15,7 +15,7 @@ class PiCam(Sensor):
 		self.camera.start_preview()
 		self.camera.annotate_text = date_str
 		sleep(3)
-		camera.capture('/home/pi/Documents/Plant_Photos/%s.jpg' % date_str)
+		self.camera.capture('/home/pi/Documents/Plant_Photos/%s.jpg' % date_str)
 		self.camera.stop_preview()
 
 	def calibrate(self, rotation):
