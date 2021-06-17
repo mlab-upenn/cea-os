@@ -11,7 +11,7 @@ class Actuator:
         #This initializes everything required for actuator to be functional
         raise NotImplementedError
 
-    def run(self):
+    def set_point(self):
         #This must be implemented in inheriting classes
         raise NotImplementedError
 
