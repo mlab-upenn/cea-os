@@ -7,6 +7,7 @@ setup(
     install_requires=[
         'requests',
         'build',
-        'influxdb'
+        'influxdb',
+        'importlib_resources'
     ],
 )
