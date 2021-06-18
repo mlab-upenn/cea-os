@@ -1,5 +1,6 @@
 from influxdb import InfluxDBClient
 from datetime import datetime, timedelta
+import time
 
 from .interfaces import DBConnection, Logger
 from ..sensors.sensor_definition import Sensor
@@ -10,26 +11,28 @@ class InfluxDBConnection(DBConnection):
         self.client = None
 
     def configure(self,
-                  host='localhost',
+                  host='influxdb',
                   port=8086,
                   username='grafana',
                   password='password',
                   database='grafana'):
         if database != 'grafana':  # creates new database if default grafana db is not being used
-            self.client = InfluxDBClient(host=host,
-                                         port=port,
-                                         username=username,
-                                         password=password)
-            if database not in self.client.get_list_database().values():
-                self.client.create_database(database)
+          self.client = InfluxDBClient(host=host,
+                                      port=port,
+                                      username=username,
+                                      password=password)
+          if database not in self.client.get_list_database().values():
+            self.client.create_database(database)
+
         else:  # defaults to connecting to the local InfluxDB database set up in docker file, "grafana"
             self.client = InfluxDBClient(host=host,
-                                         port=port,
-                                         username=username,
-                                         password=password,
-                                         database=database)
+                                          port=port,
+                                          username=username,
+                                          password=password,
+                                          database=database)
 
         self.client.switch_database(database)
+        
 
     def get_connection(self):  # returns database connection
         return self.client
@@ -59,7 +62,7 @@ class InfluxDBLogger(Logger):
                 "tags": {
                     "location": location
                 },
-                "time": datetime.now() + timedelta(hours=4),
+                "time": datetime.now(),
                 "fields": {
                     data_type: self.sensor.read_value()
                 }
