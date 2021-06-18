@@ -1,4 +1,4 @@
-from config_loader import load_config
+from ceaos.config import load_config
 from ceaos.sensors import sensor_definition
 from ceaos.sensors.artificial_sensor import Artificial_Sensor
 from ceaos.loggers.InfluxDB import InfluxDBConnection
