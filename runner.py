@@ -24,23 +24,30 @@ def log_data(refresh_rate,logger_list, client, farm_name):
 		print("Logger ended")
 
 if __name__ == "__main__":
-	farm, sensors = load_config("config.yaml")	#Set up Farm from config file
+	farm, sensors, db_client, error = load_config("config.yaml")	#Set up Farm from config file
+	if error != None or farm == None:
+		print(error)
+		quit()
 	loggers = {}	#Dictionary of loggers (key = refresh_rate, value = list of loggers)
+
+	time.sleep(5)
+	
+	'''
 	db_client = InfluxDBConnection()	#Set up InfluxDB Client
 	db_client.configure()
-
+	'''
 	farm_name = farm.get_name()
 
 	for sensor in sensors:
 		refresh_rate = sensor.get_refresh()
 		logger = InfluxDBLogger(sensor)
+		sensor.set_logger(logger)
 		logger.set_location(sensor.get_location())
 		logger.set_refresh_rate(refresh_rate)
 		if refresh_rate not in loggers:
 			loggers[refresh_rate] = [logger]
 		else:
 			loggers.get(refresh_rate).append(logger)
-
 
 	threads = []
 
