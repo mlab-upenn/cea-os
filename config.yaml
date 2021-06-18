@@ -25,4 +25,10 @@ environments: #environments are a list of dictionaries
   - type: "Temp"
     refresh: 5
     value: 16
+connection:
+  host: "influxdb"
+  port: 8086
+  username: "grafana"
+  password: "password"
+  database: "grafana"
 
