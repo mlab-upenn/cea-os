@@ -10,4 +10,4 @@ WORKDIR /ceaos
 
 RUN python3 setup.py install
 
-CMD ls
+CMD python3 runner.py
