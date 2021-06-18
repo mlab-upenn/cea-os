@@ -4,6 +4,7 @@ from ceaos.objects.beds import Bed
 from ceaos.objects.environment import Environment
 from ceaos.objects.plants import Plant
 from ceaos.sensors.artificial_sensor import Artificial_Sensor
+from ceaos.loggers.InfluxDB import InfluxDBConnection
 
 def check_name(d):	#Checks if the "name" key exists in a dictionary
     if "name" not in d or d.get("name") == None:
@@ -28,7 +29,7 @@ def check_config(dictionary):	#Scans the config file for errors or missing field
     error_loc = "farm"	#error_loc variable helps user identify where error in config is occuring
 
     if not check_name(dictionary):	#Checks for "name" of farm
-    	return 1, error_level
+    	return 1, error_loc
 
     error_loc = dictionary.get("name")
 
@@ -78,48 +79,73 @@ def check_config(dictionary):	#Scans the config file for errors or missing field
 
     			if not check_name(plant):
     				return 11, error_loc
+
+    error_loc = "connection"	#looks through connection dictionary settings
+    if "connection" not in dictionary:
+    	return 12, error_loc
+    connection_dict = dictionary.get("connection")
+    connection_keys = ["host", "port", "username", "password", "database"]
+    for key in connection_keys:	#checks if all connection fields are given properly
+    	if key not in connection_dict or connection_dict.get(key) == None:
+    		return 13, error_loc
+    try:
+    	int(connection_dict.get("port"))
+    except ValueError:
+    	return 14, error_loc
+
     return 0, None
 
 def error_handle(error_message, error_location):	#Handles error messages produced by check_config
+	error = None
 	if error_message == 1:
-		print("ERROR: No name specified for farm")
+		error = "ERROR: No name specified for farm"
 	
 	elif error_message == 2:
-		print("ERROR: Must have \"environments\" list in farm")
+		error = "ERROR: Must have \"environments\" list in farm"
 
 	elif error_message == 3:
-		print("ERROR: Must specify at least 1 environments")
+		error = "ERROR: Must specify at least 1 environments"
 
 	elif error_message == 4:
-		print("ERROR: Every environment must have a name")
+		error = "ERROR: Every environment must have a name"
 
 	elif error_message == 5:
-		print("ERROR: Must have \"beds\" list in every environment")
+		error = "ERROR: Must have \"beds\" list in every environment"
 
 	elif error_message == 6:
-		print("ERROR: Must have at least 1 bed for each environment")
+		error = "ERROR: Must have at least 1 bed for each environment"
 
 	elif error_message == 7:
-		print("ERROR: Every bed must have a name")
+		error = "ERROR: Every bed must have a name"
 
 	elif error_message == 8:
-		print("ERROR: Must have \"plants\" list in every bed")
+		error = "ERROR: Must have \"plants\" list in every bed"
 
 	elif error_message == 9:
-		print("ERROR: Must have at least 1 plant for every bed")
+		error = "ERROR: Must have at least 1 plant for every bed"
 
 	elif error_message == 10:
-		print("ERROR: Sensor type not specified")
+		error = "ERROR: Sensor type not specified"
 
 	elif error_message == 11:
-		print("ERROR: Every plant must have a name")
+		error = "ERROR: Every plant must have a name"
+
+	elif error_message == 12:
+		error = "ERROR: Must specify field for \"connection\" in config"
+
+	elif error_message == 13:
+		error = "ERROR: Must have [host, port, username, password, database] field specified in connection"
+
+	elif error_message == 14:
+		error = "ERROR: Port must be a valid integer"
 
 	else:
 		print("Loading in config file...")
 
 	if error_message != 0:
-		print("(%s)" % error_location)
-		quit()
+		error = error + "(%s)" % error_location
+
+	return error
 
 def add_sensors(farm_object, dictionary, sensors_list):
 	if "sensors" in dictionary:	#Creates and associates environment-wide sensors
@@ -132,7 +158,6 @@ def add_sensors(farm_object, dictionary, sensors_list):
 
 			s.set_noise(2) ###Set Noise (NOTE: Delete later, only for artificial sensor)
 
-
 			farm_object.add_sensor(sensor.get("type"), s)
 			sensors_list.append(s)
 
@@ -144,30 +169,40 @@ def load_config(config_file):
 		print(e)
 		quit()
 
-	error_handle(*check_config(dictionary))	#Reads in config.yaml file and checks for errors
+	error = error_handle(*check_config(dictionary))	#Reads in config.yaml file and checks for errors
+	if error != None:
+		return None, None, None, error
+	else:
+		sensors = []
+		farm_object = Farm(dictionary.get("name"))	#Sets name of farm
 
-	sensors = []
-	farm_object = Farm(dictionary.get("name"))	#Sets name of farm
+		for environment in dictionary.get("environments"):	#Sets up each individual environment
+			env_object = Environment(str(environment.get("name")))	#Creates an environment with set name
+			add_sensors(env_object, environment, sensors)
 
-	for environment in dictionary.get("environments"):	#Sets up each individual environment
-		env_object = Environment(str(environment.get("name")))	#Creates an environment with set name
-		add_sensors(env_object, environment, sensors)
+			for bed in environment.get("beds"):	#Creates and associates beds with environments
+				bed_object = Bed(str(bed.get("name")))
+				add_sensors(bed_object, bed, sensors)
 
-		for bed in environment.get("beds"):	#Creates and associates beds with environments
-			bed_object = Bed(str(bed.get("name")))
-			add_sensors(bed_object, bed, sensors)
+				for plant in bed.get("plants"):	#Creates and associates plants with beds
+					plant_object = Plant(str(plant.get("name")))
+					bed_object.add_plant(plant_object)
 
-			for plant in bed.get("plants"):	#Creates and associates plants with beds
-				plant_object = Plant(str(plant.get("name")))
-				bed_object.add_plant(plant_object)
+				env_object.add_bed(bed_object)	#Adds beds to environments
 
-			env_object.add_bed(bed_object)	#Adds beds to environments
+			farm_object.add_environment(env_object)	#Adds environments to the farm
 
-		farm_object.add_environment(env_object)	#Adds environments to the farm
+		connection_dict = dictionary.get("connection")
+		influxConnection = InfluxDBConnection()
+		influxConnection.configure(host = connection_dict.get("host"),
+									port = connection_dict.get("port"),
+									username = connection_dict.get("username"),
+									password = connection_dict.get("password"),
+									database = connection_dict.get("database"))
 
-	print("FARM SETUP COMPLETE")
+		print("FARM SETUP COMPLETE")
 
-	return farm_object, sensors
+		return farm_object, sensors, influxConnection, error
 
 if __name__ == "__main__":
 	load_config("config.yaml")
