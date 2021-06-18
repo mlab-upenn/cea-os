@@ -3,6 +3,10 @@ services:
     cea-os:
         build: . #builds image from Dockerfile in current directory
         container_name: cea_os
+        depends_on:
+            - influxdb
+        networks:
+            - grafana_network
 
     influxdb:
         image: influxdb:1.8
