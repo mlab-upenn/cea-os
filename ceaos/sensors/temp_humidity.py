@@ -21,4 +21,4 @@ class TempHumiditySensor(Sensor):
 		humidity, temperature = self.read_value()
 		self.calib_humidity = calib_val_humidity - humidity
 		self.calib_temperature = calib_val_temperature - temperature
-        pass
+		pass
