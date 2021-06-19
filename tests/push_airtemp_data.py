@@ -1,6 +1,6 @@
 """
-This is a test file to pushe air temperature data to InfluxDB
-Originally written as a test on the RPi
+This is a test file to push air temperature data to InfluxDB
+Originally written as a test on the RPi (home/pi) with physical sensor
 """
 from ceaos.sensors.temperature_sensor import Temperature
 
