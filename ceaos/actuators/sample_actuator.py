@@ -10,10 +10,10 @@ set up some kind of pump to pump nutrients into the solution, this would happen 
 """
 class Artificial_Actuator(Actuator):
     def __init__(self):
-    	self.running = None
-    	self.start_time = None
-    	self.stop_time = None
-    	self.id = None
+        self.id = None
+        self.stop_time = None
+        self.start_time = None
+        self.running = None
         self.curr_state = None
         self.datatype = None
 
