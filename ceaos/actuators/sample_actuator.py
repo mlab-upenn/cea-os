@@ -22,7 +22,7 @@ class Artificial_Actuator(Actuator):
     	pass    
 
     def set_point(self, sensor):
-        while sensor.read_value() > 20 and < 40:
+        while sensor.read_value() > 20:
         	#actuate
         	print("actuating")
         self.stop()

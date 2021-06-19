@@ -18,12 +18,7 @@ class TempHumiditySensor(Sensor):
 			return "error"
 
 	def calibrate(self, calib_val_humidity, calib_val_temperature):
-        """
-        This method is used to calibrate the sensor.
-        """
-        humidity, temperature = self.read_value()
-        self.calib_humidity = calib_val_humidity - humidity
-        self.calib_temperature = calib_val_temperature - temperature
-        print("Calibration value humidity: {0}/nSensor value: {1}".format(calib_val_humidity, humidity))
-        print("Calibration value humidity: {0}/nSensor value: {1}".format(calib_val_temperature, temperature))
+		humidity, temperature = self.read_value()
+		self.calib_humidity = calib_val_humidity - humidity
+		self.calib_temperature = calib_val_temperature - temperature
         pass
