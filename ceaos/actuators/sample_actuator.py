@@ -14,8 +14,8 @@ class Artificial_Actuator(Actuator):
     	self.start_time = None
     	self.stop_time = None
     	self.id = None
-        self.datatype = None
         self.curr_state = None
+        self.datatype = None
 
     def initialize(self):
     	#initialize things like pwm here

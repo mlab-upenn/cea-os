@@ -12,8 +12,8 @@ class TempHumiditySensor(Sensor):
 
 	def read_value(self):
 		self.s.trigger()
-		if s.humidity() != None and s.temperature() != None:
-			return ('{:3.2f}'.format(s.humidity() / 1.)), ('{:3.2f}'.format(s.temperature() / 1.))
+		if self.s.humidity() != None and self.s.temperature() != None:
+			return ('{:3.2f}'.format(self.s.humidity() / 1.)), ('{:3.2f}'.format(self.s.temperature() / 1.))
 		else:
 			return "error"
 
