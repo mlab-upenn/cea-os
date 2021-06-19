@@ -2,8 +2,7 @@
 This file contains a class for a camera sensor that encodes image data
 """
 import base64
-from sensor_definition import Sensor  # the original ".sensor_definition" threw me an error, but removing the "." solved it
-
+from sensor_definition import Sensor  
 
 class Camera(Sensor):
 
@@ -24,6 +23,7 @@ class Camera(Sensor):
         try:
             self.image_filepath = str(image_filepath)
         except ValueError:
+            self.image_filepath = None
             raise ValueError("INVALID VALUE")
 
     def set_value(self):
@@ -35,7 +35,7 @@ class Camera(Sensor):
                 byteform = base64.b64encode(imagefile.read())
             self.value = byteform  # value is the bytes literal of encoded image
         except FileNotFoundError:
-            self.value = ""
+            self.value = ""  # setting to empty string instead of None since InfluxDB has issues with NaN (which might also apply to None)
             raise FileNotFoundError("INVALID FILEPATH")
         except OSError:
             self.value = ""
@@ -50,9 +50,7 @@ class Camera(Sensor):
         """
         return self.value
 
-    def get_datatype(
-        self,
-    ):  # returns the measurement the sensor is recording (i.e. temperature, pH)
+    def get_datatype(self):  # returns the measurement the sensor is recording (i.e. temperature, pH)
         return self.datatype
 
     def decode_value(self):  # not sure if we need this
