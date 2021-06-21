@@ -8,6 +8,7 @@ setup(
         'requests',
         'build',
         'influxdb',
-        'importlib_resources'
+        'importlib_resources',
+        'pyyaml'
     ],
 )
