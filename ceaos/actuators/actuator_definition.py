@@ -7,10 +7,6 @@ class Actuator:
     def __init__(self) -> None:
         raise NotImplementedError
 
-    def initialize(self):
-        #This initializes everything required for actuator to be functional
-        raise NotImplementedError
-
     def set_point(self):
         #This must be implemented in inheriting classes
         raise NotImplementedError

@@ -15,11 +15,7 @@ class Artificial_Actuator(Actuator):
         self.start_time = None
         self.running = None
         self.curr_state = None
-        self.datatype = None
-
-    def initialize(self):
-    	#initialize things like pwm here
-    	pass    
+        self.datatype = None   
 
     def set_point(self, sensor):
         while sensor.read_value() > 20:
