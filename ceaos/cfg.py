@@ -164,7 +164,7 @@ def add_sensors(farm_object, dictionary, sensors_list):
 
 def load_config(config_file = 'config.yaml'):
 	#stream = open(config_file, 'r')
-	config = files('resources').joinpath(config_file).read_text()
+	config = files('ceaos.resources').joinpath(config_file).read_text()
 	try:
 		dictionary = yaml.safe_load(config)
 	except yaml.YAMLError as e:
