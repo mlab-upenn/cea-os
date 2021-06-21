@@ -1,4 +1,3 @@
-from ceaos import config
 from ceaos.sensors import sensor_definition
 from ceaos.sensors.artificial_sensor import Artificial_Sensor
 from ceaos.loggers.InfluxDB import InfluxDBConnection
@@ -7,6 +6,8 @@ from ceaos.objects.farm import Farm
 from ceaos.objects.environment import Environment
 from ceaos.objects.beds import Bed
 from ceaos.objects.plants import Plant
+from ceaos.cfg import load_config
+
 import time
 import threading
 
