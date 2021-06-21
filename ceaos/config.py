@@ -1,10 +1,11 @@
 import yaml
-from ceaos.objects.farm import Farm
-from ceaos.objects.beds import Bed
-from ceaos.objects.environment import Environment
-from ceaos.objects.plants import Plant
-from ceaos.sensors.artificial_sensor import Artificial_Sensor
-from ceaos.loggers.InfluxDB import InfluxDBConnection
+from .objects.farm import Farm
+from .objects.beds import Bed
+from .objects.environment import Environment
+from .objects.plants import Plant
+from .sensors.artificial_sensor import Artificial_Sensor
+from .loggers.InfluxDB import InfluxDBConnection
+from importlib_resources import files
 
 def check_name(d):	#Checks if the "name" key exists in a dictionary
     if "name" not in d or d.get("name") == None:
@@ -161,10 +162,11 @@ def add_sensors(farm_object, dictionary, sensors_list):
 			farm_object.add_sensor(sensor.get("type"), s)
 			sensors_list.append(s)
 
-def load_config(config_file):
-	stream = open(config_file, 'r')
+def load_config(config_file = 'config.yaml'):
+	#stream = open(config_file, 'r')
+	config = files('resources').joinpath(config_file).read_text()
 	try:
-		dictionary = yaml.safe_load(stream)
+		dictionary = yaml.safe_load(config)
 	except yaml.YAMLError as e:
 		print(e)
 		quit()
