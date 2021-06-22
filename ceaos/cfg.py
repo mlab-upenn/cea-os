@@ -215,14 +215,6 @@ def load_config(config_folder='ceaos.resources', config_file='config.yaml'):
                 env_object)  #Adds environments to the farm
 
         connection_dict = dictionary.get("connection")
-        '''
-		influxConnection = InfluxDBConnection()
-		influxConnection.configure(host = connection_dict.get("host"),
-									port = connection_dict.get("port"),
-									username = connection_dict.get("username"),
-									password = connection_dict.get("password"),
-									database = connection_dict.get("database"))
-		'''
 
         print("FARM SETUP COMPLETE")
 
