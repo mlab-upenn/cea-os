@@ -1,0 +1,6 @@
+
+build==0.5.0
+importlib-resources==5.1.4
+influxdb==5.3.1
+PyYAML==5.3.1
+requests==2.22.0
