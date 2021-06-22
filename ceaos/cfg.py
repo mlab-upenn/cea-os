@@ -162,9 +162,8 @@ def add_sensors(farm_object, dictionary, sensors_list):
 			farm_object.add_sensor(sensor.get("type"), s)
 			sensors_list.append(s)
 
-def load_config(config_file = 'config.yaml'):
-	#stream = open(config_file, 'r')
-	config = files('ceaos.resources').joinpath(config_file).read_text()
+def load_config(config_folder = 'ceaos.resources', config_file = 'config.yaml'):
+	config = files(config_folder).joinpath(config_file).read_text()
 	try:
 		dictionary = yaml.safe_load(config)
 	except yaml.YAMLError as e:
@@ -195,16 +194,19 @@ def load_config(config_file = 'config.yaml'):
 			farm_object.add_environment(env_object)	#Adds environments to the farm
 
 		connection_dict = dictionary.get("connection")
+		
+		'''
 		influxConnection = InfluxDBConnection()
 		influxConnection.configure(host = connection_dict.get("host"),
 									port = connection_dict.get("port"),
 									username = connection_dict.get("username"),
 									password = connection_dict.get("password"),
 									database = connection_dict.get("database"))
+		'''
 
 		print("FARM SETUP COMPLETE")
 
-		return farm_object, sensors, influxConnection, error
+		return farm_object, sensors, connection_dict , error
 
 if __name__ == "__main__":
 	load_config("config.yaml")

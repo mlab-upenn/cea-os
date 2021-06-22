@@ -29,7 +29,7 @@ def log_data(refresh_rate,logger_list, client, farm_name):
 		logging.info("Logger ended")
 
 if __name__ == "__main__":
-	farm, sensors, db_client, error = load_config("config.yaml")	#Set up Farm from config file
+	farm, sensors, connection_dict, error = load_config("ceaos.resources","config.yaml")	#Set up Farm from config file
 	if error != None or farm == None:
 		logging.error(error)
 		quit()
@@ -37,9 +37,13 @@ if __name__ == "__main__":
 
 	time.sleep(5)
 	
-	
-	db_client = InfluxDBConnection()	#Set up InfluxDB Client
-	db_client.configure()
+	db_client = InfluxDBConnection()
+	db_client.configure(host = connection_dict.get("host"),
+									port = connection_dict.get("port"),
+									username = connection_dict.get("username"),
+									password = connection_dict.get("password"),
+									database = connection_dict.get("database"))
+
 	logging.info("DB Client Configured")
 	
 	farm_name = farm.get_name()
