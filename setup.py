@@ -9,6 +9,6 @@ setup(
         'build',
         'influxdb',
         'importlib_resources',
-        'pyyaml'
+        'PyYAML'
     ],
 )
