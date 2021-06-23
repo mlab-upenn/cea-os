@@ -12,11 +12,24 @@ def create_api(farm):
     socket.bind("tcp://*:23267")  # This is ceaos on a E.161 pad
 
     while True:
-        request = socket.recv()
+        try:
+            request = socket.recv()
 
-        # Parse the request
+            # Parse the request
 
-        response = parse(request, farm)
+            try:
+                response = parse(request, farm)
+                logging.info("Request handled: {}".format(request))
 
-        logging.info("Request handled: {}".format(request))
-        socket.send(json.dumps({'response': response}))
+            except TypeError as e:
+                response = "Request encountered error: {}".format(e)
+                logging.info(
+                    "Request {} encountered payload error {}".format(request, e)
+                )
+
+            socket.send(json.dumps({"response": response}))
+
+        except KeyboardInterrupt:
+            # We're being compelled to shutdown. Let's terminate gracefully
+            socket.close()
+            context.term()
