@@ -1,5 +1,5 @@
 from influxdb import InfluxDBClient
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from .interfaces import DBConnection, Logger
 from ..sensors.sensor_definition import Sensor
@@ -9,25 +9,31 @@ class InfluxDBConnection(DBConnection):
     def __init__(self) -> None:
         self.client = None
 
-    def configure(self,
-                  host='localhost',
-                  port=8086,
-                  username='grafana',
-                  password='password',
-                  database='grafana'):
-        if database != 'grafana':  # creates new database if default grafana db is not being used
-            self.client = InfluxDBClient(host=host,
-                                         port=port,
-                                         username=username,
-                                         password=password)
+    def configure(
+        self,
+        host="influxdb",
+        port=8086,
+        username="grafana",
+        password="password",
+        database="grafana",
+    ):
+        if (
+            database != "grafana"
+        ):  # creates new database if default grafana db is not being used
+            self.client = InfluxDBClient(
+                host=host, port=port, username=username, password=password
+            )
             if database not in self.client.get_list_database().values():
                 self.client.create_database(database)
+
         else:  # defaults to connecting to the local InfluxDB database set up in docker file, "grafana"
-            self.client = InfluxDBClient(host=host,
-                                         port=port,
-                                         username=username,
-                                         password=password,
-                                         database=database)
+            self.client = InfluxDBClient(
+                host=host,
+                port=port,
+                username=username,
+                password=password,
+                database=database,
+            )
 
         self.client.switch_database(database)
 
@@ -39,7 +45,7 @@ class InfluxDBLogger(Logger):
     def __init__(self, sensor=None) -> None:
         self.refresh_rate = 10
         self.sensor = sensor
-        self.bed = None
+        self.location = None
 
     def set_refresh_rate(self, rate: float):  # sets refresh_rate of logger
         try:
@@ -47,26 +53,25 @@ class InfluxDBLogger(Logger):
         except ValueError:
             print("Error: Invalid refresh rate")
 
-    def send_logs(self, measurement: str, plant: str, data_type: str,
-                  influxConnection: InfluxDBConnection
-                  ):  # sends data from sensor to database
+    def send_logs(
+        self,
+        measurement: str,
+        data_type: str,
+        location: str,
+        influxConnection: InfluxDBConnection,
+    ):  # sends data from sensor to database
         if self.sensor is None:
             print("Error: No sensor linked to logger")
         else:
             json_data = []
             data = {
                 "measurement": measurement,
-                "tags": {
-                    "plant": plant
-                },
-                "time": datetime.now() + timedelta(hours=4),
-                "fields": {
-                    data_type: self.sensor.read_value()
-                }
+                "tags": {"location": location},
+                "time": datetime.now(),
+                "fields": {data_type: self.sensor.read_value()},
             }
             json_data.append(data)
-            write_success = influxConnection.get_connection().write_points(
-                json_data)
+            write_success = influxConnection.get_connection().write_points(json_data)
             if not write_success:  # throws error if unable to write to database
                 print("Error: Write to database failed")
 
@@ -79,8 +84,8 @@ class InfluxDBLogger(Logger):
     def get_refresh_rate(self):  # returns the refresh_rate of the logger
         return self.refresh_rate
 
-    def set_bed(self, bed):  # sets the bed associated with logger
-        self.bed = bed
+    def set_location(self, location):  # sets the location associated with logger
+        self.location = location
 
-    def get_bed(self):  # returns the bed associated with logger
-        return self.bed
+    def get_location(self):  # returns the bed associated with logger
+        return self.location
