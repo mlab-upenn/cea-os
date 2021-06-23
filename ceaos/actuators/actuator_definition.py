@@ -8,11 +8,11 @@ class Actuator:
         raise NotImplementedError
 
     def set_point(self):
-        #This must be implemented in inheriting classes
+        # This must be implemented in inheriting classes
         raise NotImplementedError
 
     def stop(self):
-        #This must be implemented in inheriting classes
+        # This must be implemented in inheriting classes
         raise NotImplementedError
 
     def is_running(self):
@@ -20,6 +20,7 @@ class Actuator:
 
     def calibrate(self):
         """
-        This method is used to calibrate the actuator. Need not be implemented for actuators that don't require calibration
+        This method is used to calibrate the actuator.
+        Need not be implemented for actuators that don't require calibration
         """
         pass

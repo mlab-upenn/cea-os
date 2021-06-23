@@ -9,25 +9,32 @@ class InfluxDBConnection(DBConnection):
     def __init__(self) -> None:
         self.client = None
 
-    def configure(self,
-                  host='localhost',
-                  port=8086,
-                  username='grafana',
-                  password='password',
-                  database='grafana'):
-        if database != 'grafana':  # creates new database if default grafana db is not being used
-            self.client = InfluxDBClient(host=host,
-                                         port=port,
-                                         username=username,
-                                         password=password)
+    def configure(
+        self,
+        host="localhost",
+        port=8086,
+        username="grafana",
+        password="password",
+        database="grafana",
+    ):
+        if (
+            database != "grafana"
+        ):  # creates new database if default grafana db is not being used
+            self.client = InfluxDBClient(
+                host=host, port=port, username=username, password=password
+            )
             if database not in self.client.get_list_database().values():
                 self.client.create_database(database)
-        else:  # defaults to connecting to the local InfluxDB database set up in docker file, "grafana"
-            self.client = InfluxDBClient(host=host,
-                                         port=port,
-                                         username=username,
-                                         password=password,
-                                         database=database)
+        else:
+            # defaults to connecting to the local InfluxDB
+            # database set up in docker file, "grafana"
+            self.client = InfluxDBClient(
+                host=host,
+                port=port,
+                username=username,
+                password=password,
+                database=database,
+            )
 
         self.client.switch_database(database)
 
@@ -47,27 +54,27 @@ class InfluxDBLogger(Logger):
         except ValueError:
             print("Error: Invalid refresh rate")
 
-    def send_logs(self, measurement: str, plant: str, data_type: str,
-                  influxConnection: InfluxDBConnection
-                  ):  # sends data from sensor to database
+    def send_logs(
+        self,
+        measurement: str,
+        plant: str,
+        data_type: str,
+        influxConnection: InfluxDBConnection,
+    ):  # sends data from sensor to database
         if self.sensor is None:
             print("Error: No sensor linked to logger")
         else:
             json_data = []
             data = {
                 "measurement": measurement,
-                "tags": {
-                    "plant": plant
-                },
+                "tags": {"plant": plant},
                 "time": datetime.now() + timedelta(hours=4),
-                "fields": {
-                    data_type: self.sensor.read_value()
-                }
+                "fields": {data_type: self.sensor.read_value()},
             }
             json_data.append(data)
-            write_success = influxConnection.get_connection().write_points(
-                json_data)
-            if not write_success:  # throws error if unable to write to database
+            write_success = influxConnection.get_connection().write_points(json_data)
+            if not write_success:
+                # throws error if unable to write to database
                 print("Error: Write to database failed")
 
     def set_sensor(self, sensor: Sensor):  # sets the sensor being logged

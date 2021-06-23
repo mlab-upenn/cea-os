@@ -19,7 +19,8 @@ class Bed:
         self.num_plants += 1
 
     def delete_plant(self, plant):
-        # Once you delete plant, maybe add its info somewhere for storage purposes?
+        # Once you delete plant, maybe add its
+        # info somewhere for storage purposes?
         del self.plants[plant.name]
 
     def add_sensor(self, name, new_sensor):

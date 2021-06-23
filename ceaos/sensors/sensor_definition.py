@@ -15,6 +15,7 @@ class Sensor:
 
     def calibrate(self):
         """
-        This method is used to calibrate the sensor. Need not be implemented for sensors that don't require calibration
+        This method is used to calibrate the sensor.
+        Need not be implemented for sensors that don't require calibration
         """
         pass

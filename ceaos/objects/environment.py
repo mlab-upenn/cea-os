@@ -4,7 +4,8 @@ This file contains an environment model
 
 
 class Environment:
-    # temperature, nutrients, water, lighting, light intensity will be added later
+    # temperature, nutrients, water, lighting,
+    # light intensity will be added later
     def __init__(self):
         # I use a dictionary because we do not want duplicates names
         self.beds = dict()  # keeps track of beds (name is key)
