@@ -49,3 +49,6 @@ class Bed:
 
     def get_name(self):
         return self.name
+
+    def get_plants(self):
+        return self.plants
