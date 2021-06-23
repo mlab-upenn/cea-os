@@ -1,11 +1,5 @@
-from ceaos.sensors import sensor_definition
-from ceaos.sensors.artificial_sensor import Artificial_Sensor
 from ceaos.loggers.InfluxDB import InfluxDBConnection
 from ceaos.loggers.InfluxDB import InfluxDBLogger
-from ceaos.objects.farm import Farm
-from ceaos.objects.environment import Environment
-from ceaos.objects.beds import Bed
-from ceaos.objects.plants import Plant
 from ceaos.cfg import load_config
 
 import time
@@ -14,18 +8,21 @@ import logging
 import os
 
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
-'''
+"""
 Data logging function
-'''
+"""
 
 
 def log_data(refresh_rate, logger_list, client, farm_name):
     try:
         while True:
             for logger in logger_list:
-                logger.send_logs(farm_name,
-                                 logger.get_sensor().get_datatype(),
-                                 logger.get_location(), client)
+                logger.send_logs(
+                    farm_name,
+                    logger.get_sensor().get_datatype(),
+                    logger.get_location(),
+                    client,
+                )
                 time.sleep(refresh_rate)
     except KeyboardInterrupt:
         logging.info("Logger ended")
@@ -33,21 +30,23 @@ def log_data(refresh_rate, logger_list, client, farm_name):
 
 if __name__ == "__main__":
     farm, sensors, connection_dict, error = load_config(
-        "ceaos.resources", "config.yaml")  #Set up Farm from config file
-    if error != None or farm == None:
+        "ceaos.resources", "config.yaml"
+    )  # Set up Farm from config file
+    if error is not None or farm is None:
         logging.error(error)
         quit()
-    loggers = {
-    }  #Dictionary of loggers (key = refresh_rate, value = list of loggers)
+    loggers = {}  # Dictionary of loggers (key = refresh_rate, value = list of loggers)
 
     time.sleep(5)
 
     db_client = InfluxDBConnection()
-    db_client.configure(host=connection_dict.get("host"),
-                        port=connection_dict.get("port"),
-                        username=connection_dict.get("username"),
-                        password=connection_dict.get("password"),
-                        database=connection_dict.get("database"))
+    db_client.configure(
+        host=connection_dict.get("host"),
+        port=connection_dict.get("port"),
+        username=connection_dict.get("username"),
+        password=connection_dict.get("password"),
+        database=connection_dict.get("database"),
+    )
 
     logging.info("DB Client Configured")
 
@@ -68,9 +67,9 @@ if __name__ == "__main__":
     threads = []
 
     for refresh_rate, logger_list in loggers.items():
-        thread = threading.Thread(target=log_data,
-                                  args=(refresh_rate, logger_list, db_client,
-                                        farm_name))
+        thread = threading.Thread(
+            target=log_data, args=(refresh_rate, logger_list, db_client, farm_name)
+        )
         threads.append(thread)
 
     logging.info("Logging threads created")

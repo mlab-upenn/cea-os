@@ -6,7 +6,7 @@ from .sensor_definition import Sensor
 
 
 class Artificial_Sensor(Sensor):
-    def __init__(self, value=20, noise=0, refresh = 10) -> None:
+    def __init__(self, value=20, noise=0, refresh=10) -> None:
         try:
             self.value = float(value)  # sets initial value for sensor data
         except ValueError:
@@ -14,7 +14,8 @@ class Artificial_Sensor(Sensor):
             raise ValueError("INVALID VALUE")
         try:
             self.noise = float(
-                noise)  # sets level of noise (noise = 0 gives constant value)
+                noise
+            )  # sets level of noise (noise = 0 gives constant value)
         except ValueError:
             self.noise = 0
             raise ValueError("INVALID NOISE")
@@ -29,7 +30,8 @@ class Artificial_Sensor(Sensor):
         This method returns the value of the sensor
         """
         self.value += random.gauss(
-            0, self.noise)  # adds/subtracts random val from gauss. dist.
+            0, self.noise
+        )  # adds/subtracts random val from gauss. dist.
         return self.value + self.calib
 
     def set_value(self, value: float):
@@ -50,8 +52,7 @@ class Artificial_Sensor(Sensor):
         """
         val = self.read_value()
         self.calib = calib_val - val
-        print("Calibration value: {0}/nSensor value: {1}".format(
-            calib_val, val))
+        print("Calibration value: {0}/nSensor value: {1}".format(calib_val, val))
         pass
 
     # returns the measurement the sensor is recording (i.e. temperature, pH)
