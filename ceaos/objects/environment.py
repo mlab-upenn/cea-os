@@ -4,7 +4,7 @@ This file contains an environment model
 
 
 class Environment:
-    def __init__(self):
+    def __init__(self, name="env0"):
         # I use a dictionary because we do not want duplicates names
         self.beds = dict()  # keeps track of beds (name is key)
         self.num_beds = 0
