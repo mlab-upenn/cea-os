@@ -1,6 +1,7 @@
 from ceaos.loggers.InfluxDB import InfluxDBConnection
 from ceaos.loggers.InfluxDB import InfluxDBLogger
 from ceaos.cfg import load_config
+from ceaos.api import create_api
 
 import time
 import threading
@@ -74,12 +75,16 @@ if __name__ == "__main__":
 
     logging.info("Logging threads created")
 
+    threads.append(threading.Thread(target=create_api, args=(farm)))
+
+    logging.info("API Thread created")
+
     for thread in threads:
         thread.start()
 
-    logging.info("Logging threads started")
+    logging.info("Logging/API threads started")
 
     for thread in threads:
         thread.join()
 
-    logging.info("Logging threads joined. Terminating")
+    logging.info("Logging/API threads joined. Terminating")
