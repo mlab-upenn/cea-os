@@ -10,9 +10,13 @@ def parse(msg: str, farm: Farm):
         raise ValueError("No action declared")
     if 'cea-addr' not in decoded:
         raise ValueError("No target object specified")
+    target = find_target(decoded['cea-addr'])
+    
 
+
+def find_target(cea_addr, farm):
     # We start by trying to find the target object
-    addr = decoded['cea-addr'].split('.')
+    addr = cea_addr.split('.')
     c_ptr = addr.pop(0)
 
     if c_ptr != farm.name:
@@ -55,5 +59,8 @@ def parse(msg: str, farm: Farm):
             else:
                 raise ValueError('cea-addr key: "{}" not found.'.format(c_ptr))
 
-        elif not isinstance(c_obj, Sensor):
+        elif isinstance(c_obj, Sensor):
             raise ValueError('cea-addr key overspecified. At leaf node. Remaining components: {}'.format(addr))
+    
+    return c_obj
+
