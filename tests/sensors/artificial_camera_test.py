@@ -18,13 +18,13 @@ def test_read():
 def test_value_exception():
     a = setup_sensor()
     with pytest.raises(FileNotFoundError):
-        a.set_image("A_nonexistent_file.jpg")
+        a.set_image("tests\sensors\A_nonexistent_file.jpg")
 
 
 def test_value_set():
     a = setup_sensor()
-    a.set_image("a_plant.jpg")
+    a.set_image("tests\sensors\\a_plant.jpg")
     a.set_value()
-    f = open("a_plant.jpg", "rb")  # open original image
+    f = open("tests\sensors\\a_plant.jpg", "rb")  # open original image
     raw_image = f.read()
     assert (a.decode_value() == raw_image)  # compare decoded image to original
