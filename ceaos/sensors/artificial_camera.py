@@ -2,8 +2,8 @@
 This file contains a class for a camera sensor that encodes image data
 """
 import base64
-# from sensor_definition import Sensor 
-from ceaos.sensors.sensor_definition import Sensor  
+# from sensor_definition import Sensor
+from ceaos.sensors.sensor_definition import Sensor
 
 
 class Artificial_Camera(Sensor):
@@ -29,14 +29,20 @@ class Artificial_Camera(Sensor):
 
     def set_value(self):
         """
-        This method sets the camera value by encoding the image stored at image_filepath
+        This method sets the camera value by encoding
+        the image stored at image_filepath
         """
         try:
             with open(self.image_filepath, "rb") as imagefile:
                 byteform = base64.b64encode(imagefile.read())
-            self.value = byteform  # value is the bytes literal of encoded image
+            self.value = byteform
+            # value is the bytes literal of encoded image
         except FileNotFoundError:
-            self.value = ""  # setting to empty string instead of None since InfluxDB has issues with NaN (which might also apply to None)
+            """
+            Setting to empty string instead of None since InfluxDB has
+            issues with NaN (which might also apply to None)
+            """
+            self.value = ""
             raise FileNotFoundError("INVALID FILEPATH")
         except OSError:
             self.value = ""
@@ -51,11 +57,16 @@ class Artificial_Camera(Sensor):
         """
         return self.value
 
-    def get_datatype(self):  # returns the measurement the sensor is recording (i.e. temperature, pH)
+    def get_datatype(self):
+        """
+        This method returns the measurement
+        the sensor is recording (i.e. temperature, pH)
+        """
         return self.datatype
 
     def decode_value(self):  # not sure if we need this
         """
-        This method decodes the base64 encoded image and returns the decoded string
+        This method decodes the base64 encoded image
+        and returns the decoded string
         """
         return base64.b64decode(self.value)
