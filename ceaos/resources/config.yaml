@@ -1,0 +1,34 @@
+name: "test_farm" #name of farm
+environments: #environments are a list of dictionaries
+- name: "env1"  #name of environment
+  beds: #beds are a list of dictionaries for each environment
+    - name: "bed1"  #name of bed
+      plants: #plants are a list of dictionaries for each bed
+        - name: "strawberry1" #name of plant
+      sensors:
+        - type: "pH"
+          refresh: 5
+          value: 5.8
+  sensors: #environment-wide sensors
+  - type: "Temp"
+    refresh: 10
+    value: 25
+- name: "env2"
+  beds:
+    - name: "bed2"
+      plants:
+        - name: "lettuce1"
+    - name: "bed3"  
+      plants:
+        - name: "tomato1"
+  sensors:
+  - type: "Temp"
+    refresh: 5
+    value: 16
+connection:
+  host: "influxdb"
+  port: 8086
+  username: "grafana"
+  password: "password"
+  database: "grafana"
+

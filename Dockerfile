@@ -4,10 +4,10 @@ RUN mkdir /ceaos
 
 COPY . /ceaos
 
-RUN pip install --upgrade pip
+RUN pip3 install --upgrade pip
 
 WORKDIR /ceaos
 
-RUN python3 setup.py install
+RUN python3 setup.py develop
 
-CMD ls
+CMD python3 -u scripts/runner.py
