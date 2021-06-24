@@ -1,11 +1,11 @@
 import base64
 
-filename = "Dropbox\IoT4Ag\Code_Scrap\\a_plant.jpg" # update filepath to reflect local storage
+filename = "Dropbox\IoT4Ag\Code_Scrap\\a_plant.jpg"
 
 with open(filename, 'rb') as imagefile:
-    byteform = base64.b64encode(imagefile.read()) # convert whole image into byte form, a byte literal (not string)
+    # convert whole image into byte form
+    byteform = base64.b64encode(imagefile.read())
 
-f = open('Dropbox\IoT4Ag\Code_Scrap\encoded_image.bin', 'wb') #binary file, only holds bytes
-f.write(byteform)
+f = open('Dropbox\IoT4Ag\Code_Scrap\encoded_image.bin', 'wb')
+f.write(byteform)  # binary file, only holds bytes
 f.close()
-
