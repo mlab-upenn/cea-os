@@ -2,26 +2,27 @@
 This file contains a class for a camera sensor that encodes image data
 """
 import base64
-from sensor_definition import Sensor  
+# from sensor_definition import Sensor 
+from ceaos.sensors.sensor_definition import Sensor  
 
-class ArtificialCamera(Sensor):
+
+class Artificial_Camera(Sensor):
 
     datatype = "Image"  # static variable for Camera class
 
     def __init__(self, image_filepath="") -> None:
-        self.set_filepath(image_filepath)
+        self.set_image(image_filepath)
 
-        if self.image_filepath != "":
-            self.set_value()  # encodes image to base64
-        else:
-            self.value = ""
-
-    def set_filepath(self, image_filepath: str):
+    def set_image(self, image_filepath: str):
         """
         This method sets the filepath where the camera image is stored
         """
         try:
             self.image_filepath = str(image_filepath)
+            if self.image_filepath != "":
+                self.set_value()  # encodes image to base64
+            else:
+                self.value = ""
         except ValueError:
             self.image_filepath = None
             raise ValueError("INVALID VALUE")
