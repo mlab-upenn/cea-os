@@ -68,6 +68,6 @@ class Temperature(Sensor):
     def get_datatype(self):
         """
         This method returns the measurement the sensor
-        is recording (i.e. temperature, pH)
+        is recording (i.e. AirTemp, WaterTemp, etc.)
         """
         return self.datatype
