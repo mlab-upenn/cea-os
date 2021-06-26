@@ -8,11 +8,11 @@ class Actuator:
         raise NotImplementedError
 
     def set_point(self):
-        #This must be implemented in inheriting classes
+        # This must be implemented in inheriting classes
         raise NotImplementedError
 
     def stop(self):
-        #This must be implemented in inheriting classes
+        # This must be implemented in inheriting classes
         raise NotImplementedError
 
     def is_running(self):
