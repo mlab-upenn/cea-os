@@ -6,7 +6,7 @@ import base64
 from ceaos.sensors.sensor_definition import Sensor
 
 
-class Artificial_Camera(Sensor):
+class ArtificialCamera(Sensor):
 
     datatype = "Image"  # static variable for Camera class
 
