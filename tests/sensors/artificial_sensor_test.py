@@ -25,3 +25,4 @@ def test_value_exception():
     a = setup_sensor()
     with pytest.raises(ValueError):
         a.set_value("A")
+        
