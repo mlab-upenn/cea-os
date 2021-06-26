@@ -1,13 +1,13 @@
 import pytest
-from ceaos.sensors.artificial_camera import Artificial_Camera
+from ceaos.sensors.artificial_camera import ArtificialCamera
 
 
-def setup_sensor() -> Artificial_Camera:
-    return Artificial_Camera()
+def setup_sensor() -> ArtificialCamera:
+    return ArtificialCamera()
 
 
 def test_creation():
-    Artificial_Camera()
+    ArtificialCamera()
 
 
 def test_read():
