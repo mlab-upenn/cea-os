@@ -1,13 +1,6 @@
 from .actuator_definition import Actuator
-from ..sensors.sensor_definition import Sensor
-import time
 
-"""
-kind of hard to set up a fake actuator since there is no values to be read,
-however, an example would be a motor, so in the initialize method we would set up stuff like pwm and
-the time we want the actuator running for. This is probably dependedent on a sensor, for example say we wanted to 
-set up some kind of pump to pump nutrients into the solution, this would happen on either a timer or a sensor.
-"""
+
 class Artificial_Actuator(Actuator):
     def __init__(self):
         self.id = None
@@ -15,21 +8,21 @@ class Artificial_Actuator(Actuator):
         self.start_time = None
         self.running = None
         self.curr_state = None
-        self.datatype = None   
+        self.datatype = None
 
     def set_point(self, sensor):
         while sensor.read_value() > 20:
-        	#actuate
-        	print("actuating")
+            # actuate
+            print("actuating")
         self.stop()
         return self.curr_state
 
     def stop(self, noise: float):
         self.running = False
-        #stop the necessary things
+        # stop the necessary things
 
     def is_running(self):
-    	return self.running
+        return self.running
 
     def calibrate(self, calib_val):
         pass
