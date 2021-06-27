@@ -29,5 +29,8 @@ class PiCam(Sensor):
     def set_sleep_val(self, sleep_val):
         self.sleep_val = sleep_val
 
-    def set_file_path(self, file_path):
-        self.file_path = file_path
+    def set_file_path(self, file_path: str):
+        try:
+            self.file_path = str(file_path)
+        except ValueError:
+            raise ValueError("Invalid Value")

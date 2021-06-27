@@ -9,6 +9,7 @@ setup(
         'build',
         'influxdb',
         'importlib_resources',
-        'PyYAML'
+        'PyYAML',
+        'pigpio'
     ],
 )

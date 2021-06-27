@@ -20,6 +20,7 @@ class Actuator:
 
     def calibrate(self):
         """
-        This method is used to calibrate the actuator. Need not be implemented for actuators that don't require calibration
+        This method is used to calibrate the actuator.
+        Need not be implemented for actuators that don't require calibration
         """
         pass
