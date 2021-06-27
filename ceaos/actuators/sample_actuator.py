@@ -10,8 +10,6 @@ class Artificial_Actuator(Actuator):
         self.running = None
         self.curr_state = None
         self.datatype = None
-        self.noise = None
-
     def set_point(self, sensor):
         self.running = True
         while sensor.read_value() > 20:
