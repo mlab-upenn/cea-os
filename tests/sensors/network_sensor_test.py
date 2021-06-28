@@ -24,4 +24,3 @@ def test_read():
     connect = InfluxDBConnection()
     a.recv_value(5, connect)
     assert (a.read_value() == 5)
-    
