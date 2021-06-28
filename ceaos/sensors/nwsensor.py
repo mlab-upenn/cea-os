@@ -2,25 +2,25 @@ from .sensor_definition import Sensor
 from ..loggers.InfluxDB import InfluxDBLogger
 
 
-class Network_Sensor(Sensor):
-    def __init__(self, sensor=None, ):
+class NetworkSensor(Sensor):
+    def __init__(self, logger, datatype=None, location=None):
         self.curr_value = None
-        self.logger = InfluxDBLogger()
-        # I think each Network_Sensor is essentially
-        # attached to an actual sensor
-        self.sensor = sensor
+        self.logger = logger
+        self.datatype = datatype
+        self.location = location
+        self.calibrate = None
 
     def read_value(self):
-        return self.sensor.read_value()
+        return self.curr_value
 
     def calibrate(self):
-        return self.sensor.calibrate()
+        return self.calibrate
 
-    def recv_value(self, influxconnection):
+    def recv_value(self, value, influxconnection):
         try:
-            self.curr_value = self.read_value
-            self.logger.send_logs(self.curr_value, self.sensor.datatype,
-                                  self.sensor.location, influxconnection)
+            self.curr_value = value
+            self.logger.send_logs(self.curr_value, self.datatype,
+                                  self.location, influxconnection)
             return "successfully logged and updated"
         except:
             return "An error occurred with Network Sensor"
