@@ -1,3 +1,4 @@
+from ceaos.sensors.nwsensor import NetworkSensor
 from ceaos.loggers.InfluxDB import InfluxDBConnection
 from ceaos.loggers.InfluxDB import InfluxDBLogger
 from ceaos.cfg import load_config
@@ -13,29 +14,27 @@ Data logging function
 """
 
 
-def log_data(refresh_rate, logger_list, client, farm_name):
-    try:
-        while True:
-            for logger in logger_list:
-                logger.send_logs(
-                    farm_name,
-                    logger.get_sensor().get_datatype(),
-                    logger.get_location(),
-                    client,
-                )
-                time.sleep(refresh_rate)
-    except KeyboardInterrupt:
-        logging.info("Logger ended")
+def log_data(refresh_rate, logger_list, client):
+    if refresh_rate is not None:
+        try:
+            while True:
+                for logger in logger_list:
+                    logger.send_logs("sensor_data",
+                                     logger.get_sensor().get_datatype(),
+                                     logger.get_location(), client)
+                    time.sleep(refresh_rate)
+        except:
+            logging.info("Logger ended")
 
 
 if __name__ == "__main__":
     farm, sensors, connection_dict, error = load_config(
-        "ceaos.resources", "config.yaml"
-    )  # Set up Farm from config file
+        "ceaos.resources", "config.yaml")  # Set up Farm from config file
     if error is not None or farm is None:
         logging.error(error)
         quit()
-    loggers = {}  # Dictionary of loggers (key = refresh_rate, value = list of loggers)
+    loggers = {
+    }  # Dictionary of loggers (key = refresh_rate, value = list of loggers)
 
     time.sleep(5)
 
@@ -50,15 +49,15 @@ if __name__ == "__main__":
 
     logging.info("DB Client Configured")
 
-    farm_name = farm.get_name()
-
-    for sensor in sensors:
-        refresh_rate = sensor.get_refresh()
+    for sensor in sensors:  #NetworkSensors will have a refresh rate of None
+        print("Datatype: %s, Location: %s" %
+              (sensor.get_datatype(), sensor.get_location()))
         logger = InfluxDBLogger(sensor)
-        sensor.set_logger(logger)
         logger.set_location(sensor.get_location())
+        sensor.set_logger(logger)
+        refresh_rate = sensor.get_refresh()
         logger.set_refresh_rate(refresh_rate)
-        if refresh_rate not in loggers:
+        if logger.get_refresh_rate() not in loggers:
             loggers[refresh_rate] = [logger]
         else:
             loggers.get(refresh_rate).append(logger)
@@ -67,13 +66,11 @@ if __name__ == "__main__":
     threads = []
 
     for refresh_rate, logger_list in loggers.items():
-        thread = threading.Thread(
-            target=log_data, args=(refresh_rate, logger_list, db_client, farm_name)
-        )
+        thread = threading.Thread(target=log_data,
+                                  args=(refresh_rate, logger_list, db_client))
         threads.append(thread)
 
     logging.info("Logging threads created")
-
     for thread in threads:
         thread.start()
 

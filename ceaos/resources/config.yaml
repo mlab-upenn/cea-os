@@ -6,11 +6,11 @@ environments: #environments are a list of dictionaries
       plants: #plants are a list of dictionaries for each bed
         - name: "strawberry1" #name of plant
       sensors:
-        - type: "pH"
+        - type: "Artificial pH"
           refresh: 5
           value: 5.8
   sensors: #environment-wide sensors
-  - type: "Temp"
+  - type: "Artificial Temp"
     refresh: 10
     value: 25
 - name: "env2"
@@ -22,7 +22,7 @@ environments: #environments are a list of dictionaries
       plants:
         - name: "tomato1"
   sensors:
-  - type: "Temp"
+  - type: "Artificial Temp"
     refresh: 5
     value: 16
 connection:

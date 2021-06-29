@@ -1,5 +1,7 @@
 from influxdb import InfluxDBClient
-from datetime import datetime
+from datetime import datetime, timedelta
+import time
+from pytz import timezone
 
 from .interfaces import DBConnection, Logger
 from ..sensors.sensor_definition import Sensor
@@ -43,9 +45,10 @@ class InfluxDBConnection(DBConnection):
 
 class InfluxDBLogger(Logger):
     def __init__(self, sensor=None) -> None:
-        self.refresh_rate = 10
+        self.refresh_rate = None
         self.sensor = sensor
         self.location = None
+        print(time.tzname)
 
     def set_refresh_rate(self, rate: float):  # sets refresh_rate of logger
         try:
