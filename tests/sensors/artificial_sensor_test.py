@@ -1,13 +1,13 @@
 import pytest
-from ceaos.sensors.artificial_sensor import Artificial_Sensor
+from ceaos.sensors.artificial_sensor import ArtificialSensor
 
 
-def setup_sensor() -> Artificial_Sensor:
-    return Artificial_Sensor()
+def setup_sensor() -> ArtificialSensor:
+    return ArtificialSensor()
 
 
 def test_creation():
-    Artificial_Sensor()
+    ArtificialSensor()
 
 
 def test_read():
