@@ -3,7 +3,7 @@ from .objects.farm import Farm
 from .objects.beds import Bed
 from .objects.environment import Environment
 from .objects.plants import Plant
-from .sensors.artificial_sensor import Artificial_Sensor
+from .sensors.artificial_sensor import ArtificialSensor
 from .sensors.nwsensor import NetworkSensor
 from importlib_resources import files
 
@@ -162,7 +162,7 @@ def add_sensors(farm_object, dictionary, sensors_list):
     if "sensors" in dictionary:  # Creates and associates environment-wide sensors
         for sensor in dictionary.get("sensors"):
             if "artificial" in sensor.get("type").lower():
-                s = Artificial_Sensor(value=sensor.get("value"), noise=2)
+                s = ArtificialSensor(value=sensor.get("value"), noise=2)
             else:
                 s = NetworkSensor()
 
