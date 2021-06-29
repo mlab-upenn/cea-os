@@ -28,8 +28,7 @@ class Environment:
         self.num_sensors += 1
 
     def add_actuators(self, name, actuator):
-        toadd = (name, actuator)
-        self.actuators.append(toadd)
+        self.actuators[name] = actuator
         self.num_actuators += 1
 
     def add_property(self, key, value):
