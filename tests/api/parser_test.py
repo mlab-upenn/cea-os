@@ -55,6 +55,8 @@ def test_parse():
 
     f = setup_farm_one()
     endp = f.environments["env1"].beds["bed0"].sensors["test_sensor"]
+    assert not endp._endpoint_hit
+    assert endp._payload_val is None
     message = json.dumps(
         {
             "cea-addr": "f1.env1.bed0.test_sensor",
