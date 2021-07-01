@@ -16,6 +16,13 @@ class FakeEndpoint:
         self._endpoint_hit = True
         self._payload_val = new_val
 
+    def val_getter(self):
+        return self._payload_val
+
+    def multi_arg(self, new_val, other_val):
+        self._endpoint_hit = True
+        self._payload_val = {"new_val": new_val, "other_val": other_val}
+
 
 def setup_farm_one() -> Farm:
     f = Farm("f1")
@@ -50,7 +57,7 @@ def test_errors():
         find_target("farm.env0.temp.read_value", f)
 
 
-def test_parse():
+def test_parse_setter():
     import json
 
     f = setup_farm_one()
@@ -64,6 +71,54 @@ def test_parse():
             "payload": "SUCCESS",
         }
     )
-    parse(message, f)
+    parse(message, f)  # No return expected
     assert endp._endpoint_hit
     assert endp._payload_val == "SUCCESS"
+
+
+def test_parse_payload_error():
+    import json
+
+    f = setup_farm_one()
+    endp = f.environments["env1"].beds["bed0"].sensors["test_sensor"]
+    endp._payload_value = 100
+    message = json.dumps(
+        {
+            "cea-addr": "f1.env1.bed0.test_sensor",
+            "action": "val_getter",
+            "payload": "SUCCESS",
+        }
+    )
+    with pytest.raises(TypeError):
+        parse(message, f)  # We expect an error here
+
+
+def test_parse_return_values():
+    import json
+
+    f = setup_farm_one()
+    endp = f.environments["env1"].beds["bed0"].sensors["test_sensor"]
+    endp._payload_val = 100
+    message = json.dumps(
+        {"cea-addr": "f1.env1.bed0.test_sensor", "action": "val_getter"}
+    )
+    retval = parse(message, f)
+    assert retval == 100
+
+
+def test_parse_dict_data():
+    import json
+
+    f = setup_farm_one()
+    endp = f.environments["env1"].beds["bed0"].sensors["test_sensor"]
+    endp._payload_val = 100
+    message = json.dumps(
+        {
+            "cea-addr": "f1.env1.bed0.test_sensor",
+            "action": "multi_arg",
+            "payload": {"new_val": "NV", "other_val": 132},
+        }
+    )
+    parse(message, f)
+    assert endp._endpoint_hit
+    assert endp._payload_val == {"new_val": "NV", "other_val": 132}

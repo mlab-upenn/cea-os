@@ -22,7 +22,9 @@ def parse(msg: str, farm: Farm):
             )
         )
 
-    if isinstance(decoded["payload"], dict):
+    if "payload" not in decoded:
+        result = getattr(target, decoded["action"])()
+    elif isinstance(decoded["payload"], dict):
         result = getattr(target, decoded["action"])(**decoded["payload"])
     elif isinstance(decoded["payload"], list):
         result = getattr(target, decoded["action"])(*decoded["payload"])
