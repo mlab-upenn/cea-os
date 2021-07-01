@@ -58,7 +58,7 @@ class InfluxDBLogger(Logger):
 
     def send_logs(
         self,
-        data_collection_method: str,  #default recommended is "sensor_data"
+        data_collection_method: str,  # default recommended is "sensor_data"
         data_type: str,
         location: str,
         influxConnection: InfluxDBConnection,
