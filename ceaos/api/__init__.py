@@ -27,7 +27,7 @@ def create_api(farm):
                     "Request {} encountered payload error {}".format(request, e)
                 )
 
-            socket.send(json.dumps({"response": response}))
+            socket.send_string(json.dumps({"response": response, "status": 200}))
 
         except KeyboardInterrupt:
             # We're being compelled to shutdown. Let's terminate gracefully
