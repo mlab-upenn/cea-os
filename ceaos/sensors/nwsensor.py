@@ -8,14 +8,13 @@ class NetworkSensor(Sensor):
         self.logger = logger
         self.datatype = datatype
         self.location = location
-        self.calibrate = None
         self.refresh = None
 
     def read_value(self):
         return self.curr_value
 
     def calibrate(self):
-        return self.calibrate
+        print("Calibration must be done by the user on the sensor side.")
 
     def recv_value(self, value, influxconnection):
         try:
