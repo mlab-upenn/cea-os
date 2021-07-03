@@ -15,12 +15,10 @@ def test_creation():
 
 def test_recv():
     a = setup_sensor()
-    connect = InfluxDBConnection()
-    assert ((a.recv_value(5, connect)) == "successfully logged and updated")
+    assert ((a.recv_value(ph=7, ec=180, watertemp=50)) == 'Successful Connection to Network Sensor')
 
 
 def test_read():
     a = setup_sensor()
-    connect = InfluxDBConnection()
-    a.recv_value(5, connect)
-    assert (a.read_value() == 5)
+    a.recv_value(5)
+    assert (a.read_value()) == 5
