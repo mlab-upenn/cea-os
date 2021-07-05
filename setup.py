@@ -8,7 +8,7 @@ setup(
         'requests',
         'build',
         'influxdb',
-        'pyzmq'
+        'pyzmq',
         'importlib_resources',
         'PyYAML',
         'pigpio'
