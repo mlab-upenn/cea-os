@@ -69,13 +69,15 @@ if __name__ == "__main__":
 
     for refresh_rate, logger_list in loggers.items():
         thread = threading.Thread(
-            target=log_data, args=(refresh_rate, logger_list, db_client, farm_name)
+            target=log_data,
+            args=(refresh_rate, logger_list, db_client, farm_name),
+            daemon=True,
         )
         threads.append(thread)
 
     logging.info("Logging threads created")
 
-    threads.append(threading.Thread(target=create_api, args=(farm)))
+    threads.append(threading.Thread(target=create_api, args=(farm,), daemon=True))
 
     logging.info("API Thread created")
 
