@@ -28,24 +28,6 @@ class Temperature(Sensor):
             self.gpio = None
             raise ValueError("INVALID VALUE")
 
-    def set_value(self, temp_value: float):
-        """
-        This method sets the sensor value (i.e. the air temperature)
-        """
-        if temp_value is not None:
-            try:
-                self.value = float(temp_value)
-            except ValueError:
-                self.value = None
-                raise ValueError("INVALID VALUE")
-        else:
-            self.sensor.trigger()
-            self.value = self.get_temp(self.sensor)
-            # ISSUE: gets caught in an infinite loop
-            while (self.value == -999.0):
-                self.sensor.trigger()
-                self.value = self.get_temp(self.sensor)
-
     def set_datatype(self, datatype: str):
         self.datatype = datatype
 
@@ -63,6 +45,11 @@ class Temperature(Sensor):
         """
         This method returns the sensor value (i.e. the air temperature)
         """
+        self.sensor.trigger()
+        self.value = self.get_temp(self.sensor)
+        while (self.value == -999.0):
+            # self.sensor.trigger()
+            self.value = self.get_temp(self.sensor)
         return self.value
 
     def get_datatype(self):
