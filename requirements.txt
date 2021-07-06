@@ -4,3 +4,4 @@ importlib-resources==5.1.4
 influxdb==5.3.1
 PyYAML==5.4
 requests==2.22.0
+pyzmq==22.0.3

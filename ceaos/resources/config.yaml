@@ -1,4 +1,4 @@
-name: "test_farm" #name of farm
+name: "farm1" #name of farm
 environments: #environments are a list of dictionaries
 - name: "env1"  #name of environment
   beds: #beds are a list of dictionaries for each environment
@@ -6,7 +6,7 @@ environments: #environments are a list of dictionaries
       plants: #plants are a list of dictionaries for each bed
         - name: "strawberry1" #name of plant
       sensors:
-        - type: "Artificial pH"
+        - type: "resevoir"
           refresh: 5
           value: 5.8
   sensors: #environment-wide sensors

@@ -54,11 +54,17 @@ if __name__ == "__main__":
     for sensor in sensors:  #NetworkSensors will have a refresh rate of None
         print("Datatype: %s, Location: %s" %
               (sensor.get_datatype(), sensor.get_location()))
-        logger = InfluxDBLogger(sensor)
-        logger.set_location(sensor.get_location())
-        sensor.set_logger(logger)
-        refresh_rate = sensor.get_refresh()
-        logger.set_refresh_rate(refresh_rate)
+        if isinstance(sensor, NetworkSensor):
+            sensor.set_influxconnection(db_client)
+            logger = InfluxDBLogger(sensor)
+            logger.set_location(sensor.get_location())
+            sensor.set_logger(logger)
+        elif not isinstance(sensor, NetworkSensor):
+            logger = InfluxDBLogger(sensor)
+            logger.set_location(sensor.get_location())
+            sensor.set_logger(logger)
+            refresh_rate = sensor.get_refresh()
+            logger.set_refresh_rate(refresh_rate)
         if logger.get_refresh_rate() not in loggers:
             loggers[refresh_rate] = [logger]
         else:
@@ -69,7 +75,7 @@ if __name__ == "__main__":
 
     for refresh_rate, logger_list in loggers.items():
         thread = threading.Thread(target=log_data,
-                                  args=(refresh_rate, logger_list, db_client, farm_name),
+                                  args=(refresh_rate, logger_list, db_client),
                                   daemon=True,
                                   )
         threads.append(thread)

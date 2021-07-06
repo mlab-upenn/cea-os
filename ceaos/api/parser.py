@@ -1,8 +1,10 @@
 """This file contains parsers for requests that come over the ZeroMQ wire"""
 import json
-from ..objects import Farm, Environment, Bed
-from ..sensors import Sensor
-from ..actuators import Actuator
+from ..sensors.sensor_definition import Sensor
+from ..actuators.actuator_definition import Actuator
+from ..objects.farm import Farm
+from ..objects.environment import Environment
+from ..objects.beds import Bed
 
 
 def parse(msg: str, farm: Farm):
