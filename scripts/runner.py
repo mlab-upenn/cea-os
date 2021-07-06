@@ -21,9 +21,9 @@ def log_data(refresh_rate, logger_list, client):
             for logger in logger_list:
                 print("Refresh Rate: {%d}, Value: {%f}" %
                       (refresh_rate, logger.get_sensor().read_value()))
-                boolean = logger.send_logs("sensor_data",
-                                           logger.get_sensor().get_datatype(),
-                                           logger.get_location(), client)
+                logger.send_logs("sensor_data",
+                                 logger.get_sensor().get_datatype(),
+                                 logger.get_location(), client)
                 time.sleep(refresh_rate)
     except:
         print(refresh_rate)

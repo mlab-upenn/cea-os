@@ -3,7 +3,11 @@ from ..loggers.InfluxDB import InfluxDBLogger
 
 
 class NetworkSensor(Sensor):
-    def __init__(self, logger=None, datatype=None, location=None, influxconnection=None):
+    def __init__(self,
+                 logger=None,
+                 datatype=None,
+                 location=None,
+                 influxconnection=None):
         self.curr_value = None
         self.logger = logger
         self.datatype = datatype
@@ -23,16 +27,16 @@ class NetworkSensor(Sensor):
                 for val in kwargs:
                     self.datatype = val
                     self.curr_value = kwargs[val]
-                    self.logger.send_logs("sensor_data", self.datatype, self.location,
-                                    self.influxconnection)
+                    self.logger.send_logs("sensor_data", self.datatype,
+                                          self.location, self.influxconnection)
                 self.curr_value = kwargs
 
             # Don't send stuff as single value, preferable a key word arg.
             if value:
                 self.curr_value = value
-                self.logger.send_logs("sensor_data", self.datatype, self.location,
-                                    self.influxconnection)
-            
+                self.logger.send_logs("sensor_data", self.datatype,
+                                      self.location, self.influxconnection)
+
             return "Successful Connection to Network Sensor"
         except:
             return "An error occurred with Network Sensor"
