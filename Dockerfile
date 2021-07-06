@@ -1,5 +1,7 @@
 FROM python:3.8-slim
 
+EXPOSE 23267/tcp
+
 RUN mkdir /ceaos
 
 COPY . /ceaos
