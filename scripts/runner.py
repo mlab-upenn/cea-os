@@ -2,6 +2,7 @@ from ceaos.sensors.nwsensor import NetworkSensor
 from ceaos.loggers.InfluxDB import InfluxDBConnection
 from ceaos.loggers.InfluxDB import InfluxDBLogger
 from ceaos.cfg import load_config
+from ceaos.api import create_api
 
 import time
 import threading
@@ -48,6 +49,7 @@ if __name__ == "__main__":
     )
 
     logging.info("DB Client Configured")
+    farm_name = farm.get_name()
 
     for sensor in sensors:  #NetworkSensors will have a refresh rate of None
         print("Datatype: %s, Location: %s" %
@@ -67,16 +69,23 @@ if __name__ == "__main__":
 
     for refresh_rate, logger_list in loggers.items():
         thread = threading.Thread(target=log_data,
-                                  args=(refresh_rate, logger_list, db_client))
+                                  args=(refresh_rate, logger_list, db_client, farm_name),
+                                  daemon=True,
+                                  )
         threads.append(thread)
 
     logging.info("Logging threads created")
+
+    threads.append(threading.Thread(target=create_api, args=(farm,), daemon=True))
+
+    logging.info("API Thread created")
+
     for thread in threads:
         thread.start()
 
-    logging.info("Logging threads started")
+    logging.info("Logging/API threads started")
 
     for thread in threads:
         thread.join()
 
-    logging.info("Logging threads joined. Terminating")
+    logging.info("Logging/API threads joined. Terminating")
