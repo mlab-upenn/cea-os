@@ -48,7 +48,6 @@ class InfluxDBLogger(Logger):
         self.refresh_rate = None
         self.sensor = sensor
         self.location = None
-        print(time.tzname)
 
     def set_refresh_rate(self, rate: float):  # sets refresh_rate of logger
         try:

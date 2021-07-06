@@ -19,8 +19,6 @@ def log_data(refresh_rate, logger_list, client):
     try:
         while True:
             for logger in logger_list:
-                print("Refresh Rate: {%d}, Value: {%f}" %
-                      (refresh_rate, logger.get_sensor().read_value()))
                 logger.send_logs("sensor_data",
                                  logger.get_sensor().get_datatype(),
                                  logger.get_location(), client)
@@ -53,9 +51,7 @@ if __name__ == "__main__":
     logging.info("DB Client Configured")
     farm_name = farm.get_name()
 
-    for sensor in sensors:  #NetworkSensors will have a refresh rate of None
-        print("Datatype: %s, Location: %s" %
-              (sensor.get_datatype(), sensor.get_location()))
+    for sensor in sensors:  # NetworkSensors will have a refresh rate of None
         logger = InfluxDBLogger(sensor)
         logger.set_location(sensor.get_location())
         sensor.set_logger(logger)
