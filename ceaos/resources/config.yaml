@@ -4,15 +4,10 @@ environments: #environments are a list of dictionaries
   beds: #beds are a list of dictionaries for each environment
     - name: "bed1"  #name of bed
       plants: #plants are a list of dictionaries for each bed
-        - name: "strawberry1" #name of plant
+        - name: "lettuce1" #name of plant
       sensors:
-        - type: "resevoir"
-          refresh: 5
-          value: 5.8
-  sensors: #environment-wide sensors
-  - type: "Artificial Temp"
-    refresh: 10
-    value: 25
+        - type: "air"
+        - type: "reservoir"
 - name: "env2"
   beds:
     - name: "bed2"
