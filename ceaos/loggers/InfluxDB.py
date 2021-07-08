@@ -25,8 +25,9 @@ class InfluxDBConnection(DBConnection):
             )
             if database not in self.client.get_list_database().values():
                 self.client.create_database(database)
-
-        else:  # defaults to connecting to the local InfluxDB database set up in docker file, "grafana"
+        else:
+            # defaults to connecting to the local InfluxDB
+            # database set up in docker file, "grafana"
             self.client = InfluxDBClient(
                 host=host,
                 port=port,
