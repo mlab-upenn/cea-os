@@ -1,0 +1,62 @@
+plant: "lettuce"
+stages:  # a list of main phases of plant's growth
+  - name: "seedling"  
+    temperature:  # list of different types of temp
+      - type: "air"
+        periods:  # list of different periods for temp  
+          - name: "day"
+            max: 75
+            min: 68
+          - name: "night" 
+            max: 55  # range not given, just single value
+            min: 55
+            #avg: 55  # is an avg a better way to handle this?
+      - type: "water"
+        max: 75
+        min: 65
+    humidity:
+      max: .7
+      min: .5
+    lightHours:
+      max: 14
+      min: 12
+    DLI:  # coincidentally the same as lightHours
+      max: 14
+      min: 12
+    pH:  # lower than growing stage
+      max: 5.0
+      min: 5.0
+      #avg: 5.0  
+    EC:
+      max: 1.2
+      min: 0.8
+  - name: "growing"
+    temperature:  
+      - type: "air"
+        periods: 
+          - name: "day"
+            max: 75
+            min: 68
+          - name: "night" 
+            max: 55  # range not given, just single value
+            min: 55
+            #avg: 55  # is an avg a better way to handle this?
+      - type: "water"
+        max: 75
+        min: 65
+    humidity:
+      max: .7
+      min: .5
+    lightHours:
+      max: 14
+      min: 10
+    DLI:
+      max: 14
+      min: 12
+    pH:  # higher than seedling stage
+      max: 6.2
+      min: 5.6
+    EC:
+      max: 1.2
+      min: 0.8
+    
