@@ -8,6 +8,8 @@ environments: #environments are a list of dictionaries
       sensors:
         - type: "air"
         - type: "reservoir"
+        - type: "camera"
+        - type: "light"
 - name: "env2"
   beds:
     - name: "bed2"

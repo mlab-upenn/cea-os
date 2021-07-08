@@ -77,8 +77,8 @@ if __name__ == "__main__":
             daemon=True,
         )
         threads.append(thread)
-    print("Threads: ", len(threads))
-    logging.info("Logging threads created")
+
+    logging.info("Logging threads created, Threads: %d ", len(threads))
 
     threads.append(
         threading.Thread(target=create_api, args=(farm, ), daemon=True))

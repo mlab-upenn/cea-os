@@ -5,8 +5,6 @@ services:
         container_name: cea_os
         ports:
             - 23267:23267
-        expose:
-            - 23267
         depends_on:
             - influxdb
         networks:
