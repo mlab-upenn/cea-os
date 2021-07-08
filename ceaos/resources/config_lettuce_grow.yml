@@ -59,4 +59,3 @@ stages:  # a list of main phases of plant's growth
     EC:
       max: 1.2
       min: 0.8
-    
