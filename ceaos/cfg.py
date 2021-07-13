@@ -14,7 +14,8 @@ def check_name(d):  # Checks if the "name" key exists in a dictionary
         return True
 
 
-def check_sensors(d):  # Checks if the sensors are written correctly in the config file
+def check_sensors(
+        d):  # Checks if the sensors are written correctly in the config file
     if "sensors" in d:
         for sensor in d.get("sensors"):
             if "type" not in sensor or sensor.get("type") is None:
@@ -25,7 +26,8 @@ def check_sensors(d):  # Checks if the sensors are written correctly in the conf
         return True
 
 
-def check_config(dictionary):  # Scans the config file for errors or missing fields
+def check_config(
+        dictionary):  # Scans the config file for errors or missing fields
     for key, value in dictionary.items():
         print(key + " : " + str(value))
 
@@ -39,7 +41,8 @@ def check_config(dictionary):  # Scans the config file for errors or missing fie
     if "environments" not in dictionary:  # Checks that environments field is present
         return 2, error_loc
 
-    if len(dictionary.get("environments")) == 0:  # Checks that an environment exists
+    if len(dictionary.get(
+            "environments")) == 0:  # Checks that an environment exists
         return 3, error_loc
 
     for environment in dictionary.get("environments"):
@@ -100,8 +103,8 @@ def check_config(dictionary):  # Scans the config file for errors or missing fie
 
 
 def error_handle(
-    error_message, error_location
-):  # Handles error messages produced by check_config
+        error_message,
+        error_location):  # Handles error messages produced by check_config
     error = None
     if error_message == 1:
         error = "ERROR: No name specified for farm"
@@ -158,10 +161,10 @@ def add_sensors(farm_object, dictionary, sensors_list):
     if "sensors" in dictionary:  # Creates and associates environment-wide sensors
         for sensor in dictionary.get("sensors"):
             s = Artificial_Sensor(value=sensor.get("value"), noise=0)
-            s.set_datatype(sensor.get("type"))  # Sets type of data sensor is collecting
-            s.set_location(
-                str(dictionary.get("name"))
-            )  # sets location to the name of the environment
+            s.set_datatype(
+                sensor.get("type"))  # Sets type of data sensor is collecting
+            s.set_location(str(dictionary.get(
+                "name")))  # sets location to the name of the environment
             if "refresh" in sensor:
                 s.set_refresh(sensor.get("refresh"))
 
@@ -181,9 +184,8 @@ def load_config(config_folder="ceaos.resources", config_file="config.yaml"):
         print(e)
         quit()
 
-    error = error_handle(
-        *check_config(dictionary)
-    )  # Reads in config.yaml file and checks for errors
+    error = error_handle(*check_config(
+        dictionary))  # Reads in config.yaml file and checks for errors
     if error is not None:
         return None, None, None, error
     else:
@@ -191,28 +193,25 @@ def load_config(config_folder="ceaos.resources", config_file="config.yaml"):
         farm_object = Farm(dictionary.get("name"))  # Sets name of farm
 
         for environment in dictionary.get(
-            "environments"
-        ):  # Sets up each individual environment
-            env_object = Environment(
-                str(environment.get("name"))
-            )  # Creates an environment with set name
+                "environments"):  # Sets up each individual environment
+            env_object = Environment(str(environment.get(
+                "name")))  # Creates an environment with set name
             add_sensors(env_object, environment, sensors)
 
             for bed in environment.get(
-                "beds"
-            ):  # Creates and associates beds with environments
+                    "beds"):  # Creates and associates beds with environments
                 bed_object = Bed(str(bed.get("name")))
                 add_sensors(bed_object, bed, sensors)
 
                 for plant in bed.get(
-                    "plants"
-                ):  # Creates and associates plants with beds
+                        "plants"):  # Creates and associates plants with beds
                     plant_object = Plant(str(plant.get("name")))
                     bed_object.add_plant(plant_object)
 
                 env_object.add_bed(bed_object)  # Adds beds to environments
 
-            farm_object.add_environment(env_object)  # Adds environments to the farm
+            farm_object.add_environment(
+                env_object)  # Adds environments to the farm
 
         connection_dict = dictionary.get("connection")
 
