@@ -3,7 +3,8 @@ from .objects.farm import Farm
 from .objects.beds import Bed
 from .objects.environment import Environment
 from .objects.plants import Plant
-from .sensors.artificial_sensor import Artificial_Sensor
+from .sensors.artificial_sensor import ArtificialSensor
+from .sensors.nwsensor import NetworkSensor
 from importlib_resources import files
 
 
@@ -160,17 +161,17 @@ def error_handle(
 def add_sensors(farm_object, dictionary, sensors_list):
     if "sensors" in dictionary:  # Creates and associates environment-wide sensors
         for sensor in dictionary.get("sensors"):
-            s = Artificial_Sensor(value=sensor.get("value"), noise=0)
+            if "artificial" in sensor.get("type").lower():
+                s = ArtificialSensor(value=sensor.get("value"), noise=2)
+            else:
+                s = NetworkSensor()
+
             s.set_datatype(
                 sensor.get("type"))  # Sets type of data sensor is collecting
             s.set_location(str(dictionary.get(
                 "name")))  # sets location to the name of the environment
-            if "refresh" in sensor:
+            if "refresh" in sensor and not isinstance(s, NetworkSensor):
                 s.set_refresh(sensor.get("refresh"))
-
-            s.set_noise(
-                2
-            )  # Set Noise (NOTE: Delete later, only for artificial sensor)
 
             farm_object.add_sensor(sensor.get("type"), s)
             sensors_list.append(s)
@@ -189,7 +190,7 @@ def load_config(config_folder="ceaos.resources", config_file="config.yaml"):
     if error is not None:
         return None, None, None, error
     else:
-        sensors = []
+        sensors = []  # List of sensors
         farm_object = Farm(dictionary.get("name"))  # Sets name of farm
 
         for environment in dictionary.get(
@@ -221,4 +222,4 @@ def load_config(config_folder="ceaos.resources", config_file="config.yaml"):
 
 
 if __name__ == "__main__":
-    load_config("config.yaml")
+    load_config()
