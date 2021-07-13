@@ -85,6 +85,10 @@ if __name__ == "__main__":
 
     logging.info("API Thread created")
 
+    threads.append(threading.Thread(target=create_api, args=(farm,), daemon=True))
+
+    logging.info("API Thread created")
+
     for thread in threads:
         thread.start()
 

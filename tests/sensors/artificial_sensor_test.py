@@ -17,13 +17,13 @@ def test_none_value():
 
 def test_read():
     a = setup_sensor()
-    assert (type(a.read_value()) == float)
+    assert type(a.read_value()) == float
 
 
 def test_value_set():
     a = setup_sensor()
     a.set_value(25.0)
-    assert (a.value == 25.0)
+    assert a.value == 25.0
 
 
 def test_value_exception():
