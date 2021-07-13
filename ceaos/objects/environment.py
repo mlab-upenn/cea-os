@@ -22,6 +22,7 @@ class Environment:
 
     def delete_bed(self, bed):
         del self.beds[bed.name]
+        self.num_beds -= 1
 
     def add_sensor(self, name, new_sensor):
         self.sensors[name] = new_sensor
@@ -39,7 +40,7 @@ class Environment:
         del self.properties[key]
 
     def set_name(self, name):
-        self.name = name
+        self.name = str(name)
 
     def get_beds(self):
         return self.beds
