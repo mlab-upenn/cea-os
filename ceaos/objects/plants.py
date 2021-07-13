@@ -10,7 +10,7 @@ class Plant:
         self.properties = dict()
 
     def set_name(self, name):
-        self.name = name
+        self.name = str(name)
 
     def add_property(self, key, value):
         self.properties[key] = value
