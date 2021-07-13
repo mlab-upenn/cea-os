@@ -3,6 +3,8 @@ services:
     cea-os:
         build: . #builds image from Dockerfile in current directory
         container_name: cea_os
+        ports:
+            - 23267:23267
         depends_on:
             - influxdb
         networks:

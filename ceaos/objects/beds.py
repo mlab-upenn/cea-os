@@ -9,7 +9,7 @@ class Bed:
         self.num_plants = 0
         self.num_sensors = 0
         self.sensors = dict()  # Sensors will be associated with beds
-        self.actuators = list()
+        self.actuators = dict()
         self.num_actuators = 0
         self.properties = dict()
         self.name = name
@@ -19,7 +19,8 @@ class Bed:
         self.num_plants += 1
 
     def delete_plant(self, plant):
-        # Once you delete plant, maybe add its info somewhere for storage purposes?
+        # Once you delete plant, maybe add its
+        # info somewhere for storage purposes?
         del self.plants[plant.name]
         self.num_plants -= 1
 
@@ -32,8 +33,7 @@ class Bed:
         self.num_sensors -= 1
 
     def add_actuators(self, name, actuator):
-        toadd = (name, actuator)
-        self.actuators.append(toadd)
+        self.actuators[name] = actuator
         self.num_actuators += 1
 
     def add_property(self, key, value):

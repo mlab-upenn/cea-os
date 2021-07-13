@@ -190,7 +190,7 @@ def load_config(config_folder="ceaos.resources", config_file="config.yaml"):
     if error is not None:
         return None, None, None, error
     else:
-        sensors = []  # List of sensors
+        sensors = []  #List of sensors
         farm_object = Farm(dictionary.get("name"))  # Sets name of farm
 
         for environment in dictionary.get(

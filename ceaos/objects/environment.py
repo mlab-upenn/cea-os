@@ -4,7 +4,6 @@ This file contains an environment model
 
 
 class Environment:
-    # temperature, nutrients, water, lighting, light intensity will be added later
     def __init__(self, name="env0"):
         # I use a dictionary because we do not want duplicates names
         self.beds = dict()  # keeps track of beds (name is key)
@@ -29,8 +28,7 @@ class Environment:
         self.num_sensors += 1
 
     def add_actuators(self, name, actuator):
-        toadd = (name, actuator)
-        self.actuators.append(toadd)
+        self.actuators[name] = actuator
         self.num_actuators += 1
 
     def add_property(self, key, value):
