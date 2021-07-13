@@ -20,7 +20,7 @@ class Farm:
 
     # if you want to change the farm name
     def set_name(self, name):
-        self.name = name
+        self.name = str(name)
 
     # return dictionary of environments
     def get_envs(self):
