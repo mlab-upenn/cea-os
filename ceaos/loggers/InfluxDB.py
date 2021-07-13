@@ -1,5 +1,7 @@
 from influxdb import InfluxDBClient
-from datetime import datetime
+from datetime import datetime, timedelta
+import time
+from pytz import timezone
 
 from .interfaces import DBConnection, Logger
 from ..sensors.sensor_definition import Sensor
@@ -17,12 +19,12 @@ class InfluxDBConnection(DBConnection):
         password="password",
         database="grafana",
     ):
-        if (
-            database != "grafana"
-        ):  # creates new database if default grafana db is not being used
-            self.client = InfluxDBClient(
-                host=host, port=port, username=username, password=password
-            )
+        if (database != "grafana"
+            ):  # creates new database if default grafana db is not being used
+            self.client = InfluxDBClient(host=host,
+                                         port=port,
+                                         username=username,
+                                         password=password)
             if database not in self.client.get_list_database().values():
                 self.client.create_database(database)
         else:
@@ -44,7 +46,7 @@ class InfluxDBConnection(DBConnection):
 
 class InfluxDBLogger(Logger):
     def __init__(self, sensor=None) -> None:
-        self.refresh_rate = 10
+        self.refresh_rate = None
         self.sensor = sensor
         self.location = None
 
@@ -56,7 +58,7 @@ class InfluxDBLogger(Logger):
 
     def send_logs(
         self,
-        measurement: str,
+        data_collection_method: str,  # default recommended is "sensor_data"
         data_type: str,
         location: str,
         influxConnection: InfluxDBConnection,
@@ -66,13 +68,18 @@ class InfluxDBLogger(Logger):
         else:
             json_data = []
             data = {
-                "measurement": measurement,
-                "tags": {"location": location},
+                "measurement": data_collection_method,
+                "tags": {
+                    "location": location
+                },
                 "time": datetime.now(),
-                "fields": {data_type: self.sensor.read_value()},
+                "fields": {
+                    data_type: self.sensor.read_value()
+                },
             }
             json_data.append(data)
-            write_success = influxConnection.get_connection().write_points(json_data)
+            write_success = influxConnection.get_connection().write_points(
+                json_data)
             if not write_success:  # throws error if unable to write to database
                 print("Error: Write to database failed")
 
@@ -85,7 +92,8 @@ class InfluxDBLogger(Logger):
     def get_refresh_rate(self):  # returns the refresh_rate of the logger
         return self.refresh_rate
 
-    def set_location(self, location):  # sets the location associated with logger
+    def set_location(self,
+                     location):  # sets the location associated with logger
         self.location = location
 
     def get_location(self):  # returns the bed associated with logger
