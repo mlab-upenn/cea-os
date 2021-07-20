@@ -1,18 +1,18 @@
 import pytest
-from ceaos.sensors.artificial_sensor import ArtificialSensor
+from ceaos.sensors.artificial_sensor import Artificial_Sensor
 
 
-def setup_sensor() -> ArtificialSensor:
-    return ArtificialSensor()
+def setup_sensor() -> Artificial_Sensor:
+    return Artificial_Sensor()
 
 
 def test_creation():
-    ArtificialSensor()
+    Artificial_Sensor()
 
 
 def test_none_value():
     with pytest.raises(TypeError):
-        ArtificialSensor(value=None)
+        Artificial_Sensor(value=None)
 
 
 def test_read():
