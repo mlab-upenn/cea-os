@@ -2,7 +2,7 @@ from .actuator_definition import Actuator
 from ..sensors.sensor_definition import Sensor
 
 
-class Artificial_Actuator(Actuator):
+class ArtificialActuator(Actuator):
     def __init__(self):
         self.id = None
         self.stop_time = None
