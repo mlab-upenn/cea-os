@@ -2,7 +2,7 @@ import pytest
 from ceaos.sensors.artificial_sensor import Artificial_Sensor
 
 
-def setup_sensor() -> ArtificialSensor:
+def setup_sensor() -> Artificial_Sensor:
     return Artificial_Sensor()
 
 
