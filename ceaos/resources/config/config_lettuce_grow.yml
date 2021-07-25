@@ -1,21 +1,26 @@
 plant: "lettuce"
+time_periods:
+  - name: "day"
+    duration: 14  # based on max lightHours
+    order: 1
+  - name: "night"
+    duration: 10  # 24 hrs - duration of day
+    order: 2
 stage_ordering:  # a list of the order that each growth stage occurs
   - name: "seedling"
     order: 1
   - name: "growing"
     order: 2
-stages:  # a list of the plant's growth phases and parameters
+stages:  # a list of the plant's growth stages and parameters
   - name: "seedling"  
     air_temperature:  
-      - period: "day"
+      - time_period: "day"
         max: 75
         min: 68
-        duration: 14  # based on max lightHours
         unit: "F"  # degrees Farenheit
-      - period: "night" 
+      - time_period: "night" 
         max: 55  # range not given, just single value
         min: 55
-        duration: 10  # 24 hrs - duration of day
         unit: "F"  # degrees Farenheit
         #avg: 55  # is an avg a better way to handle this?
     water_temperature:
@@ -45,15 +50,13 @@ stages:  # a list of the plant's growth phases and parameters
       unit: "S/m"  # Siemens per meter
   - name: "growing"
     air_temperature:  
-      - period: "day"
+      - time_period: "day"
         max: 75
         min: 68
-        duration: 14  # based on max lightHours
         unit: "F"  # degrees Farenheit
-      - period: "night" 
+      - time_period: "night" 
         max: 55  # range not given, just single value
         min: 55
-        duration: 10  # 24 hrs - duration of day
         unit: "F"  # degrees Farenheit
         #avg: 55  # is an avg a better way to handle this?
     water_temperature:
