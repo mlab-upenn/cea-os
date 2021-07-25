@@ -23,8 +23,8 @@ stages:  # a list of the plant's growth phases and parameters
       min: 65
       unit: "F"  # degrees Farenheit
     relative_humidity:
-      max: .7
-      min: .5
+      max: 70
+      min: 50
       unit: "%"
     light_hours:
       max: 14
