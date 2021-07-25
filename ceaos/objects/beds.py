@@ -22,6 +22,7 @@ class Bed:
         # Once you delete plant, maybe add its
         # info somewhere for storage purposes?
         del self.plants[plant.name]
+        self.num_plants -= 1
 
     def add_sensor(self, name, new_sensor):
         self.sensors[name] = new_sensor
@@ -29,6 +30,7 @@ class Bed:
 
     def delete_sensor(self, name):
         del self.sensors[name]
+        self.num_sensors -= 1
 
     def add_actuators(self, name, actuator):
         self.actuators[name] = actuator
@@ -41,7 +43,7 @@ class Bed:
         del self.properties[key]
 
     def set_name(self, name):
-        self.name = name
+        self.name = str(name)
 
     def get_sensors(self):
         return self.sensors

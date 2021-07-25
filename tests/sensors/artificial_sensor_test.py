@@ -10,6 +10,11 @@ def test_creation():
     Artificial_Sensor()
 
 
+def test_none_value():
+    with pytest.raises(TypeError):
+        Artificial_Sensor(value=None)
+
+
 def test_read():
     a = setup_sensor()
     assert type(a.read_value()) == float
