@@ -40,10 +40,10 @@ stages:  # a list of the plant's growth stages and parameters
       min: 12
       unit: "mol*m-2*d-1"  # moles per sq meter per day
     pH:  # lower than growing stage
-      max: 5.0
-      min: 5.0
+      max: 6.5
+      min: 5.5
       unit: "pH"
-      #avg: 5.0  
+      #avg: 6.0  
     EC:
       max: 1.2
       min: 0.8
@@ -64,8 +64,8 @@ stages:  # a list of the plant's growth stages and parameters
       min: 65
       unit: "F"  # degrees Farenheit
     relative_humidity:
-      max: .7
-      min: .5
+      max: 70
+      min: 50
       unit: "%"
     light_hours:
       max: 14
