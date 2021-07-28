@@ -23,6 +23,19 @@ class Bed:
         # info somewhere for storage purposes?
         del self.plants[plant.name]
         self.num_plants -= 1
+    
+    def recv_details(self, **kwargs):
+        try:
+            for val in kwargs:
+                if val == "ip":
+                    actuator_list = []
+                    self.actuators[kwargs[val]] = actuator_list
+                else:
+                    self.actuators[kwargs["ip"]].append(kwargs[val])
+            return "Succesfully recieved Microcontroller Data"
+        except:
+            return "An error occured receiving Microcontroller data"
+
 
     def add_sensor(self, name, new_sensor):
         self.sensors[name] = new_sensor
