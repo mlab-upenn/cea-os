@@ -45,8 +45,8 @@ class Bed:
         del self.sensors[name]
         self.num_sensors -= 1
 
-    def add_actuators(self, name, actuator):
-        self.actuators[name] = actuator
+    def add_actuators(self, ip, actuator):
+        self.actuators[ip].append(actuator)
         self.num_actuators += 1
 
     def add_property(self, key, value):
@@ -60,6 +60,9 @@ class Bed:
 
     def get_sensors(self):
         return self.sensors
+    
+    def get_actuators(self):
+        return self.actuators
 
     def get_name(self):
         return self.name
