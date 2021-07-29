@@ -3,6 +3,7 @@ from ceaos.loggers.InfluxDB import InfluxDBConnection
 from ceaos.loggers.InfluxDB import InfluxDBLogger
 from ceaos.cfg import load_config
 from ceaos.api import create_api
+from ceaos.grow import load_grow
 
 import time
 import threading
@@ -88,6 +89,8 @@ if __name__ == "__main__":
     threads.append(threading.Thread(target=create_api, args=(farm,), daemon=True))
 
     logging.info("API Thread created")
+
+    load_grow(farm, "ceaos.resources.config", "config_lettuce_grow.yml")
 
     for thread in threads:
         thread.start()

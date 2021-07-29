@@ -1,4 +1,6 @@
 plant: "lettuce"
+beds:
+  - name: "bed1"
 time_periods:
   - name: "day"
     duration: 14  # based on max lightHours
