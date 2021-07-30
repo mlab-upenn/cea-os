@@ -101,6 +101,7 @@ def load_grow(farm, config_folder="ceaos.resources.config", config_file="config_
         
     
     for k in recipe1:
+        logging.info("here0")
         if k == 'air_temperature':
             #this time stuff is not accurate, more of a placeholder
             for timeperiod in recipe1["air_temperature"]:
