@@ -99,9 +99,8 @@ def load_grow(farm, config_folder="ceaos.resources.config", config_file="config_
             recipe3 = stages
             recipe_list.append(recipe3)
         
-    
+    print(recipe1)
     for k in recipe1:
-        logging.info("%s", k)
         if k == 'air_temperature':
             #this time stuff is not accurate, more of a placeholder
             for timeperiod in recipe1["air_temperature"]:
