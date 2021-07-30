@@ -40,40 +40,29 @@ def find_ips(bed_list, actuator):
     
     return ip_list
 
-def send_command(ip_list, max, min, actuation, socket):
+def send_command(ip_list, max, min, actuation):
     for ip in ip_list:
         if actuation == "air_temperature":
-            actuator_commands.set_airtemp(ip, max, min, socket)
+            actuator_commands.set_airtemp(ip, max, min)
         elif actuation == "water_temperature":
             print("no control over water temp")
         elif actuation == "relative_humidity":
             print("no control over relative humidity")
         elif actuation == "light_hours":
-            actuator_commands.set_lights(ip, max, min, socket)
+            actuator_commands.set_lights(ip, max, min)
         elif actuation == "pH":
-            actuator_commands.set_pH(ip, max, min, socket)
+            actuator_commands.set_pH(ip, max, min)
         elif actuation == "EC":
-            actuator_commands.set_EC(ip, max, min, socket)
-
-def setup_Context():
-    context = zmq.Context()
-    socket = context.socket(zmq.REQ)
-    socket.connect("tcp://158.130.113.133:61000")
-    return socket
-        
+            actuator_commands.set_EC(ip, max, min)    
 
 
 def load_grow(farm, config_folder="ceaos.resources.config", config_file="config_lettuce_grow.yml"):
     config = files(config_folder).joinpath(config_file).read_text()
     try:
         dictionary = yaml.safe_load(config)
-        #for key, value in dictionary.items():
-           # print (key + " : " + str(value))
     except yaml.YAMLError as e:
         print(e)
         quit()
-    
-    socket = setup_Context()
     
     bed_names_list = []
 
@@ -113,23 +102,23 @@ def load_grow(farm, config_folder="ceaos.resources.config", config_file="config_
                     period = timeperiod
 
             ip_list = find_ips(bed_list, k)
-            send_command(ip_list, period["max"], period["min"], "air_temperature", socket)
+            send_command(ip_list, period["max"], period["min"], "air_temperature")
         elif k == 'water_temperature':
             ip_list = find_ips(bed_list, k)
-            send_command(ip_list, recipe1[k]['max'], recipe1[k]['min'], "water_temperature", socket)
+            send_command(ip_list, recipe1[k]['max'], recipe1[k]['min'], "water_temperature")
         elif k == 'relative_humidity':
             ip_list = find_ips(bed_list, k)
-            send_command(ip_list, recipe1[k]['max'], recipe1[k]['min'], "relative humidity", socket)
+            send_command(ip_list, recipe1[k]['max'], recipe1[k]['min'], "relative humidity")
         elif k == 'light_hours':
             ip_list = find_ips(bed_list, k)
-            send_command(ip_list, recipe1[k]['max'], recipe1[k]['min'], "light_hours", socket)
+            send_command(ip_list, recipe1[k]['max'], recipe1[k]['min'], "light_hours")
         elif k == 'DLI':
             ip_list = find_ips(bed_list, k)
-            send_command(ip_list, recipe1[k]['max'], recipe1[k]['min'], "DLI", socket)
+            send_command(ip_list, recipe1[k]['max'], recipe1[k]['min'], "DLI")
         elif k == 'pH':
             ip_list = find_ips(bed_list, k)
-            send_command(ip_list, recipe1[k]['max'], recipe1[k]['min'], "pH", socket)
+            send_command(ip_list, recipe1[k]['max'], recipe1[k]['min'], "pH")
         elif k == 'EC':
             ip_list = find_ips(bed_list, k)
-            send_command(ip_list, recipe1[k]['max'], recipe1[k]['min'], "EC", socket)
+            send_command(ip_list, recipe1[k]['max'], recipe1[k]['min'], "EC")
         
