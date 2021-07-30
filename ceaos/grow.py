@@ -110,24 +110,31 @@ def load_grow(farm, config_folder="ceaos.resources.config", config_file="config_
                 else:
                     period = timeperiod
 
+            logging.info("here")
             ip_list = find_ips(bed_list, k)
             send_command(ip_list, period["max"], period["min"], "air_temperature")
         elif k == 'water_temperature':
+            logging.info("here1")
             ip_list = find_ips(bed_list, k)
             send_command(ip_list, recipe1[k]['max'], recipe1[k]['min'], "water_temperature")
         elif k == 'relative_humidity':
+            logging.info("here2")
             ip_list = find_ips(bed_list, k)
             send_command(ip_list, recipe1[k]['max'], recipe1[k]['min'], "relative humidity")
         elif k == 'light_hours':
+            logging.info("here3")
             ip_list = find_ips(bed_list, k)
             send_command(ip_list, recipe1[k]['max'], recipe1[k]['min'], "light_hours")
         elif k == 'DLI':
+            logging.info("here4")
             ip_list = find_ips(bed_list, k)
             send_command(ip_list, recipe1[k]['max'], recipe1[k]['min'], "DLI")
         elif k == 'pH':
+            logging.info("here5")
             ip_list = find_ips(bed_list, k)
             send_command(ip_list, recipe1[k]['max'], recipe1[k]['min'], "pH")
         elif k == 'EC':
+            logging.info("here6")
             ip_list = find_ips(bed_list, k)
             send_command(ip_list, recipe1[k]['max'], recipe1[k]['min'], "EC")
         
