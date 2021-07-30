@@ -100,7 +100,6 @@ def load_grow(farm, config_folder="ceaos.resources.config", config_file="config_
             recipe_list.append(recipe3)
         
     for k in recipe1:
-        print(k)
         if k == 'air_temperature':
             #this time stuff is not accurate, more of a placeholder
             for timeperiod in recipe1["air_temperature"]:
@@ -140,5 +139,5 @@ def load_grow(farm, config_folder="ceaos.resources.config", config_file="config_
         else:
             print("do nothing")
         
-        return recipe_list
+    return recipe_list
         
