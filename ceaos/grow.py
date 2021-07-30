@@ -13,6 +13,7 @@ import os
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 
 def get_allbeds(farm):
+    logging.info("I was here1")
     all_beds = dict()
     environments = farm.get_envs()
     for environment in environments:
@@ -23,6 +24,7 @@ def get_allbeds(farm):
     return all_beds
 
 def find_relevantbeds(bed_names_list, all_beds):
+    logging.info("I was here2")
     bed_list = []
     for names in bed_names_list:
         for names2 in all_beds:
@@ -32,6 +34,7 @@ def find_relevantbeds(bed_names_list, all_beds):
     return bed_list
 
 def find_ips(bed_list, actuator):
+    logging.info("I was here3")
     ip_list = []
     for bed in bed_list:
         for act in bed.get_actuators():
@@ -41,6 +44,7 @@ def find_ips(bed_list, actuator):
     return ip_list
 
 def send_command(ip_list, max, min, actuation):
+    logging.info("I was here4")
     for ip in ip_list:
         if actuation == "air_temperature":
             actuator_commands.set_airtemp(ip, max, min)
