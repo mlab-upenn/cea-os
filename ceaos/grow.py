@@ -104,9 +104,9 @@ def load_grow(farm, config_folder="ceaos.resources.config", config_file="config_
         if k == 'air_temperature':
             #this time stuff is not accurate, more of a placeholder
             for timeperiod in recipe1["air_temperature"]:
-                if datetime.utcnow().time() < time(20, 0) and datetime.utcnow().time() > time(6, 0):
-                    if timeperiod["time_period"] == "day":
-                        period = timeperiod
+                #if datetime.utcnow().time() < time(20, 0) and datetime.utcnow().time() > time(6, 0):
+                if timeperiod["time_period"] == "day":
+                    period = timeperiod
                 else:
                     period = timeperiod
 
