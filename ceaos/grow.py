@@ -41,7 +41,6 @@ def find_ips(bed_list, actuator):
     return ip_list
 
 def send_command(ip_list, max, min, actuation):
-    logging.info("I was here")
     for ip in ip_list:
         if actuation == "air_temperature":
             actuator_commands.set_airtemp(ip, max, min)
@@ -58,6 +57,7 @@ def send_command(ip_list, max, min, actuation):
 
 
 def load_grow(farm, config_folder="ceaos.resources.config", config_file="config_lettuce_grow.yml"):
+    logging.info("I was here")
     config = files(config_folder).joinpath(config_file).read_text()
     try:
         dictionary = yaml.safe_load(config)
