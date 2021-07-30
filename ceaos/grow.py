@@ -122,3 +122,5 @@ def load_grow(farm, config_folder="ceaos.resources.config", config_file="config_
             ip_list = find_ips(bed_list, k)
             send_command(ip_list, recipe1[k]['max'], recipe1[k]['min'], "EC")
         
+        return recipe1, recipe2, recipe3
+        
