@@ -82,13 +82,17 @@ def load_grow(farm, config_folder="ceaos.resources.config", config_file="config_
             else:
                 stage3 = stage.get('name')
 
+    recipe_list = []
     for stages in dictionary.get('stages'):
         if stages.get('name') == stage1:
             recipe1 = stages
+            recipe_list.append(recipe1)
         elif stages.get('name') == stage2:
             recipe2 = stages
+            recipe_list.append(recipe2)
         else:
             recipe3 = stages
+            recipe_list.append(recipe3)
         
     
     for k in recipe1:
@@ -122,5 +126,5 @@ def load_grow(farm, config_folder="ceaos.resources.config", config_file="config_
             ip_list = find_ips(bed_list, k)
             send_command(ip_list, recipe1[k]['max'], recipe1[k]['min'], "EC")
         
-        return recipe1, recipe2, recipe3
+        return recipe_list
         

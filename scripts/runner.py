@@ -52,7 +52,7 @@ if __name__ == "__main__":
     logging.info("DB Client Configured")
     farm_name = farm.get_name()
 
-    recipe1, recipe2, recipe3 = load_grow(farm, "ceaos.resources.config", "config_lettuce_grow.yml")
+    recipe_list = load_grow(farm, "ceaos.resources.config", "config_lettuce_grow.yml")
 
     for sensor in sensors:  # NetworkSensors will have a refresh rate of None
         logger = InfluxDBLogger(sensor)
