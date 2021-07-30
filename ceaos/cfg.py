@@ -204,6 +204,10 @@ def load_config(config_folder="ceaos.resources", config_file="config.yaml"):
                 bed_object = Bed(str(bed.get("name")))
                 add_sensors(bed_object, bed, sensors)
 
+                if bed.get("name") == "bed1":
+                    bed_object.add_actuators("158.130.113.133", "pH")
+                    bed_object.add_actuators("158.130.113.133", "EC")
+
                 for plant in bed.get(
                         "plants"):  # Creates and associates plants with beds
                     plant_object = Plant(str(plant.get("name")))

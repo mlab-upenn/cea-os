@@ -7,10 +7,6 @@ from .objects.beds import Bed
 from .objects.environment import Environment
 from .actuators import actuator_commands
 from importlib_resources import files
-import logging
-import os
-
-logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 
 def get_allbeds(farm):
     all_beds = dict()
