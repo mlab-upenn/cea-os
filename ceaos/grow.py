@@ -7,6 +7,10 @@ from .objects.beds import Bed
 from .objects.environment import Environment
 from .actuators import actuator_commands
 from importlib_resources import files
+import logging
+import os
+
+logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 
 def get_allbeds(farm):
     all_beds = dict()
@@ -37,6 +41,7 @@ def find_ips(bed_list, actuator):
     return ip_list
 
 def send_command(ip_list, max, min, actuation):
+    logging.info("I was here")
     for ip in ip_list:
         if actuation == "air_temperature":
             actuator_commands.set_airtemp(ip, max, min)
