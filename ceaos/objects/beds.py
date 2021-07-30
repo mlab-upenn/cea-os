@@ -46,7 +46,7 @@ class Bed:
         self.num_sensors -= 1
 
     def add_actuators(self, ip, actuator):
-        if self.actuators.has_key(ip):
+        if ip in self.actuators:
             self.actuators[ip].append(actuator)
         else:
             self.actuators[ip] = []
