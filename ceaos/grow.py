@@ -50,6 +50,7 @@ def send_command(ip_list, max, min, actuation):
         elif actuation == "EC":
             actuator_commands.set_EC(ip, max, min)
 
+# needs work
 def day_or_night(recipe):
     #this time stuff is not accurate, more of a placeholder
     for timeperiod in recipe["air_temperature"]:
@@ -84,6 +85,10 @@ def parse_recipe(recipe, bed_list):
         elif k == 'EC':
             ip_list = find_ips(bed_list, k)
             send_command(ip_list, recipe[k]['max'], recipe[k]['min'], "EC")
+        elif k == 'name':
+            name = recipe['name']
+
+    return name
 
 
 def load_grow(farm, config_folder="ceaos.resources.config", config_file="config_lettuce_grow.yml"):
@@ -123,7 +128,8 @@ def load_grow(farm, config_folder="ceaos.resources.config", config_file="config_
         else:
             recipe3 = stages
             recipe_list.append(recipe3)
-        
+    
+    print(recipe1)
     for recipe in recipe_list:
         if recipe == recipe1:
             parse_recipe(recipe, bed_list)
