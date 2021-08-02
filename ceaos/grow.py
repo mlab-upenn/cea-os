@@ -7,6 +7,7 @@ from .objects.environment import Environment
 from .actuators import actuator_commands
 from importlib_resources import files
 
+
 def get_allbeds(farm):
     all_beds = dict()
     environments = farm.get_envs()
@@ -14,8 +15,9 @@ def get_allbeds(farm):
         beds = environments[environment].get_beds()
         for bed in beds:
             all_beds[beds[bed].get_name()] = beds[bed]
-    
+
     return all_beds
+
 
 def find_relevantbeds(bed_names_list, all_beds):
     bed_list = []
@@ -26,14 +28,16 @@ def find_relevantbeds(bed_names_list, all_beds):
 
     return bed_list
 
+
 def find_ips(bed_list, actuator):
     ip_list = []
     for bed in bed_list:
         for act in bed.get_actuators():
             if actuator in bed.get_actuators()[act]:
                 ip_list.append(act)
-    
+
     return ip_list
+
 
 def send_command(ip_list, max, min, actuation):
     for ip in ip_list:
@@ -50,32 +54,39 @@ def send_command(ip_list, max, min, actuation):
         elif actuation == "EC":
             actuator_commands.set_EC(ip, max, min)
 
+
 # needs work
 def day_or_night(recipe):
-    #this time stuff is not accurate, more of a placeholder
+    # this time stuff is not accurate, more of a placeholder
     for timeperiod in recipe["air_temperature"]:
-        if datetime.utcnow().time() < time(20, 0) and datetime.utcnow().time() > time(6, 0):
+        if datetime.utcnow().time() < time(
+                20, 0) and datetime.utcnow().time() > time(6, 0):
             period = timeperiod
         else:
             period = timeperiod
-    
+
     return period
+
 
 def parse_recipe(recipe, bed_list):
     for k in recipe:
         if k == 'air_temperature':
             period = day_or_night(recipe)
             ip_list = find_ips(bed_list, k)
-            send_command(ip_list, period["max"], period["min"], "air_temperature")
+            send_command(ip_list, period["max"], period["min"],
+                         "air_temperature")
         elif k == 'water_temperature':
             ip_list = find_ips(bed_list, k)
-            send_command(ip_list, recipe[k]['max'], recipe[k]['min'], "water_temperature")
+            send_command(ip_list, recipe[k]['max'], recipe[k]['min'],
+                         "water_temperature")
         elif k == 'relative_humidity':
             ip_list = find_ips(bed_list, k)
-            send_command(ip_list, recipe[k]['max'], recipe[k]['min'], "relative humidity")
+            send_command(ip_list, recipe[k]['max'], recipe[k]['min'],
+                         "relative humidity")
         elif k == 'light_hours':
             ip_list = find_ips(bed_list, k)
-            send_command(ip_list, recipe[k]['max'], recipe[k]['min'], "light_hours")
+            send_command(ip_list, recipe[k]['max'], recipe[k]['min'],
+                         "light_hours")
         elif k == 'DLI':
             ip_list = find_ips(bed_list, k)
             send_command(ip_list, recipe[k]['max'], recipe[k]['min'], "DLI")
@@ -91,19 +102,21 @@ def parse_recipe(recipe, bed_list):
     return name
 
 
-def load_grow(farm, config_folder="ceaos.resources.config", config_file="config_lettuce_grow.yml"):
+def load_grow(farm,
+              config_folder="ceaos.resources.config",
+              config_file="config_lettuce_grow.yml"):
     config = files(config_folder).joinpath(config_file).read_text()
     try:
         dictionary = yaml.safe_load(config)
     except yaml.YAMLError as e:
         print(e)
         quit()
-    
+
     bed_names_list = []
 
     for beds in dictionary.get("beds"):
         bed_names_list.append(beds['name'])
-    
+
     all_beds = get_allbeds(farm)
 
     bed_list = find_relevantbeds(bed_names_list, all_beds)
@@ -128,11 +141,10 @@ def load_grow(farm, config_folder="ceaos.resources.config", config_file="config_
         else:
             recipe3 = stages
             recipe_list.append(recipe3)
-    
+
     print(recipe1)
     for recipe in recipe_list:
         if recipe == recipe1:
             parse_recipe(recipe, bed_list)
-        
+
     return recipe_list
-        

@@ -23,7 +23,7 @@ class Bed:
         # info somewhere for storage purposes?
         del self.plants[plant.name]
         self.num_plants -= 1
-    
+
     def recv_details(self, **kwargs):
         try:
             for val in kwargs:
@@ -35,7 +35,6 @@ class Bed:
             return "Succesfully recieved Microcontroller Data"
         except:
             return "An error occured receiving Microcontroller data"
-
 
     def add_sensor(self, name, new_sensor):
         self.sensors[name] = new_sensor
@@ -64,7 +63,7 @@ class Bed:
 
     def get_sensors(self):
         return self.sensors
-    
+
     def get_actuators(self):
         return self.actuators
 
