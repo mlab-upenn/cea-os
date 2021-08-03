@@ -1,0 +1,85 @@
+plant: "lettuce"
+time_periods:
+  - name: "day"
+    duration: 14  # based on max lightHours
+    order: 1
+  - name: "night"
+    duration: 10  # 24 hrs - duration of day
+    order: 2
+stage_ordering:  # a list of the order that each growth stage occurs
+  - name: "seedling"
+    order: 1
+  - name: "growing"
+    order: 2
+stages:  # a list of the plant's growth stages and parameters
+  - name: "seedling"  
+    air_temperature:  
+      - time_period: "day"
+        max: 75
+        min: 68
+        unit: "F"  # degrees Farenheit
+      - time_period: "night" 
+        max: 55  # range not given, just single value
+        min: 55
+        unit: "F"  # degrees Farenheit
+        #avg: 55  # is an avg a better way to handle this?
+    water_temperature:
+      max: 75
+      min: 65
+      unit: "F"  # degrees Farenheit
+    relative_humidity:
+      max: .7
+      min: .5
+      unit: "%"
+    light_hours:
+      max: 14
+      min: 12  # more than growth stage
+      unit: "hours"
+    DLI:  # coincidentally the same as lightHours
+      max: 14
+      min: 12
+      unit: "mol*m-2*d-1"  # moles per sq meter per day
+    pH:  # lower than growing stage
+      max: 5.0
+      min: 5.0
+      unit: "pH"
+      #avg: 5.0  
+    EC:
+      max: 1.2
+      min: 0.8
+      unit: "S/m"  # Siemens per meter
+  - name: "growing"
+    air_temperature:  
+      - time_period: "day"
+        max: 75
+        min: 68
+        unit: "F"  # degrees Farenheit
+      - time_period: "night" 
+        max: 55  # range not given, just single value
+        min: 55
+        unit: "F"  # degrees Farenheit
+        #avg: 55  # is an avg a better way to handle this?
+    water_temperature:
+      max: 75
+      min: 65
+      unit: "F"  # degrees Farenheit
+    relative_humidity:
+      max: .7
+      min: .5
+      unit: "%"
+    light_hours:
+      max: 14
+      min: 10  # less than seedling stage
+      unit: "hours"
+    DLI:
+      max: 14
+      min: 12
+      unit: "mol*m-2*d-1"  # moles per sq meter per day
+    pH:  # higher than seedling stage
+      max: 6.2
+      min: 5.6
+      unit: "pH"
+    EC:
+      max: 1.2
+      min: 0.8
+      unit: "S/m"  # Siemens per meter
