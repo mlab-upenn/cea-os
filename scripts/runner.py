@@ -36,8 +36,6 @@ if __name__ == "__main__":
         quit()
     loggers = {
     }  # Dictionary of loggers (key = refresh_rate, value = list of loggers)
-    for sensor in sensors:
-        print(sensor.location)
     time.sleep(5)
 
     db_client = InfluxDBConnection()
