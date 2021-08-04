@@ -42,5 +42,6 @@ def test_add_sensors():
             {"type": "EC", "value": 0.8},
         ],
     }
-    add_sensors(test_env, test_dict, sensors_list)
+    location = ["farm1", "env1"]
+    add_sensors(test_env, test_dict, sensors_list, location)
     assert len(sensors_list) == 3
