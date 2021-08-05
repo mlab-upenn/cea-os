@@ -13,8 +13,7 @@ def test_creation():
 
 def test_read():
     a = setup_actuator()
-    s = Artificial_Sensor()
-    assert (type(a.set_point(s)) == bool)
+    assert (type(a.set_point(3, 4)) == bool)
 
 
 def test_stop():
@@ -31,6 +30,5 @@ def test_value_exception():
 
 def test_is_running():
     a = setup_actuator()
-    s = Artificial_Sensor()
-    a.set_point(s)
+    a.set_point(3, 4)
     assert (a.running is False)
