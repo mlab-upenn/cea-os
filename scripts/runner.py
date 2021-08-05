@@ -30,7 +30,7 @@ def log_data(refresh_rate, logger_list, client):
 
 
 if __name__ == "__main__":
-    farm, sensors, connection_dict, error = load_config(
+    farm, sensors, actuators, connection_dict, error = load_config(
         "ceaos.resources", "config.yaml")  # Set up Farm from config file
     if error is not None or farm is None:
         logging.error(error)
