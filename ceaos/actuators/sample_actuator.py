@@ -10,11 +10,14 @@ class Artificial_Actuator(Actuator):
         self.running = None
         self.curr_state = None
         self.datatype = None
-    def set_point(self, sensor):
+        self.location = None
+        self.ip = None
+        self.sensor = None
+
+    def set_point(self, min, max):
         self.running = True
-        while sensor.read_value() > 20:
-            # actuate
-            print("actuating")
+        print(max)
+        print(min)
         self.stop()
         return self.running
 
@@ -40,3 +43,21 @@ class Artificial_Actuator(Actuator):
 
     def set_datatype(self, datatype):
         self.datatype = datatype
+
+    def set_location(self, location):
+        self.location = location
+
+    def get_location(self):
+        return self.location
+    
+    def set_ip(self, ip):
+        self.ip = ip
+
+    def get_ip(self, ip):
+        return self.ip
+    
+    def set_sensor(self, sensor):
+        self.sensor = sensor
+    
+    def get_sensor(self, sensor):
+        return self.sensor

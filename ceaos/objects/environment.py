@@ -10,7 +10,7 @@ class Environment:
         self.num_beds = 0
         self.sensors = dict()  # Some sensors will be on an environment level
         self.num_sensors = 0
-        self.actuators = list()
+        self.actuators = dict()
         self.num_actuators = 0
         self.properties = dict()
         self.name = name

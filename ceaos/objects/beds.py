@@ -24,18 +24,6 @@ class Bed:
         del self.plants[plant.name]
         self.num_plants -= 1
 
-    def recv_details(self, **kwargs):
-        try:
-            for val in kwargs:
-                if val == "ip":
-                    actuator_list = []
-                    self.actuators[kwargs[val]] = actuator_list
-                else:
-                    self.actuators[kwargs["ip"]].append(kwargs[val])
-            return "Succesfully recieved Microcontroller Data"
-        except:
-            return "An error occured receiving Microcontroller data"
-
     def add_sensor(self, name, new_sensor):
         self.sensors[name] = new_sensor
         self.num_sensors += 1
@@ -44,12 +32,8 @@ class Bed:
         del self.sensors[name]
         self.num_sensors -= 1
 
-    def add_actuators(self, ip, actuator):
-        if ip in self.actuators:
-            self.actuators[ip].append(actuator)
-        else:
-            self.actuators[ip] = []
-            self.actuators[ip].append(actuator)
+    def add_actuators(self, name, new_actuator):
+        self.actuators[name] = new_actuator
         self.num_actuators += 1
 
     def add_property(self, key, value):

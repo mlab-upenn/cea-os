@@ -1,58 +1,28 @@
-from ceaos.actuators.actuator_commands import set_airtemp
 import yaml
 from datetime import datetime, time
 from .objects.farm import Farm
 from .objects.beds import Bed
 from .objects.environment import Environment
-from .actuators import actuator_commands
+from .actuators.sample_actuator import Artificial_Actuator
 from importlib_resources import files
 
 
-def get_allbeds(farm):
+def get_relevant_beds(farm, env_list, bed_names_list):
     all_beds = dict()
     environments = farm.get_envs()
     for environment in environments:
-        beds = environments[environment].get_beds()
-        for bed in beds:
-            all_beds[beds[bed].get_name()] = beds[bed]
+        if environment in env_list:
+            beds = environments[environment].get_beds()
+            for bed in beds:
+                if bed in bed_names_list:
+                    all_beds[bed] = beds[bed]
 
     return all_beds
 
 
-def find_relevantbeds(bed_names_list, all_beds):
-    bed_list = []
-    for names in bed_names_list:
-        for names2 in all_beds:
-            if names == names2:
-                bed_list.append(all_beds[names2])
-
-    return bed_list
-
-
-def find_ips(bed_list, actuator):
-    ip_list = []
-    for bed in bed_list:
-        for act in bed.get_actuators():
-            if actuator in bed.get_actuators()[act]:
-                ip_list.append(act)
-
-    return ip_list
-
-
-def send_command(ip_list, max, min, actuation):
-    for ip in ip_list:
-        if actuation == "air_temperature":
-            actuator_commands.set_airtemp(ip, max, min)
-        elif actuation == "water_temperature":
-            print("no control over water temp")
-        elif actuation == "relative_humidity":
-            print("no control over relative humidity")
-        elif actuation == "light_hours":
-            actuator_commands.set_lights(ip, max, min)
-        elif actuation == "pH":
-            actuator_commands.set_pH(ip, max, min)
-        elif actuation == "EC":
-            actuator_commands.set_EC(ip, max, min)
+def send_command(actuator_list, max, min, actuation):
+    for actuator in actuator_list:
+        actuator.set_point(min, max)
 
 
 # needs work
@@ -67,35 +37,45 @@ def day_or_night(recipe):
 
     return period
 
+def find_actuators(bed_list, k):
+    actuators = []
+    for bed in bed_list:
+        bed_actuators = bed.get_actuators()
+        for actuator in bed_actuators:
+            if k in actuator:
+                actuators.append(bed_actuators[actuator])
+
+    return actuators
+
 
 def parse_recipe(recipe, bed_list):
     for k in recipe:
         if k == 'air_temperature':
             period = day_or_night(recipe)
-            ip_list = find_ips(bed_list, k)
-            send_command(ip_list, period["max"], period["min"],
+            actuator_list = find_actuators(bed_list, k)
+            send_command(actuator_list, period["max"], period["min"],
                          "air_temperature")
         elif k == 'water_temperature':
-            ip_list = find_ips(bed_list, k)
-            send_command(ip_list, recipe[k]['max'], recipe[k]['min'],
+            actuator_list = find_actuators(bed_list, k)
+            send_command(actuator_list, recipe[k]['max'], recipe[k]['min'],
                          "water_temperature")
         elif k == 'relative_humidity':
-            ip_list = find_ips(bed_list, k)
-            send_command(ip_list, recipe[k]['max'], recipe[k]['min'],
+            actuator_list = find_actuators(bed_list, k)
+            send_command(actuator_list, recipe[k]['max'], recipe[k]['min'],
                          "relative humidity")
         elif k == 'light_hours':
-            ip_list = find_ips(bed_list, k)
-            send_command(ip_list, recipe[k]['max'], recipe[k]['min'],
+            acuator_list = find_actuators(bed_list, k)
+            send_command(actuator_list, recipe[k]['max'], recipe[k]['min'],
                          "light_hours")
         elif k == 'DLI':
-            ip_list = find_ips(bed_list, k)
-            send_command(ip_list, recipe[k]['max'], recipe[k]['min'], "DLI")
+            actuator_list = find_actuators(bed_list, k)
+            send_command(actuator_list, recipe[k]['max'], recipe[k]['min'], "DLI")
         elif k == 'pH':
-            ip_list = find_ips(bed_list, k)
-            send_command(ip_list, recipe[k]['max'], recipe[k]['min'], "pH")
+            actuator_list = find_actuators(bed_list, k)
+            send_command(actuator_list, recipe[k]['max'], recipe[k]['min'], "pH")
         elif k == 'EC':
-            ip_list = find_ips(bed_list, k)
-            send_command(ip_list, recipe[k]['max'], recipe[k]['min'], "EC")
+            actuator_list = find_actuators(bed_list, k)
+            send_command(actuator_list, recipe[k]['max'], recipe[k]['min'], "EC")
         elif k == 'name':
             name = recipe['name']
 
@@ -114,12 +94,15 @@ def load_grow(farm,
 
     bed_names_list = []
 
+    env_list = []
+
+    for envs in dictionary.get("environments"):
+        env_list.append(envs['name'])
+
     for beds in dictionary.get("beds"):
         bed_names_list.append(beds['name'])
 
-    all_beds = get_allbeds(farm)
-
-    bed_list = find_relevantbeds(bed_names_list, all_beds)
+    bed_list = get_relevant_beds(farm, env_list, bed_names_list)
 
     for stage in dictionary.get("stage_ordering"):
         for stages in stage:
@@ -142,7 +125,6 @@ def load_grow(farm,
             recipe3 = stages
             recipe_list.append(recipe3)
 
-    print(recipe1)
     for recipe in recipe_list:
         if recipe == recipe1:
             parse_recipe(recipe, bed_list)

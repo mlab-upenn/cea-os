@@ -1,4 +1,8 @@
 plant: "type of plant being grow"
+environments:
+  - name: "Environments of interest"
+beds:
+  - name: "beds within each environment"
 time_periods:
   - name: "day"
     duration: "How many hours of the day are "day""  # based on max lightHours

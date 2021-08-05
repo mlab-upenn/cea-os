@@ -1,7 +1,10 @@
+from ceaos import actuators
+from ceaos.objects.environment import Environment
 import pytest
-from ceaos.grow import load_grow, parse_recipe, find_relevantbeds
+from ceaos.grow import find_actuators, get_relevant_beds, load_grow, parse_recipe
 from ceaos.objects.beds import Bed
 from ceaos.objects.farm import Farm
+from ceaos.actuators.sample_actuator import Artificial_Actuator
 
 
 def test_grow1():
@@ -111,16 +114,37 @@ def test_parse_recipe():
 
 
 def test_find_beds():
+    env_list = []
+    farm1 = Farm("farm1")
+    env1 = Environment("env1")
+    env_list.append(env1.name)
+    farm1.add_environment(env1)
     bed_names = []
     bed_names.append("bed1")
-    bed_names.append("bed2")
-    bed_list = dict()
     bed1 = Bed("bed1")
     bed2 = Bed("bed2")
-    bed_list["bed1"] = bed1
-    bed_list["bed2"] = bed2
-    compare = []
-    compare.append(bed1)
-    compare.append(bed2)
-    relevant = find_relevantbeds(bed_names, bed_list)
+    env1.add_bed(bed1)
+    env1.add_bed(bed2)
+    compare = dict()
+    compare[bed1.name] = bed1
+    relevant = get_relevant_beds(farm1, env_list, bed_names)
     assert (relevant == compare)
+
+def test_find_actuators():
+    bed_list = []
+    bed1 = Bed("bed1")
+    bed2 = Bed("bed2")
+    ec = Artificial_Actuator()
+    pH = Artificial_Actuator()
+    water = Artificial_Actuator()
+    bed1.add_actuators("Artificial EC", ec)
+    bed1.add_actuators("Artificial pH", pH)
+    bed2.add_actuators("Artificial water_temperature", water)
+    bed_list.append(bed1)
+    bed_list.append(bed2)
+    actuators = []
+    actuators.append(ec)
+    relevant = find_actuators(bed_list, "EC")
+    assert (actuators == relevant)
+
+
