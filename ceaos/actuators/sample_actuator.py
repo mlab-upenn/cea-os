@@ -49,13 +49,13 @@ class Artificial_Actuator(Actuator):
 
     def get_location(self):
         return self.location
-    
+
     def set_ip(self, ip):
         self.ip = ip
 
     def get_ip(self, ip):
         return self.ip
-    
+
     def set_sensor(self, sensor):
         self.sensor = sensor
 
