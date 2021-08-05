@@ -58,6 +58,6 @@ class Artificial_Actuator(Actuator):
     
     def set_sensor(self, sensor):
         self.sensor = sensor
-    
+
     def get_sensor(self, sensor):
         return self.sensor
