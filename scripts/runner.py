@@ -54,8 +54,6 @@ if __name__ == "__main__":
 
     # this is a list of lists
     recipe_list = []
-    c = os.getcwd()
-    print(c)
     directory = "/home/mlab/cea-os/ceaos/resources/config/recipes"
 
     for recipe in os.scandir(directory):
