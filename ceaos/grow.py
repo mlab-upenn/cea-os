@@ -1,9 +1,8 @@
 import yaml
 from importlib_resources import files
-import os
 
-def load_grow(config_folder="ceaos.resources.config.recipes",
-              config_file="config_lettuce_grow.yml"):
+def load_grow(config_file = "config_lettuce_grow.yml"):
+    config_folder = "ceaos.resources.config.recipes"
     config = files(config_folder).joinpath(config_file).read_text()
     try:
         dictionary = yaml.safe_load(config)
@@ -25,11 +24,9 @@ def load_grow(config_folder="ceaos.resources.config.recipes",
         if stages.get('name') == stage1:
             recipe1 = stages
             recipe_stages["stage1"] = recipe1
-            print(recipe1)
         elif stages.get('name') == stage2:
             recipe2 = stages
             recipe_stages["stage2"] = recipe2
-            print(recipe2)
         else:
             recipe3 = stages
             recipe_stages["stage3"] = recipe3

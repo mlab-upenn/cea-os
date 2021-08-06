@@ -1,3 +1,4 @@
+from posix import listdir
 from ceaos.sensors.nwsensor import NetworkSensor
 from ceaos.loggers.InfluxDB import InfluxDBConnection
 from ceaos.loggers.InfluxDB import InfluxDBLogger
@@ -53,12 +54,12 @@ if __name__ == "__main__":
     logging.info("DB Client Configured")
     farm_name = farm.get_name()
 
-    # this is a list of lists
+    # this is a list of dictionaries
     recipe_list = []
-    directory = "/home/mlab/cea-os/ceaos/resources/config/recipes"
-
-    for recipe in os.scandir(directory):
-        recipe_to_add = load_grow(directory, recipe)
+    directory = "./ceaos/resources/config/recipes"
+    dir_list = os.listdir("./ceaos/resources/config/recipes")
+    for recipe in dir_list:
+        recipe_to_add = load_grow(recipe)
         recipe_list.append(recipe_to_add)
 
     print(recipe_list)
