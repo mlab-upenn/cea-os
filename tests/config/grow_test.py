@@ -4,7 +4,7 @@ from ceaos.grow import load_grow
 
 def test_grow1():
     tocompare = dict()
-    recipe_list = load_grow("tests.config", "test_grow.yaml")
+    recipe_list = load_grow("test_grow.yaml", "tests.config")
     recipe1 = {
         'name':
         'seedling',
