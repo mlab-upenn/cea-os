@@ -54,7 +54,9 @@ if __name__ == "__main__":
 
     # this is a list of lists
     recipe_list = []
-    directory = "cea-os/ceaos/resources/config/recipes"
+    c = os.getcwd()
+    print(c)
+    directory = "cea-os.ceaos.resources.config.recipes"
 
     for recipe in os.scandir(directory):
         recipe_to_add = load_grow(directory, recipe)
