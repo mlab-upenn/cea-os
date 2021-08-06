@@ -4,6 +4,7 @@ from ceaos.loggers.InfluxDB import InfluxDBLogger
 from ceaos.cfg import load_config
 from ceaos.api import create_api
 from ceaos.grow import load_grow
+from importlib_resources import files 
 
 import time
 import threading
