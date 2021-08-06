@@ -3,7 +3,7 @@ from ceaos.grow import load_grow
 
 
 def test_grow1():
-    tocompare = []
+    tocompare = dict()
     recipe_list = load_grow("tests.config", "test_grow.yaml")
     recipe1 = {
         'name':
@@ -95,6 +95,6 @@ def test_grow1():
             'unit': 'S/m'
         }
     }
-    tocompare.append(recipe1)
-    tocompare.append(recipe2)
+    tocompare["stage1"] = recipe1
+    tocompare["stage2"] = recipe2
     assert (tocompare == recipe_list)

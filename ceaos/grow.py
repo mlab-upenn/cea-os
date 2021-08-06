@@ -20,21 +20,21 @@ def load_grow(config_folder="ceaos.resources.config.recipes",
             else:
                 stage3 = stage.get('name')
 
-    recipe_list = []
+    recipe_stages = dict()
     for stages in dictionary.get('stages'):
         if stages.get('name') == stage1:
             recipe1 = stages
-            recipe_list.append(recipe1)
+            recipe_stages["stage1"] = recipe1
             print(recipe1)
         elif stages.get('name') == stage2:
             recipe2 = stages
-            recipe_list.append(recipe2)
+            recipe_stages["stage2"] = recipe2
             print(recipe2)
         else:
             recipe3 = stages
-            recipe_list.append(recipe3)
+            recipe_stages["stage3"] = recipe3
 
-    return recipe_list
+    return recipe_stages
 
 if __name__ == "__main__":
     load_grow()
