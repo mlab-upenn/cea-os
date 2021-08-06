@@ -1,5 +1,6 @@
 import yaml
 from importlib_resources import files
+import os
 
 def load_grow(config_folder="ceaos.resources.config.recipes",
               config_file="config_lettuce_grow.yml"):
