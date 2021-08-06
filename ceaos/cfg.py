@@ -170,8 +170,6 @@ def add_actuators(farm_object, dictionary, actuator_list):
                 actuator.get("type"))  # Sets type of data sensor is collecting
             a.set_location(str(dictionary.get(
                 "name")))  # sets location to the name of the environment
-            if "ip" in actuator:
-                a.set_ip(actuator.get("ip"))
             farm_object.add_actuators(actuator.get("type"), a)
             actuator_list.append(a)
 
@@ -217,11 +215,13 @@ def load_config(config_folder="ceaos.resources", config_file="config.yaml"):
             env_object = Environment(str(environment.get(
                 "name")))  # Creates an environment with set name
             add_sensors(env_object, environment, sensors)
+            add_actuators(env_object, environment, actuators)
 
             for bed in environment.get(
                     "beds"):  # Creates and associates beds with environments
                 bed_object = Bed(str(bed.get("name")))
                 add_sensors(bed_object, bed, sensors)
+                add_actuators(env_object, environment, actuators)
 
                 for plant in bed.get(
                         "plants"):  # Creates and associates plants with beds

@@ -12,9 +12,7 @@ environments: #environments are a list of dictionaries
         - type: "light"
       actuators:
         - type: "Artificial EC"
-          ip: 158.130.113.109
         - type: "Artificial pH"
-          ip: 158.130.113.109
 - name: "env2"
   beds:
     - name: "bed2"
