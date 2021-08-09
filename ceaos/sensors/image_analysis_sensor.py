@@ -179,7 +179,7 @@ class ImageAnalyticsSensor(Sensor):
             fh.write(base64.decodebytes(data))
 
     def analyze(self):
-        self.query_db('grafana', len(self.cameras), self.camera[0].get_datatype())  # Pulls images from database
+        self.query_db('grafana', len(self.cameras), self.camera[0].get_datatype())  # Pulls most recent images from db for every associated camera
         if self.stitch_images(self.images): # Stitches images
             self.mask_images()  # If stitching is successful, mask and crop the images
             self.log_area() # Record the leaf area in the database
