@@ -11,6 +11,7 @@ setup(
         'pyzmq',
         'importlib_resources',
         'PyYAML',
-        'pigpio'
+        'pigpio',
+        'plantcv'
     ],
 )
