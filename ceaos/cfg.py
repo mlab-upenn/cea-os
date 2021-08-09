@@ -170,7 +170,7 @@ def add_sensors(farm_object, dictionary, sensors_list, location):
                 sensor.get("type"))  # Sets type of data sensor is collecting
 
             s.set_name(sensor.get("name"))  # Sets name of sensor
-            
+
             # Setting proper location of sensor
             loc = ""
             for i in range(len(location)):
@@ -182,7 +182,7 @@ def add_sensors(farm_object, dictionary, sensors_list, location):
             if "refresh" in sensor and not isinstance(s, NetworkSensor):
                 s.set_refresh(sensor.get("refresh"))
 
-            farm_object.add_sensor(sensor.get("type"), s)
+            farm_object.add_sensor(sensor.get("name"), s)
             sensors_list.append(s)
 
 
