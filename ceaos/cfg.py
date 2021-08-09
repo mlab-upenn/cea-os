@@ -169,6 +169,8 @@ def add_sensors(farm_object, dictionary, sensors_list, location):
             s.set_datatype(
                 sensor.get("type"))  # Sets type of data sensor is collecting
 
+            s.set_name(sensor.get("name"))  # Sets name of sensor
+            
             # Setting proper location of sensor
             loc = ""
             for i in range(len(location)):
