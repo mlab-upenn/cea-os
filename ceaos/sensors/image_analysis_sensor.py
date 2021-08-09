@@ -7,6 +7,7 @@ import numpy as np
 import json
 import os
 from ..objects.beds import *
+from .stitcher import *
 
 class ImageAnalyticsSensor(Sensor):
     def __init__(self, db_client: InfluxDBConnection) -> None:
@@ -19,8 +20,9 @@ class ImageAnalyticsSensor(Sensor):
         self.logger = InfluxDBLogger(sensor = self)
         self.measurements = './images/measurements/measurements.json'
         self.location = None    #String
-        self.bed = None
         self.cameras = []
+        self.stitcher = Stitcher()
+        self.plant_names = []
 
     def read_value(self, database_name: str, num_images: int, field: str, location: str):
         return self.image_data
@@ -31,20 +33,29 @@ class ImageAnalyticsSensor(Sensor):
     def set_location(self, location):
         self.location = location
 
-    def set_bed(self, bed):
-        self.bed = bed
-
     def query_db(self, database_name:str, num_images: int, field: str):
         results = self.client.query(f"""SELECT * FROM "{database_name}"."autogen"."{field}" 
         GROUP BY * ORDER BY DESC LIMIT {str(num_images)}""")
-        self.image = results.get_points(tags = {'location': self.location})
+        self.images = results.get_points(tags = {'location': self.location})
 
-    def mask_images(self, plant_names):
+    def stitch_images(self, images):
+        output_dir = self.stitcher.stitch_images(images)    # Stitches image and returns output dir if successful, else None
+        if output_dir is not None:
+            with open(output_dir, 'rb') as imagefile:
+                self.image_data = base64.b64encode(imagefile.read())    # Encode stitched image and send to database
+            self.logger.send_logs("analysis", "stitched_image", self.location, self.client.get_connection())
+            self.images = self.image_data   # Set images attribute to encoded stitched image for masking function
+            return True
+        else:
+            return False
+
+
+    def mask_images(self):
         # Decode images
         now = datetime.now()
         date_str = now.strftime("__%Y_%m_%d__%H:%M")
         image_name = self.location + date_str + ".png"
-        self.decode_image(self.image, self.images_folder + image_name) # Saves decoded image in temporary image folder
+        self.decode_image(self.images, self.images_folder + image_name) # Saves decoded image in temporary image folder
     
         # Read image
         img, path, filename = pcv.readimage(filename= self.images_folder + image_name)
@@ -112,7 +123,7 @@ class ImageAnalyticsSensor(Sensor):
         img_copy = np.copy(img)
 
         #Check if number of plants detected is same as number of plant names given
-        if len(plant_names) == len(rois1):
+        if len(self.plant_names) == len(rois1):
             use_names = True
         else:
             use_names = False
@@ -120,7 +131,7 @@ class ImageAnalyticsSensor(Sensor):
         # Analyze each plant using the ROI's created by using the grid setup for pcv.roi.multi
         for i in range(0, len(rois1)):
             if use_names:
-                plant_image_name = f"{self.location}_{plant_names[i]}{date_str}.jpg"
+                plant_image_name = f"{self.location}_{self.plant_names[i]}{date_str}.jpg"
             else:
                 plant_image_name = f"{self.location}_plant{i}{date_str}.jpg"
             roi = rois1[i]
@@ -145,7 +156,7 @@ class ImageAnalyticsSensor(Sensor):
                 self.image_data = base64.b64encode(imagefile.read())
 
             if use_names:
-                self.logger.send_logs("sensor_data", "indiv_images", f"{self.location}.{plant_names[i]}", self.client.get_connection())
+                self.logger.send_logs("sensor_data", "indiv_images", f"{self.location}.{self.plant_names[i]}", self.client.get_connection())
             else:
                 self.logger.send_logs("sensor_data", "indiv_images", f"{self.location}.plant{i}", self.client.get_connection())
             
@@ -166,3 +177,13 @@ class ImageAnalyticsSensor(Sensor):
         data = encoded_data.encode('ascii')
         with open(image_name, "wb") as fh:
             fh.write(base64.decodebytes(data))
+
+    def analyze(self):
+        self.query_db('grafana', len(self.cameras), self.camera[0].get_datatype())  # Pulls images from database
+        if self.stitch_images(self.images): # Stitches images
+            self.mask_images()  # If stitching is successful, mask and crop the images
+            self.log_area() # Record the leaf area in the database
+        else:
+            print("ERROR: Image stitching failed")
+
+
