@@ -52,7 +52,7 @@ if __name__ == "__main__":
     )
 
     logging.info("DB Client Configured")
-    farm_name = farm.get_name()
+    farm_name = farm.name
 
     # this is a list of dictionaries
     recipe_list = []

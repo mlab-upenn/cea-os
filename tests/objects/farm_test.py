@@ -13,17 +13,17 @@ def test_creation():
 
 def test_get_name():
     f = setup_farm()
-    assert (f.get_name() == "test_farm")
+    assert (f.name == "test_farm")
 
 
 def test_set_name():
     f = setup_farm()
     f.set_name(2)
-    assert (type(f.get_name()) == str)
+    assert (type(f.name) == str)
 
 
 def test_add_env():
     f = setup_farm()
     env = Environment("env1")
     f.add_environment(env)
-    assert (f.num_environments == 1)
+    assert (len(f.environments) == 1)
