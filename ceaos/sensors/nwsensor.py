@@ -14,6 +14,7 @@ class NetworkSensor(Sensor):
         self.location = location
         self.refresh = None
         self.influxconnection = influxconnection
+        self.name = None
 
     def read_value(self):
         return self.curr_value
@@ -43,6 +44,12 @@ class NetworkSensor(Sensor):
 
     def set_datatype(self, datatype):
         self.datatype = datatype
+    
+    def set_name(self, name):
+        try:
+            self.name = str(name)
+        except ValueError:
+            print("Invalid sensor name")
 
     def set_location(self, location):
         self.location = location
