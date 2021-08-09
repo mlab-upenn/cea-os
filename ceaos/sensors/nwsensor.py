@@ -44,7 +44,7 @@ class NetworkSensor(Sensor):
 
     def set_datatype(self, datatype):
         self.datatype = datatype
-    
+
     def set_name(self, name):
         try:
             self.name = str(name)
