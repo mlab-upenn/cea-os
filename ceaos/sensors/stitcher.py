@@ -19,7 +19,7 @@ class Stitcher():
             cv2.imwrite(self.output_dir, self.stitched)
             return self.output_dir
 
-        # otherwise the stitching failed, likely due to not enough keypoints)
+        # otherwise the stitching failed (likely due to not enough keypoints)
         # being detected
         else:
             print("[INFO] image stitching failed ({})".format(status))
