@@ -39,7 +39,6 @@ if __name__ == "__main__":
         quit()
     loggers = {
     }  # Dictionary of loggers (key = refresh_rate, value = list of loggers)
-
     time.sleep(5)
 
     db_client = InfluxDBConnection()
