@@ -20,6 +20,7 @@ class ImageAnalyticsSensor(Sensor):
         self.measurements = './images/measurements/measurements.json'
         self.location = None    #String
         self.bed = None
+        self.cameras = []
 
     def read_value(self, database_name: str, num_images: int, field: str, location: str):
         return self.image_data
