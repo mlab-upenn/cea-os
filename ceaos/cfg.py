@@ -222,7 +222,7 @@ def load_config(config_folder="ceaos.resources", config_file="config.yaml"):
                 "environments"):  # Sets up each individual environment
             env_object = Environment(str(environment.get(
                 "name")))  # Creates an environment with set name
-  
+
             location.append(str(environment.get("name")))
             add_sensors(env_object, environment, sensors, location)
             add_actuators(env_object, environment, actuators)
