@@ -1,7 +1,7 @@
 import yaml
 from importlib_resources import files
 
-def load_grow(config_file = "config_lettuce_grow.yml", config_folder = "ceaos.resources.config.recipes"):
+def load_grow(config_file="config_lettuce_grow.yml", config_folder="ceaos.resources.config.recipes"):
     config = files(config_folder).joinpath(config_file).read_text()
     try:
         dictionary = yaml.safe_load(config)
