@@ -23,6 +23,7 @@ class Artificial_Sensor(Sensor):
         self.location = None
         self.refresh = refresh
         self.logger = None
+        self.name = None
 
     def read_value(self):
         """
@@ -78,3 +79,6 @@ class Artificial_Sensor(Sensor):
 
     def get_logger(self):
         return self.logger
+
+    def set_name(self, name):
+        self.name = name

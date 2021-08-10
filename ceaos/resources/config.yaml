@@ -7,9 +7,13 @@ environments: #environments are a list of dictionaries
         - name: "lettuce1" #name of plant
       sensors:
         - type: "air"
+          name: "air1"
         - type: "reservoir"
+          name: "reservoir1"
         - type: "camera"
+          name: "camera1"
         - type: "light"
+          name: "light1"
       actuators:
         - type: "Artificial EC"
         - type: "Artificial pH"

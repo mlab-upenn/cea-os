@@ -43,6 +43,9 @@ services:
             - type: bind
               source: ./docker_data/grafana_data
               target: /var/lib/grafana
+        environment:
+            - GF_INSTALL_PLUGINS=volkovlabs-image-panel
+            - GF_INSTALL_PLUGINS=cloudspout-button-panel
         depends_on:
         - influxdb
 
