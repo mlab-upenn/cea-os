@@ -10,6 +10,9 @@ environments: #environments are a list of dictionaries
         - type: "reservoir"
         - type: "camera"
         - type: "light"
+      actuators:
+        - type: "Artificial EC"
+        - type: "Artificial pH"
 - name: "env2"
   beds:
     - name: "bed2"

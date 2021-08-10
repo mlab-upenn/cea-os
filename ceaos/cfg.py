@@ -4,6 +4,7 @@ from .objects.beds import Bed
 from .objects.environment import Environment
 from .objects.plants import Plant
 from .sensors.artificial_sensor import Artificial_Sensor
+from .actuators.sample_actuator import Artificial_Actuator
 from .sensors.nwsensor import NetworkSensor
 from importlib_resources import files
 
@@ -157,6 +158,21 @@ def error_handle(
 
     return error
 
+def add_actuators(farm_object, dictionary, actuator_list):
+    if "actuators" in dictionary:  
+        for actuator in dictionary.get("actuators"):
+            if "artificial" in actuator.get("type").lower():
+                a = Artificial_Actuator()
+            else:
+                print("network actuator not supported yet")
+
+            a.set_datatype(
+                actuator.get("type"))  # Sets type of data sensor is collecting
+            a.set_location(str(dictionary.get(
+                "name")))  # sets location to the name of the environment
+            farm_object.add_actuators(actuator.get("type"), a)
+            actuator_list.append(a)
+
 
 def add_sensors(farm_object, dictionary, sensors_list, location):
     if "sensors" in dictionary:  # Creates and associates environment-wide sensors
@@ -199,20 +215,24 @@ def load_config(config_folder="ceaos.resources", config_file="config.yaml"):
     else:
         location = []
         sensors = []  # List of sensors
+        actuators = [] # List of actuators
         farm_object = Farm(dictionary.get("name"))  # Sets name of farm
         location.append(dictionary.get("name"))
         for environment in dictionary.get(
                 "environments"):  # Sets up each individual environment
             env_object = Environment(str(environment.get(
                 "name")))  # Creates an environment with set name
+
             location.append(str(environment.get("name")))
             add_sensors(env_object, environment, sensors, location)
+            add_actuators(env_object, environment, actuators)
 
             for bed in environment.get(
                     "beds"):  # Creates and associates beds with environments
                 bed_object = Bed(str(bed.get("name")))
                 location.append(str(bed.get("name")))
                 add_sensors(bed_object, bed, sensors, location)
+                add_actuators(env_object, environment, actuators)
 
                 for plant in bed.get(
                         "plants"):  # Creates and associates plants with beds
@@ -229,7 +249,7 @@ def load_config(config_folder="ceaos.resources", config_file="config.yaml"):
 
         print("FARM SETUP COMPLETE")
 
-        return farm_object, sensors, connection_dict, error
+        return farm_object, sensors, actuators, connection_dict, error
 
 
 if __name__ == "__main__":

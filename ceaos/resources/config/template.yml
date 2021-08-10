@@ -1,0 +1,82 @@
+plant: "type of plant being grow"
+time_periods:
+  - name: "day"
+    duration: "How many hours of the day are "day""  # based on max lightHours
+    order: 1 # day comes before night, but if you start executing in the night, order would switch
+  - name: "night"
+    duration: "How many hours of the day are "nigh""  # 24 hrs - duration of day
+    order: 2 # look above
+stage_ordering:  # a list of the order that each growth stage occurs
+  - name: "seedling"
+    order: 1
+  - name: "growing"
+    order: 2 # You may need to add additional stages if necessary
+stages:  # a list of the plant's growth stages and parameters
+  - name: "seedling"  
+    air_temperature:  
+      - time_period: "day"
+        max: "Max allowed air_temperature during day"
+        min: "Min allowed air_temperature during day"
+        unit: "F"  # degrees Farenheit
+      - time_period: "night" 
+        max: "Max allowed air_temperature during the night"  # range not given, just single value
+        min: "Min allowed air_temperature during the night"
+        unit: "F"  # degrees Farenheit
+    water_temperature: # if day and night is import distinction add time period attribute
+      max: "Max allowed water_temperature at all times"
+      min: "Min allowed water_temperature at all times"
+      unit: "F"  # degrees Farenheit
+    relative_humidity: # if day and night is import distinction add time period attribute
+      max: "Max allowed humidity"
+      min: "Min allowed humidity"
+      unit: "%"
+    light_hours: # if day and night is import distinction add time period attribute
+      max: "Max number of light_hours"
+      min: "Min number of light_hours"
+      unit: "hours"
+    DLI:  # coincidentally the same as lightHours
+      max: "Max DLI if you have control over this"
+      min: "Min DLI if you have control over this"
+      unit: "mol*m-2*d-1"  # moles per sq meter per day
+    pH:  # if day and night is import distinction add time period attribute
+      max: "Max pH"
+      min: "Min pH"
+      unit: "pH"
+    EC: # if day and night is import distinction add time period attribute
+      max: "Max EC"
+      min: "Min EC"
+      unit: "S/m"  # Siemens per meter
+  - name: "growing"
+    air_temperature:  
+      - time_period: "day"
+        max: "Max allowed air_temperature during day"
+        min: "Min allowed air_temperature during day"
+        unit: "F"  # degrees Farenheit
+      - time_period: "night" 
+        max: "Max allowed air_temperature during the night"  # range not given, just single value
+        min: "Min allowed air_temperature during the night"
+        unit: "F"  # degrees Farenheit
+    water_temperature: # if day and night is import distinction add time period attribute
+      max: "Max allowed water_temperature at all times"
+      min: "Min allowed water_temperature at all times"
+      unit: "F"  # degrees Farenheit
+    relative_humidity: # if day and night is import distinction add time period attribute
+      max: "Max allowed humidity"
+      min: "Min allowed humidity"
+      unit: "%"
+    light_hours: # if day and night is import distinction add time period attribute
+      max: "Max number of light_hours"
+      min: "Min number of light_hours"
+      unit: "hours"
+    DLI:  # coincidentally the same as lightHours
+      max: "Max DLI if you have control over this"
+      min: "Min DLI if you have control over this"
+      unit: "mol*m-2*d-1"  # moles per sq meter per day
+    pH:  # if day and night is import distinction add time period attribute
+      max: "Max pH"
+      min: "Min pH"
+      unit: "pH"
+    EC: # if day and night is import distinction add time period attribute
+      max: "Max EC"
+      min: "Min EC"
+      unit: "S/m"  # Siemens per meter
