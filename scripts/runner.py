@@ -1,8 +1,11 @@
+from posix import listdir
 from ceaos.sensors.nwsensor import NetworkSensor
 from ceaos.loggers.InfluxDB import InfluxDBConnection
 from ceaos.loggers.InfluxDB import InfluxDBLogger
 from ceaos.cfg import load_config
 from ceaos.api import create_api
+from ceaos.grow import load_grow
+from importlib_resources import files 
 
 import time
 import threading
@@ -29,7 +32,7 @@ def log_data(refresh_rate, logger_list, client):
 
 
 if __name__ == "__main__":
-    farm, sensors, connection_dict, error = load_config(
+    farm, sensors, actuators, connection_dict, error = load_config(
         "ceaos.resources", "config.yaml")  # Set up Farm from config file
     if error is not None or farm is None:
         logging.error(error)
@@ -48,7 +51,17 @@ if __name__ == "__main__":
     )
 
     logging.info("DB Client Configured")
-    farm_name = farm.get_name()
+    farm_name = farm.name
+
+    # this is a list of dictionaries
+    recipe_list = []
+    directory = "./ceaos/resources/config/recipes"
+    dir_list = os.listdir("./ceaos/resources/config/recipes")
+    for recipe in dir_list:
+        recipe_to_add = load_grow(recipe)
+        recipe_list.append(recipe_to_add)
+
+    print(recipe_list)
 
     for sensor in sensors:  # NetworkSensors will have a refresh rate of None
         logger = InfluxDBLogger(sensor)

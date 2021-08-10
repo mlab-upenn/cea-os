@@ -10,13 +10,10 @@ class Artificial_Actuator(Actuator):
         self.running = None
         self.curr_state = None
         self.datatype = None
-    def set_point(self, sensor):
-        self.running = True
-        while sensor.read_value() > 20:
-            # actuate
-            print("actuating")
-        self.stop()
-        return self.running
+        self.location = None
+
+    def set_point(self, min=None, max=None):
+        raise NotImplementedError
 
     def stop(self):
         self.running = False
@@ -33,10 +30,3 @@ class Artificial_Actuator(Actuator):
 
     def calibrate(self, calib_val):
         pass
-
-    # returns the measurement the actuator is actuating (i.e. temperature, pH)
-    def get_datatype(self):
-        return self.datatype
-
-    def set_datatype(self, datatype):
-        self.datatype = datatype

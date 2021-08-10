@@ -13,8 +13,8 @@ def test_creation():
 
 def test_read():
     a = setup_actuator()
-    s = Artificial_Sensor()
-    assert (type(a.set_point(s)) == bool)
+    with pytest.raises(NotImplementedError):
+        a.set_point()
 
 
 def test_stop():
@@ -27,10 +27,3 @@ def test_value_exception():
     a = setup_actuator()
     with pytest.raises(ValueError):
         a.set_noise("A")
-
-
-def test_is_running():
-    a = setup_actuator()
-    s = Artificial_Sensor()
-    a.set_point(s)
-    assert (a.running is False)
