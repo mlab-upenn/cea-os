@@ -7,6 +7,7 @@ class Auto_Grower:
     def __init__(self) -> None:
         self.inputs = dict()
         self.outputs = dict()
+        raise NotImplementedError
 
     def control(self):
         raise NotImplementedError
