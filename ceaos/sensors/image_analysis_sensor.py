@@ -19,7 +19,7 @@ class ImageAnalyticsSensor(Sensor):
         self.client = db_client
         self.logger = InfluxDBLogger(sensor = self)
         self.measurements = './images/measurements/measurements.json'
-        self.location = None    #String
+        self.location = None    # String
         self.cameras = []
         self.stitcher = Stitcher()
         self.plant_names = []
@@ -39,12 +39,13 @@ class ImageAnalyticsSensor(Sensor):
         self.images = results.get_points(tags = {'location': self.location})
 
     def stitch_images(self, images):
-        output_dir = self.stitcher.stitch_images(images)    # Stitches image and returns output dir if successful, else None
-        if output_dir is not None:
-            with open(output_dir, 'rb') as imagefile:
+        output_path = self.stitcher.stitch_images(images)    # Stitches image and returns output dir if successful, else None
+        if output_path is not None:
+            with open(output_path, 'rb') as imagefile:
                 self.image_data = base64.b64encode(imagefile.read())    # Encode stitched image and send to database
             self.logger.send_logs("analysis", "stitched_image", self.location, self.client.get_connection())
             self.images = self.image_data   # Set images attribute to encoded stitched image for masking function
+            os.remove(output_path)
             return True
         else:
             return False
@@ -162,6 +163,7 @@ class ImageAnalyticsSensor(Sensor):
             
             os.remove(self.plant_img_folder + plant_image_name)
 
+        # Save data on plant shape to json file
         pcv.outputs.save_results(filename=self.measurements)
 
     def log_area(self):
