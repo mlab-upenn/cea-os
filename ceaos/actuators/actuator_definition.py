@@ -7,16 +7,13 @@ class Actuator:
     def __init__(self) -> None:
         raise NotImplementedError
 
-    def set_point(self):
+    def setpoint(self, arg):
         # This must be implemented in inheriting classes
         raise NotImplementedError
 
-    def stop(self):
+    def do(self, arg):
         # This must be implemented in inheriting classes
         raise NotImplementedError
-
-    def is_running(self):
-        return self.running
 
     def calibrate(self):
         """
