@@ -5,7 +5,7 @@ import random
 from .sensor_definition import Sensor
 
 
-class Artificial_Sensor(Sensor):
+class ArtificialSensor(Sensor):
     def __init__(self, value=20, noise=0, refresh=10) -> None:
         try:
             self.value = float(value)  # sets initial value for sensor data
