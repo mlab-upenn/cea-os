@@ -14,13 +14,7 @@ def test_creation():
 def test_read():
     a = setup_actuator()
     with pytest.raises(NotImplementedError):
-        a.set_point()
-
-
-def test_stop():
-    a = setup_actuator()
-    a.stop()
-    assert (a.running is False)
+        a.setpoint()
 
 
 def test_value_exception():
