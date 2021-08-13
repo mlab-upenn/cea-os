@@ -3,7 +3,8 @@ from .objects.farm import Farm
 from .objects.beds import Bed
 from .objects.environment import Environment
 from .objects.plants import Plant
-from .sensors.artificial_sensor import Artificial_Sensor
+from .sensors.artificial_sensor import ArtificialSensor
+from .actuators.sample_actuator import ArtificialActuator
 from .sensors.nwsensor import NetworkSensor
 from importlib_resources import files
 
@@ -157,23 +158,47 @@ def error_handle(
 
     return error
 
+def add_actuators(farm_object, dictionary, actuator_list):
+    if "actuators" in dictionary:  
+        for actuator in dictionary.get("actuators"):
+            if "artificial" in actuator.get("type").lower():
+                a = ArtificialActuator()
+            else:
+                print("network actuator not supported yet")
 
-def add_sensors(farm_object, dictionary, sensors_list):
+            a.set_datatype(
+                actuator.get("type"))  # Sets type of data sensor is collecting
+            a.set_location(str(dictionary.get(
+                "name")))  # sets location to the name of the environment
+            farm_object.add_actuators(actuator.get("type"), a)
+            actuator_list.append(a)
+
+
+def add_sensors(farm_object, dictionary, sensors_list, location):
     if "sensors" in dictionary:  # Creates and associates environment-wide sensors
         for sensor in dictionary.get("sensors"):
             if "artificial" in sensor.get("type").lower():
-                s = Artificial_Sensor(value=sensor.get("value"), noise=2)
+                s = ArtificialSensor(value=sensor.get("value"), noise=2)
             else:
                 s = NetworkSensor()
 
             s.set_datatype(
                 sensor.get("type"))  # Sets type of data sensor is collecting
-            s.set_location(str(dictionary.get(
-                "name")))  # sets location to the name of the environment
+
+            s.set_name(sensor.get("name"))  # Sets name of sensor
+
+            # Setting proper location of sensor
+            loc = ""
+            for i in range(len(location)):
+                loc += location[i]
+                if i < len(location) - 1:
+                    loc += "."
+
+            s.set_location(loc)  # Sets location to the "{farm_name}.{env_name} ..."
             if "refresh" in sensor and not isinstance(s, NetworkSensor):
                 s.set_refresh(sensor.get("refresh"))
 
-            farm_object.add_sensor(sensor.get("type"), s)
+            farm_object.add_sensor(sensor.get("name"), s)
             sensors_list.append(s)
 
 
@@ -190,19 +215,26 @@ def load_config(config_folder="ceaos.resources", config_file="config.yaml"):
     if error is not None:
         return None, None, None, error
     else:
+        location = []
         sensors = []  # List of sensors
+        actuators = [] # List of actuators
         farm_object = Farm(dictionary.get("name"))  # Sets name of farm
-
+        location.append(dictionary.get("name"))
         for environment in dictionary.get(
                 "environments"):  # Sets up each individual environment
             env_object = Environment(str(environment.get(
                 "name")))  # Creates an environment with set name
-            add_sensors(env_object, environment, sensors)
+
+            location.append(str(environment.get("name")))
+            add_sensors(env_object, environment, sensors, location)
+            add_actuators(env_object, environment, actuators)
 
             for bed in environment.get(
                     "beds"):  # Creates and associates beds with environments
                 bed_object = Bed(str(bed.get("name")))
-                add_sensors(bed_object, bed, sensors)
+                location.append(str(bed.get("name")))
+                add_sensors(bed_object, bed, sensors, location)
+                add_actuators(env_object, environment, actuators)
 
                 for plant in bed.get(
                         "plants"):  # Creates and associates plants with beds
@@ -210,15 +242,16 @@ def load_config(config_folder="ceaos.resources", config_file="config.yaml"):
                     bed_object.add_plant(plant_object)
 
                 env_object.add_bed(bed_object)  # Adds beds to environments
-
+                location.pop()
             farm_object.add_environment(
                 env_object)  # Adds environments to the farm
+            location.pop()
 
         connection_dict = dictionary.get("connection")
 
         print("FARM SETUP COMPLETE")
 
-        return farm_object, sensors, connection_dict, error
+        return farm_object, sensors, actuators, connection_dict, error
 
 
 if __name__ == "__main__":

@@ -12,8 +12,6 @@ environments: #environments are a list of dictionaries
           name: "reservoir1"
         - type: "camera"
           name: "camera1"
-        - type: "camera"
-          name: "camera2"
         - type: "light"
           name: "light1"
       actuators:
