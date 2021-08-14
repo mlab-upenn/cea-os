@@ -3,8 +3,8 @@ from .objects.farm import Farm
 from .objects.beds import Bed
 from .objects.environment import Environment
 from .objects.plants import Plant
-from .sensors.artificial_sensor import Artificial_Sensor
-from .actuators.sample_actuator import Artificial_Actuator
+from .sensors.artificial_sensor import ArtificialSensor
+from .actuators.sample_actuator import ArtificialActuator
 from .sensors.nwsensor import NetworkSensor
 from importlib_resources import files
 
@@ -162,7 +162,7 @@ def add_actuators(farm_object, dictionary, actuator_list):
     if "actuators" in dictionary:  
         for actuator in dictionary.get("actuators"):
             if "artificial" in actuator.get("type").lower():
-                a = Artificial_Actuator()
+                a = ArtificialActuator()
             else:
                 print("network actuator not supported yet")
 
@@ -178,7 +178,7 @@ def add_sensors(farm_object, dictionary, sensors_list, location):
     if "sensors" in dictionary:  # Creates and associates environment-wide sensors
         for sensor in dictionary.get("sensors"):
             if "artificial" in sensor.get("type").lower():
-                s = Artificial_Sensor(value=sensor.get("value"), noise=2)
+                s = ArtificialSensor(value=sensor.get("value"), noise=2)
             else:
                 s = NetworkSensor()
 

@@ -1,26 +1,20 @@
 import pytest
-from ceaos.actuators.sample_actuator import Artificial_Actuator
-from ceaos.sensors.artificial_sensor import Artificial_Sensor
+from ceaos.actuators.sample_actuator import ArtificialActuator
+from ceaos.sensors.artificial_sensor import ArtificialSensor
 
 
-def setup_actuator() -> Artificial_Actuator:
-    return Artificial_Actuator()
+def setup_actuator() -> ArtificialActuator:
+    return ArtificialActuator()
 
 
 def test_creation():
-    Artificial_Actuator()
+    ArtificialActuator()
 
 
 def test_read():
     a = setup_actuator()
     with pytest.raises(NotImplementedError):
-        a.set_point()
-
-
-def test_stop():
-    a = setup_actuator()
-    a.stop()
-    assert (a.running is False)
+        a.setpoint()
 
 
 def test_value_exception():

@@ -1,7 +1,7 @@
 import pytest
 from ceaos.objects.plants import Plant
 from ceaos.objects.beds import Bed
-from ceaos.sensors.artificial_sensor import Artificial_Sensor
+from ceaos.sensors.artificial_sensor import ArtificialSensor
 
 
 def setup_bed() -> Bed:
@@ -32,7 +32,7 @@ def test_add_plant():
 
 def test_add_sensor():
     b = setup_bed()
-    s = Artificial_Sensor()
+    s = ArtificialSensor()
     b.add_sensor("test_sens", s)
     assert (len(b.sensors) == 1 and len(b.sensors.keys()) == 1)
 

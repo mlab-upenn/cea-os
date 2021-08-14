@@ -1,8 +1,7 @@
 from .actuator_definition import Actuator
-from ..sensors.sensor_definition import Sensor
 
 
-class Artificial_Actuator(Actuator):
+class ArtificialActuator(Actuator):
     def __init__(self):
         self.id = None
         self.stop_time = None
@@ -12,10 +11,10 @@ class Artificial_Actuator(Actuator):
         self.datatype = None
         self.location = None
 
-    def set_point(self, min=None, max=None):
+    def setpoint(self, min=None, max=None):
         raise NotImplementedError
 
-    def stop(self):
+    def do(self):
         self.running = False
         # stop the necessary things
 
