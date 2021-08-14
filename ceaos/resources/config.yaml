@@ -15,8 +15,9 @@ environments: #environments are a list of dictionaries
         - type: "light"
           name: "light1"
       actuators:
-        - type: "Artificial EC"
-        - type: "Artificial pH"
+        - type: "EC"
+          ip: "something"
+          port: "something"
 - name: "env2"
   beds:
     - name: "bed2"

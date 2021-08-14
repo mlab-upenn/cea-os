@@ -5,6 +5,7 @@ from .objects.environment import Environment
 from .objects.plants import Plant
 from .sensors.artificial_sensor import ArtificialSensor
 from .actuators.sample_actuator import ArtificialActuator
+from .actuators.network_actuator import NetworkActuator
 from .sensors.nwsensor import NetworkSensor
 from importlib_resources import files
 
@@ -15,6 +16,16 @@ def check_name(d):  # Checks if the "name" key exists in a dictionary
     else:
         return True
 
+def check_actuators(
+        d):  # Checks if the sensors are written correctly in the config file
+    if "actuators" in d:
+        for actuator in d.get("actuators"):
+            if "type" not in actuator or actuator.get("type") is None:
+                return False
+            else:
+                return True
+    else:
+        return True
 
 def check_sensors(
         d):  # Checks if the sensors are written correctly in the config file
@@ -64,6 +75,9 @@ def check_config(
         if not check_sensors(environment):  # Checks environment-wide sensors
             return 10, error_loc
 
+        if not check_actuators(environment):
+            return 15, error_loc
+
         for bed in environment.get("beds"):
             error_loc = "bed"
 
@@ -80,6 +94,9 @@ def check_config(
 
             if not check_sensors(bed):  # Checks individual bed sensors
                 return 10, error_loc
+
+            if not check_actuators(bed):
+                return 15, error_loc
 
             for plant in bed.get("plants"):
 
@@ -150,6 +167,9 @@ def error_handle(
     elif error_message == 14:
         error = "ERROR: Port must be a valid integer"
 
+    elif error_message == 15:
+        error = "ERROR: Actuator type not specified"
+
     else:
         print("Loading in config file...")
 
@@ -158,18 +178,22 @@ def error_handle(
 
     return error
 
-def add_actuators(farm_object, dictionary, actuator_list):
+def add_actuators(farm_object, dictionary, actuator_list, location):
     if "actuators" in dictionary:  
         for actuator in dictionary.get("actuators"):
             if "artificial" in actuator.get("type").lower():
                 a = ArtificialActuator()
             else:
-                print("network actuator not supported yet")
+                a = NetworkActuator(actuator.get("ip"), actuator.get("port"))
 
-            a.set_datatype(
-                actuator.get("type"))  # Sets type of data sensor is collecting
-            a.set_location(str(dictionary.get(
-                "name")))  # sets location to the name of the environment
+            a.datatype = actuator.get("type")  # Sets type of data sensor is collecting
+            loc = ""
+            for i in range(len(location)):
+                loc += location[i]
+                if i < len(location) - 1:
+                    loc += "."
+
+            a.location(loc)  # Sets location to the "{farm_name}.{env_name} ..."
             farm_object.add_actuators(actuator.get("type"), a)
             actuator_list.append(a)
 
@@ -227,14 +251,14 @@ def load_config(config_folder="ceaos.resources", config_file="config.yaml"):
 
             location.append(str(environment.get("name")))
             add_sensors(env_object, environment, sensors, location)
-            add_actuators(env_object, environment, actuators)
+            add_actuators(env_object, environment, actuators, location)
 
             for bed in environment.get(
                     "beds"):  # Creates and associates beds with environments
                 bed_object = Bed(str(bed.get("name")))
                 location.append(str(bed.get("name")))
                 add_sensors(bed_object, bed, sensors, location)
-                add_actuators(env_object, environment, actuators)
+                add_actuators(bed_object, bed, actuators, location)
 
                 for plant in bed.get(
                         "plants"):  # Creates and associates plants with beds
