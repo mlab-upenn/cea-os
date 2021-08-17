@@ -1,6 +1,36 @@
 import pytest
-from ceaos.grow import load_grow
+from ceaos.grow import load_grow, configure_autogrowers
+from ceaos.actuators.network_actuator import NetworkActuator
+from ceaos.sensors.nwsensor import NetworkSensor
+from ceaos.autogrowers.pump_grower import PumpGrower
 
+def test_autgrowers():
+    autogrowers = dict()
+    sensors = []
+    actuators = []
+    sen = NetworkSensor()
+    sen.datatype = "reservoir"
+    act = NetworkActuator("198.168.1.126", "26462")
+    act.datatype = "EC"
+    act.refresh_rate = 5
+    sensors.append(sen)
+    actuators.append(act)
+    g1 = PumpGrower("eca")
+    g2 = PumpGrower("ecb")
+    g1.refresh_rate = act.refresh_rate
+    g2.refresh_rate = act.refresh_rate
+    g1.add_inputs("sensor", sen)
+    g1.add_inputs("actuator", act)
+    g2.add_inputs("sensor", sen)
+    g2.add_inputs("actuator", act)
+    if g1.refresh_rate not in autogrowers:
+        autogrowers[g1.refresh_rate] = [g1]
+        autogrowers.get(g1.refresh_rate).append(g2)
+    else:
+        autogrowers.get(g1.refresh_rate).append(g1)
+        autogrowers.get(g1.refresh_rate).append(g2)
+    ag = configure_autogrowers(sensors, actuators)
+    assert (g1.name == ag[5][0].name)
 
 def test_grow1():
     tocompare = dict()

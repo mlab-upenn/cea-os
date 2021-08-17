@@ -8,6 +8,10 @@ class NetworkActuator:
         self.context = zmq.Context()
         self.socket = self.context.socket(zmq.REQ)
         self.socket.connect(f"tcp://{device_ip}:{port}")
+        self.datatype = None
+        self.location = None
+        self.name = None
+        self.refresh_rate = None
 
     def setpoint(self, arg):
         message = {

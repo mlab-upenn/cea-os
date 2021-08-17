@@ -51,17 +51,11 @@ class NetworkSensor(Sensor):
         except ValueError:
             print("Invalid sensor name")
 
-    def set_location(self, location):
-        self.location = location
-
     def set_logger(self, logger):
         self.logger = logger
 
     def set_influxconnection(self, influxconnection):
         self.influxconnection = influxconnection
-
-    def get_location(self):
-        return self.location
 
     def get_datatype(self):
         return self.datatype

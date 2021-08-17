@@ -38,4 +38,3 @@ connection:
   username: "grafana"
   password: "password"
   database: "grafana"
-

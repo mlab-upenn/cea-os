@@ -1,12 +1,12 @@
 import yaml
-from .objects.farm import Farm
-from .objects.beds import Bed
-from .objects.environment import Environment
-from .objects.plants import Plant
-from .sensors.artificial_sensor import ArtificialSensor
-from .actuators.sample_actuator import ArtificialActuator
-from .actuators.network_actuator import NetworkActuator
-from .sensors.nwsensor import NetworkSensor
+from ceaos.objects.farm import Farm
+from ceaos.objects.beds import Bed
+from ceaos.objects.environment import Environment
+from ceaos.objects.plants import Plant
+from ceaos.sensors.artificial_sensor import ArtificialSensor
+from ceaos.actuators.sample_actuator import ArtificialActuator
+from ceaos.actuators.network_actuator import NetworkActuator
+from ceaos.sensors.nwsensor import NetworkSensor
 from importlib_resources import files
 
 
@@ -185,6 +185,8 @@ def add_actuators(farm_object, dictionary, actuator_list, location):
                 a = ArtificialActuator()
             else:
                 a = NetworkActuator(actuator.get("ip"), actuator.get("port"))
+                a.name = actuator.get("name")
+                a.refresh_rate = actuator.get("refresh_rate")
 
             a.datatype = actuator.get("type")  # Sets type of data sensor is collecting
             loc = ""
@@ -193,8 +195,8 @@ def add_actuators(farm_object, dictionary, actuator_list, location):
                 if i < len(location) - 1:
                     loc += "."
 
-            a.location(loc)  # Sets location to the "{farm_name}.{env_name} ..."
-            farm_object.add_actuators(actuator.get("type"), a)
+            a.location = loc  # Sets location to the "{farm_name}.{env_name} ..."
+            farm_object.add_actuators(actuator.get("name"), a)
             actuator_list.append(a)
 
 
@@ -218,7 +220,7 @@ def add_sensors(farm_object, dictionary, sensors_list, location):
                 if i < len(location) - 1:
                     loc += "."
 
-            s.set_location(loc)  # Sets location to the "{farm_name}.{env_name} ..."
+            s.location = loc  # Sets location to the "{farm_name}.{env_name} ..."
             if "refresh" in sensor and not isinstance(s, NetworkSensor):
                 s.set_refresh(sensor.get("refresh"))
 

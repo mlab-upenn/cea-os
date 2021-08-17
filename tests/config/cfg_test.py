@@ -1,5 +1,6 @@
 import pytest
-from ceaos.cfg import load_config, check_name, check_sensors, add_sensors
+from ceaos.cfg import check_name, check_sensors, add_sensors, load_config
+from ceaos.actuators.network_actuator import NetworkActuator
 from ceaos.objects.environment import Environment
 
 
@@ -10,7 +11,6 @@ def test_config1():
         error
         == 'ERROR: Must have "environments" list in farm' + "(%s)" % error_location
     )
-
 
 def test_check_name():
     test_dict1 = {"n": "Kevin"}

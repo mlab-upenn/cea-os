@@ -5,6 +5,7 @@ from ceaos.loggers.InfluxDB import InfluxDBLogger
 from ceaos.cfg import load_config
 from ceaos.api import create_api
 from ceaos.grow import load_grow
+from ceaos.grow import configure_autogrowers
 from importlib_resources import files 
 
 import time
@@ -29,6 +30,9 @@ def log_data(refresh_rate, logger_list, client):
     except:
         print(refresh_rate)
         logging.info("Logger ended")
+
+def execute(refresh_rate, ag_list, recipe_list):
+    pass
 
 
 if __name__ == "__main__":
@@ -61,11 +65,14 @@ if __name__ == "__main__":
         recipe_to_add = load_grow(recipe)
         recipe_list.append(recipe_to_add)
 
-    print(recipe_list)
-
+    autogrowers = configure_autogrowers(sensors, actuators)
+    for refresh_rate, grower in autogrowers.items():
+        for autogrower in grower:
+            print(autogrower.name)
+            print(autogrower.inputs)
     for sensor in sensors:  # NetworkSensors will have a refresh rate of None
         logger = InfluxDBLogger(sensor)
-        logger.set_location(sensor.get_location())
+        logger.set_location(sensor.location)
         sensor.set_logger(logger)
         if isinstance(sensor, NetworkSensor):
             sensor.set_influxconnection(db_client)
@@ -81,6 +88,14 @@ if __name__ == "__main__":
 
     logging.info("Loggers created for sensors")
     threads = []
+
+   # for refresh_rate, ag_list in autogrowers.items():
+    #    thread = threading.Thread(
+     #       target=log_data,
+      #      args=(refresh_rate, ag_list, recipe_list),
+      #      daemon=True
+      #  )
+      #  thread.append(thread)
 
     for refresh_rate, logger_list in loggers.items():
         thread = threading.Thread(

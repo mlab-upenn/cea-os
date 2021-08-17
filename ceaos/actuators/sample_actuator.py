@@ -10,6 +10,7 @@ class ArtificialActuator(Actuator):
         self.curr_state = None
         self.datatype = None
         self.location = None
+        self.name = None
 
     def setpoint(self, min=None, max=None):
         raise NotImplementedError
