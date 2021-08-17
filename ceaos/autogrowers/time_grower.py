@@ -1,4 +1,6 @@
 from .autogrower_definition import Auto_Grower
+import pywemo
+import datetime
 
 # Time Grower should only be used for actuation that needs
 # to be controlled based on time of day
@@ -12,5 +14,7 @@ class TimeGrower(Auto_Grower):
     def add_inputs(self, name, input):
         self.inputs[name] = input
 
-    def control():
-        print("do something with time of day, eastern time based on GR")
+    def control(self):
+        devices = pywemo.discover_devices()
+        print(devices)
+        devices[0].toggle()

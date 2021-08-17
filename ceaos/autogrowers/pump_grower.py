@@ -12,5 +12,5 @@ class PumpGrower(Auto_Grower):
     def add_inputs(self, name, input):
         self.inputs[name] = input
 
-    def control():
+    def control(self):
         print("do some pump actuation")
