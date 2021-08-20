@@ -7,6 +7,8 @@ from .sensor_definition import Sensor
 
 class ArtificialSensor(Sensor):
     def __init__(self, value=20, noise=0, refresh=10) -> None:
+        super().__init__(None, None)
+
         try:
             self.value = float(value)  # sets initial value for sensor data
         except ValueError:
@@ -20,10 +22,8 @@ class ArtificialSensor(Sensor):
             raise ValueError("INVALID NOISE")
         self.calib = 0  # sets calibration difference
         self.datatype = None
-        self.location = None
         self.refresh = refresh
         self.logger = None
-        self.name = None
 
     def read_value(self):
         """
@@ -31,7 +31,8 @@ class ArtificialSensor(Sensor):
         """
         self.value += random.gauss(
             0, self.noise)  # adds/subtracts random val from gauss. dist.
-        return self.value + self.calib
+        retval = self.value + self.calib
+        return super()._process_analytics(retval)
 
     def set_value(self, value: float):
         try:

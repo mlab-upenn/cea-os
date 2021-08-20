@@ -11,10 +11,9 @@ class NetworkSensor(Sensor):
         self.curr_value = None
         self.logger = logger
         self.datatype = datatype
-        self.location = location
         self.refresh = None
         self.influxconnection = influxconnection
-        self.name = None
+        super().__init__(location=location)
 
     def read_value(self):
         return self.curr_value

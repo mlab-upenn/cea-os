@@ -11,6 +11,7 @@ class ArtificialCamera(Sensor):
     datatype = "Image"  # static variable for Camera class
 
     def __init__(self, image_filepath="") -> None:
+        super().__init__(None, None)
         self.set_image(image_filepath)
 
     def set_image(self, image_filepath: str):
@@ -55,7 +56,8 @@ class ArtificialCamera(Sensor):
         """
         This method returns the base64 encoded value of the camera image
         """
-        return self.value
+        val = self.value
+        return super()._process_analytics(val)
 
     def get_datatype(self):
         """
