@@ -20,6 +20,11 @@ environments: #environments are a list of dictionaries
           ip: "198.168.1.126"
           port: "26462"
           refresh_rate: 5
+        - type: "light"
+          name: "light1"
+          ip: "192.168.1.108"
+          port: "26462"
+          refresh_rate: 120
 - name: "env2"
   beds:
     - name: "bed2"

@@ -1,3 +1,4 @@
+from ceaos.actuators.wemo_actuator import WemoActuator
 import yaml
 from ceaos.objects.farm import Farm
 from ceaos.objects.beds import Bed
@@ -183,6 +184,10 @@ def add_actuators(farm_object, dictionary, actuator_list, location):
         for actuator in dictionary.get("actuators"):
             if "artificial" in actuator.get("type").lower():
                 a = ArtificialActuator()
+            elif "light" in actuator.get("type").lower():
+                a = WemoActuator()
+                a.name = actuator.get("name")
+                a.refresh_rate = actuator.get("refresh_rate")
             else:
                 a = NetworkActuator(actuator.get("ip"), actuator.get("port"))
                 a.name = actuator.get("name")

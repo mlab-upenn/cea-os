@@ -1,8 +1,24 @@
 import yaml
 from .autogrowers.pump_grower import PumpGrower
 from .autogrowers.time_grower import TimeGrower
+import time
 from importlib_resources import files
 
+def execute(refresh_rate, ag_list, recipe_list):
+    for recipe in recipe_list:
+        stage1 = recipe['stage1']
+        hours = stage1["light_hours"]
+        on = hours['max']
+        off = 24 - hours['max']
+    while True:
+        for grower in ag_list:
+            if type(grower) is TimeGrower:
+                grower.control()
+                time.sleep(refresh_rate)
+
+# method configures inputs and outputs for various autogrowers
+# depending on what kind of sensor, actuator pairings are 
+# present in the config file. 
 def configure_autogrowers(sensors, actuators):
     autogrowers = dict()
     for sensor in sensors:
@@ -10,33 +26,26 @@ def configure_autogrowers(sensors, actuators):
             if sensor.location == actuator.location:
                 if sensor.datatype.lower() == "reservoir" and (actuator.datatype.lower() == "ec" or actuator.datatype.lower() == "ph"):
                     if actuator.datatype.lower() == "ec":
-                        g1 = PumpGrower("eca")
-                        g2 = PumpGrower("ecb")
+                        g1 = PumpGrower("ec")
                     elif actuator.datatype.lower() == "ph":
-                        g1 = PumpGrower("phu")
-                        g2 = PumpGrower("phd")
+                        g1 = PumpGrower("ph")
                     g1.refresh_rate = actuator.refresh_rate
-                    g2.refresh_rate = actuator.refresh_rate
                     g1.add_inputs("sensor", sensor)
-                    g1.add_inputs("actuator", actuator)
-                    g2.add_inputs("sensor", sensor)
-                    g2.add_inputs("actuator", actuator)
+                    g1.add_inputs("value", 4)
+                    g1.add_outputs("actuator", actuator)
                     if g1.refresh_rate not in autogrowers:
                         autogrowers[g1.refresh_rate] = [g1]
-                        autogrowers.get(g1.refresh_rate).append(g2)
                     else:
                         autogrowers.get(g1.refresh_rate).append(g1)
-                        autogrowers.get(g1.refresh_rate).append(g2)
                 elif sensor.datatype.lower() == actuator.datatype.lower():
-                    g3 = TimeGrower(sensor.name)
-                    g3.refresh_rate = actuator.refresh_rate
-                    g3.add_inputs("sensor", sensor)
-                    g3.add_inputs("actuator", actuator)
-                    autogrowers.append(g3)
-                    if g3.refresh_rate not in autogrowers:
-                        autogrowers[g3.refresh_rate] = [g3]
+                    g2 = TimeGrower(sensor.name)
+                    g2.refresh_rate = actuator.refresh_rate
+                    g2.add_inputs("sensor", sensor)
+                    g2.add_outputs("actuator", actuator)
+                    if g2.refresh_rate not in autogrowers:
+                        autogrowers[g2.refresh_rate] = [g2]
                     else:
-                        autogrowers.get(g3.refresh_rate).append(g3)
+                        autogrowers.get(g2.refresh_rate).append(g2)
 
     return autogrowers
 

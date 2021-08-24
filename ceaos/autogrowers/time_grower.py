@@ -14,7 +14,9 @@ class TimeGrower(Auto_Grower):
     def add_inputs(self, name, input):
         self.inputs[name] = input
 
+    def add_outputs(self, name, output):
+        self.outputs[name] = output
+
     def control(self):
-        devices = pywemo.discover_devices()
-        print(devices)
-        devices[0].toggle()
+        for output in self.outputs:
+            self.outputs[output].do()
