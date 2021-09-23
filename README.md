@@ -8,7 +8,7 @@ https://www.notion.so/Pennovation-Setup-Documentation-d710dfbb30794bef89b65308d1
 
 # Installation
 
-1. Install Python3 (preferably, version >= 2.5)
+1. Install Python3 (version >= 3.7)
 
 2. Clone the cea-os repository
     ```sh
