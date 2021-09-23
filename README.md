@@ -29,4 +29,5 @@ https://www.notion.so/Pennovation-Setup-Documentation-d710dfbb30794bef89b65308d1
     ```
     
 3. Access to Grafana dashboard found at http://localhost:3000
+4. Run sensor drivers on Raspberry Pi: https://github.com/mlab-upenn/cea-os-sensors
 
