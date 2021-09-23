@@ -12,6 +12,21 @@ https://www.notion.so/Pennovation-Setup-Documentation-d710dfbb30794bef89b65308d1
 
 2. Clone the cea-os repository
     ```sh
-    git clone 
+    git clone https://github.com/mlab-upenn/cea-os.git
     ```
+    
+# Usage
+
+1. Navigate to cea-os folder
+
+    ```sh
+    cd cea-os
+    ```
+2. Spin up docker containers for cea-os, InfluxDB, and Grafana
+
+    ```sh
+    docker-compose up --build
+    ```
+    
+3. Access to Grafana dashboard found at http://localhost:3000
 
