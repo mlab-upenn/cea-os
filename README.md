@@ -1,5 +1,5 @@
 # cea-os
-Operating System for Controlled Environment Agriculture developed by researchers at the University of Pennsylvania's xLab group. This package is used to manage all sensors needed in an agriculture environment and streams data into an InfluxDB database. This data can be directly displayed onto a Grafana dashboard for viewing and analysis.\
+Operating System for Controlled Environment Agriculture developed by researchers at the University of Pennsylvania's xLab group. This package is used to manage all sensors found in an agriculture environment and streams data to an InfluxDB database. This data can be directly displayed onto a Grafana dashboard for viewing and analysis.\
 Please reach out to Kevin Xu (xukev@seas.upenn.edu) or Nandan Tumu with questions about the repo.
 
 # Physical Setup
